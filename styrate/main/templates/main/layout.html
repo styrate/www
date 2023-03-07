@@ -10,8 +10,12 @@
     <link rel="stylesheet" href="/css/global.css">
 </head>
 <body>
-    {%include './Common/Header.html'%}
-    {% block body %}
-    {% endblock %}
+    <div class="headerContainer">
+        {%include './Common/Header.html'%}
+    </div>
+    <div class="contentContainer">
+        {% block body %}
+        {% endblock %}
+    </div>
 </body>
 </html>
