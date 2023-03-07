@@ -1,0 +1,15 @@
+{
+  "name": "styrate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "mga": "python manage.py makemigrations main",
+    "mg": "python manage.py migrate",
+    "su": "python manage.py createsuperuser",
+    "static": "python manage.py collectstatic",
+    "start": "python manage.py runserver"
+  },
+  "author": "",
+  "license": "ISC"
+}
