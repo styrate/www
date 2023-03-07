@@ -12,4 +12,4 @@ def testPoint(request):
     return HttpResponse('hello :)')
 
 def renderIndex(request):
-    return render(request, 'main/layout.html')
+    return render(request, 'main/Home/home.html')

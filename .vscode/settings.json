@@ -1,5 +1,8 @@
 {
     "emmet.includeLanguages": {
         "django-html": "html",
-   }
+   },
+   "files.associations": {
+    "*.html": "django-html"
+  }
 }
