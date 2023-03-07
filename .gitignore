@@ -1,0 +1,7 @@
+# created by virtualenv automatically
+styrate/styrate/__pycache__/
+styrate/main/__pycache__/
+*/db.sqlite3
+*/env.py
+Lib/
+Scripts/
