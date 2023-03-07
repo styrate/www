@@ -1,16 +1,17 @@
 div.reviewList.outer{
     width: 100%;
     display: flex; flex-direction: column;
-    & .reviewList.inner{
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-    }
 }
 div.reviewList.inner{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     & .reviews{
-        width: fit-content;
-        height: 1000px;
+        width: 70%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-auto-rows: auto;
+        grid-gap: 20px;
     }
     & .filters.outer{
         width: 300px; 
@@ -20,5 +21,29 @@ div.reviewList.inner{
         border-radius: 10px;
         // border: 1px solid #AAAAAA;
         box-shadow: 0 0 3px #AAAAAA;
+    }
+}
+div.reviewList.inner .review.outer{
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 3px #AAAAAA;
+    & .review.inner{
+        width: 100%; 
+        height: 200px;
+        box-sizing: border-box;
+        padding: 15px;
+        display: flex; flex-direction: column;
+        & h3{
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+        & .image{
+            height: 100px; width: 100px;;
+            margin: 10px 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
     }
 }
