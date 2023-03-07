@@ -10,6 +10,7 @@ class User(AbstractUser):
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
+    title = models.CharField(max_length=100, editable=True, null=True)
     textField = models.CharField(max_length=1000, editable=True, blank=True, null=True)
     image = models.ImageField(editable=True, blank=True, null=True)
     videoID = models.CharField(max_length=100, editable=True)

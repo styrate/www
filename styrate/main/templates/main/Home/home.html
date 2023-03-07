@@ -1,6 +1,10 @@
 {% extends '../layout.html' %}
+{% load static %}
 {%block body%}
+<link rel="stylesheet" href="/css/Home/home.css">
 <section class="home" id='home'>
-    Home
+    <div class="productListContainer">
+        {% include '../Common/reviewList.html' %}
+    </div>
 </section>
 {%endblock%}

@@ -19,12 +19,15 @@ html, body{
 
 body{
     display: flex; flex-direction: column; align-items: center;
+    background-color: #EFEFEF;
+    min-height: 100vh;
 }
 body .headerContainer, body .contentContainer{
-    width: 100%;
+    width: 100%; height: fit-content;
     display: flex; flex-direction: column; 
 }
 body .contentContainer{
     margin-top: 60px;
     width: 90%;
+    max-width: 2000px;
 }
