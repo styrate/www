@@ -164,3 +164,5 @@ else:
 # COMPRESS_PRECOMPILERS = (    
 #     ('text/x-scss', 'django_libsass.SassCompiler'),
 # )
+
+CSS_ROOT = os.path.join(BASE_DIR, 'main', 'templates', 'main', 'Styles')
