@@ -3,10 +3,13 @@
 <div class="reviewList outer">
     <div class="reviewList inner">
         <div class="reviews">
-
+            {% for review in reviewObjects %}
+            <article class="review" id='{{review.id}}'>
+                {{review.title}}
+            </article>
+            {% endfor %}
         </div>
         <div class="filters outer">
-
         </div>
     </div>
 </div>
