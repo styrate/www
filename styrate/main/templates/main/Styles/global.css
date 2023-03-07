@@ -26,4 +26,5 @@ body .headerContainer, body .contentContainer{
 }
 body .contentContainer{
     margin-top: 60px;
+    width: 90%;
 }

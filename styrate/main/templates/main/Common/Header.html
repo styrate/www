@@ -1,7 +1,28 @@
 {%load static%}
 <link rel="stylesheet" href="/css/Common/header.css">
-<header id="header">
-    <div class="logo">
-        Logo
+<header id="header" class='center'>
+    <div class="headerInner">
+        <div class="logo center">
+            <h3 class='center'>
+                <a href="" class='center'>STYRATE</a>
+            </h3>
+        </div>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                <li><a href="" class='off'>Home</a></li>
+                <li><a href="" class='off'>New</a></li>
+                <li><a href="" class='off'>Following</a></li>
+                <li><a href="" class='off'>My Account</a></li>
+                <li><a href="" class=' off'>Logout</a></li>
+                {% else %}
+                <li><a href="/login" class='off'>Login</a></li>
+                <li><a href="/register" class='off'>Join</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 </header>
+<script>
+    
+</script>

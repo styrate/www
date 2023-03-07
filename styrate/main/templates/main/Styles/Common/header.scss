@@ -2,6 +2,38 @@ header{
     width: 100%;
     position: fixed; top: 0; left: 0;
     height: 60px;
-    display: flex; align-items: center;
+    box-shadow: 0 0 3px #AAAAAA;
+}
+header .headerInner{
+    height: 100%;
+    width: 90%;
+    display: flex; align-items: center;    
     & > *{height: 100%}
+    & .logo{
+        &>*{height: 100%; }
+        & a{
+            height: 100%; 
+            font-size: 1.2em; 
+            &:hover{
+                color: #333333;
+            }
+        }
+
+    }
+    & nav{
+        height: 100%;
+        margin-left: auto;
+        & *{height: 100%;}
+        & ul{display: flex;}
+        & a{
+            height: 100%; box-sizing: border-box;
+            padding: 0 20px;
+            display: flex; justify-content: center; align-items: center;
+            border-bottom: 3px solid white;
+            &:hover{
+                border-bottom: 3px solid #AAAAAA;
+                color: #333333;
+            }
+        }
+    }
 }
