@@ -10,3 +10,6 @@ from django.core import serializers
 
 def testPoint(request):
     return HttpResponse('hello :)')
+
+def renderIndex(request):
+    return render(request, 'main/layout.html')
