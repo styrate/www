@@ -13,3 +13,6 @@ def testPoint(request):
 
 def renderIndex(request):
     return render(request, 'main/Home/home.html')
+
+def renderAccountPage(request):
+    return render(request, 'main/Account/Account.html')
