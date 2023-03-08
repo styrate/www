@@ -14,7 +14,7 @@ header .headerInner{
         &>*{height: 100%; }
         & a{
             height: 100%; 
-            font-size: 1.2em; 
+            font-size: 1.1em; font-weight: 600;
             &:hover{
                 color: #333333;
             }
@@ -28,15 +28,17 @@ header .headerInner{
         & ul{display: flex;}
         & a{
             height: 100%; box-sizing: border-box;
-            padding: 0 20px;
+            margin: 0 20px;
+            min-width: 50px;
+            font-weight: 600;
             display: flex; justify-content: center; align-items: center;
             border-bottom: 3px solid white;
             &:hover{
-                border-bottom: 3px solid rgb(0, 74, 193);
-                color: #333333;
+                border-bottom: 3px solid #750497;
+                color: #750497;
             }
         }
-        & li:first-of-type a{padding-left: 0;}
-        & li:last-of-type a{padding-right: 0;}
+        // & li:first-of-type a{padding-left: 0;}
+        // & li:last-of-type a{padding-right: 0;}
     }
 }
