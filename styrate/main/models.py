@@ -32,3 +32,9 @@ class Comment(models.Model):
     textField = models.CharField(max_length=300, editable=True, blank=True, null=True)
     createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='CommentsOfUser_List')
     onReview_Key = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='CommentsOfPost_List')
+
+class Like(models.Model):
+    id = models.AutoField(primary_key=True, editable=True)
+    dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
+    createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='LikesOfUser_List')
+    onReview_Key = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='LikesOfPost_List')
