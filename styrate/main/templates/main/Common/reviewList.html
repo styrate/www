@@ -4,7 +4,7 @@
     <div class="reviewList inner">
         <div class="reviews">
             {% for review in reviewObjects %}
-            <article class="review outer" id='{{review.id}}' href='/review/{{review.id}}' onclick='window.location.href = "/review/{{review.id}}"'>
+            <article class="review outer" id='{{review.id}}' href='/review/{{review.id}}' onclick='redirectToReview(event, "/review/{{review.id}}")'>
                 <div class="review inner">
                     <h3>{{review.title}}</h3>
                     {% comment %} <p class='meta underTitle'>by <span class='username'>{{review.createdByUser_Key.username}}</span> at <span>{{review.dateCreated|date:"H:m-d/m/y" }}</span></p>  {% endcomment %}
@@ -12,7 +12,7 @@
                     <div class="itemInfo">
                         <a  href='{{review.itemLink}}' target='_blank' class='meta productName'>{{review.productName}}</a>
                         <span class='meta category'>{{review.itemCategory}}</span>
-                        <a class='username' href='/account/{{review.createdByUser_Key.id}}' target='_blank'>by <span>{{review.createdByUser_Key.username}}</span></a>
+                        <a class='username' href='/account/{{review.createdByUser_Key.id}}' target='_blank'>by <span class='innerUser'>{{review.createdByUser_Key.username}}</span></a>
                     </div>
                     <p class="meta overview">{{review.overview}}</p>
                     {% comment %} Adding an invisible anchor tag for SEO crawlers {% endcomment %}
@@ -23,3 +23,11 @@
         </div>
     </div>
 </div>
+<script>
+    const redirectToReview = (e, redirectLink) => {
+        clickedElement = e.target
+        if(!clickedElement.classList.contains('productName') && !clickedElement.classList.contains('username') && !clickedElement.classList.contains('innerUser')){
+            window.location.href = redirectLink
+        }
+    }
+</script>

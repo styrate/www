@@ -65,6 +65,7 @@ div.reviewList.inner .review.outer{
         & .itemInfo{
             display: flex; align-items: center;
             flex-wrap: wrap;
+            width: fit-content;
             & a.productName{
                 display: inline-block;
                 font-size: 0.9em;
@@ -78,7 +79,7 @@ div.reviewList.inner .review.outer{
                 }
             }
             & .category{
-                background-color: #750497; color: white;
+                background-color: #DDDDDD; color: black;
                 padding: 5px;
                 width: fit-content;
                 font-size: 0.8em;
@@ -87,13 +88,12 @@ div.reviewList.inner .review.outer{
             }
             & .username{
                 background-color: #DDDDDD; color: black;
-                font-size: 0.9em;
                 padding: 5px;
                 border-radius: 3px;
                 font-size: 0.8em;
                 & span{
                     all:inherit; display: inline-block; padding:0;
-                    font-weight: 500;
+                    // font-weight: 500;
                 }
                 &:hover span{
                     text-decoration: underline;
