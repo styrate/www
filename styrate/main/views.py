@@ -11,13 +11,24 @@ from .controllers.LikeController import LikeController
 
 def renderIndex(request):
     reviewObjects = Review.objects.all()
-    return render(request, 'main/Home/home.html', {'reviewObjects': reviewObjects})
+    payload = {
+        'pageTitle': 'Styrate - Product Reviews',
+        'reviewObjects': reviewObjects
+    }
+    return render(request, 'main/Home/home.html', payload)
 
 def renderAccountPage(request):
-    return render(request, 'main/Account/Account.html')
+    payload = {
+        'pageTitle': 'Account',
+    }
+    return render(request, 'main/Account/Account.html', payload)
 
 def renderReviewPage(request, reviewID):
     reviewObject = Review.objects.get(id=reviewID)
     # Getting the Like Count
     ALTERED_reviewObject = LikeController.AddLikeData(request, object=reviewObject, objectList=None)
-    return render(request, 'main/Review/review.html', {'data': ALTERED_reviewObject})
+    payload = {
+        'pageTitle': ALTERED_reviewObject.title,
+        'data': ALTERED_reviewObject
+    }
+    return render(request, 'main/Review/review.html', payload)
