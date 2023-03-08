@@ -1,14 +1,16 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+import uuid
 
 
 class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True, auto_created=True, blank=True)
     bioText = models.CharField(max_length=100, editable=True, blank=True, null=True)
     image = models.ImageField(editable=True, blank=True, null=True)
     pass
 
 class Review(models.Model):
-    id = models.AutoField(primary_key=True, editable=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
     title = models.CharField(max_length=100, editable=True, null=True)
     overview = models.CharField(max_length=100, editable=True, null=True)
@@ -21,20 +23,20 @@ class Review(models.Model):
     createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ReviewsCreatedBy_List')
 
 class Follow(models.Model):
-    id = models.AutoField(primary_key=True, editable=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
     followFromUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Follows_List')
     followToUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='FollowedBy_List')
 
 class Comment(models.Model):
-    id = models.AutoField(primary_key=True, editable=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
     textField = models.CharField(max_length=300, editable=True, blank=True, null=True)
     createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='CommentsOfUser_List')
     onReview_Key = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='CommentsOfPost_List')
 
 class Like(models.Model):
-    id = models.AutoField(primary_key=True, editable=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
     createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='LikesOfUser_List')
     onReview_Key = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='LikesOfPost_List')
