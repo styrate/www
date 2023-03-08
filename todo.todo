@@ -1,0 +1,22 @@
+ Styrate:
+    General:
+        ☐ Nav bar
+        ☐ Delete reviews
+        ☐ Create login Page
+        ☐ Create register Page
+        ☐ New review Page
+        ☐ Top influencer Page
+        ☐ Top influencer backend logic
+        ☐ Following user's Page
+        ☐ Full text search
+        ☐ Liked posts page
+        ☐ Review page
+        ☐ Comment section for review page
+    Home Page:
+        ☐ Review list
+        ☐ Pagination
+        ☐ Filters
+    My Account:
+        ☐ General Layout
+        ☐ Follower/ing list
+        ☐ Account actions
