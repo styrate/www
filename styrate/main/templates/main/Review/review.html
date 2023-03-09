@@ -5,7 +5,7 @@
 <section id="review" class='center'>
     <div class="reviewInner">
         <div class="title">
-            <h1>{{reviewObject.title}}</h1>
+            {% comment %} <h1>{{reviewObject.title}}</h1> {% endcomment %}
             {% comment %} <div class="meta">
                 by <a href='/account/{{reviewObject.createdByUser_Key.id}}' class='username'>{{reviewObject.createdByUser_Key.username}}</a> at <span class="date">{{reviewObject.dateCreated|date:"M d, Y, h:m a"}}</span>
             </div> {% endcomment %}
@@ -13,6 +13,7 @@
         <div class="reviewContent">
             <div class="image" style='background-image: url("{%static ''%}{{reviewObject.image}}")'></div>
             <div class="innerContent">
+                <h1>{{reviewObject.title}}</h1>
                 <div class="reviewInfo">
                     <h3>Product Details</h3>
                     <ul class="list">
