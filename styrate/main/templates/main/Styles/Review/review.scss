@@ -37,7 +37,8 @@ section#review .reviewContent{
         margin-right: 30px;
     }
     & .innerContent{
-        width: fit-content;
+        flex-grow: 1;
+        // flex-shrink: 0;
         display: flex; flex-direction: column;
         & .reviewInfo{
             width: fit-content;
@@ -66,7 +67,7 @@ section#review .reviewContent{
                         }
                     }
                     & p{
-                        display: inline-block;
+                        display: inline-flex;
                         font-size: 0.9em;
                         font-weight: 400;
                     }
