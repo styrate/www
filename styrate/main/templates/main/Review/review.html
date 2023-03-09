@@ -15,7 +15,11 @@
             <div class="innerContent">
                 <h1>{{reviewObject.title}}</h1>
                 <div class="reviewInfo">
-                    <h3>Product Details</h3>
+                    <h3>Details</h3>
+                    <div class="userInfo">
+                        <div class="imageContainer" style='background-image:url("https://i.pinimg.com/474x/03/9a/78/039a781473b77ed7244d15a2488a03b0.jpg")'></div>
+                        <span>{{reviewObject.createdByUser_Key.username}}</span>
+                    </div>
                     <ul class="list">
                         <li>
                             <div class="imageContainer"><img src="/css/Media/item.png" alt=""></div>
@@ -36,7 +40,9 @@
                     </ul>
                 </div>
                 <div class="reviewText">
-                    <h3>Review</h3>
+                    <div class="title">
+                        <h3>Review</h3>
+                    </div>
                     <p>{{reviewObject.textField}}</p>
                 </div>
             </div>
