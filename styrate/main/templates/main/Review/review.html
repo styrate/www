@@ -6,13 +6,38 @@
     <div class="reviewInner">
         <div class="title">
             <h1>{{reviewObject.title}}</h1>
-            <div class="meta">
+            {% comment %} <div class="meta">
                 by <a href='/account/{{reviewObject.createdByUser_Key.id}}' class='username'>{{reviewObject.createdByUser_Key.username}}</a> at <span class="date">{{reviewObject.dateCreated|date:"M d, Y, h:m a"}}</span>
-            </div>
+            </div> {% endcomment %}
         </div>
         <div class="reviewContent">
             <div class="image" style='background-image: url("{%static ''%}{{reviewObject.image}}")'></div>
             <div class="innerContent">
+                <div class="reviewInfo">
+                    <h3>Product Details</h3>
+                    <ul class="list">
+                        <li>
+                            <div class="imageContainer"><img src="/css/Media/item.png" alt=""></div>
+                            <p>{{reviewObject.productName}}</p>
+                        </li>
+                        <li>
+                            <div class="imageContainer"><img src="/css/Media/tag.png" alt=""></div>
+                            <p>{{reviewObject.itemCategory}}</p>
+                        </li>
+                        <li>
+                            <div class="imageContainer"><img src="/css/Media/clock.png" alt=""></div>
+                            <p>{{reviewObject.dateCreated}}</p>
+                        </li>
+                        <li>
+                            <div class="imageContainer"><img src="/css/Media/rating2.png" alt=""></div>
+                            <p>{{reviewObject.rating}}/10</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="reviewText">
+                    <h3>Review</h3>
+                    <p>{{reviewObject.textField}}</p>
+                </div>
             </div>
         </div>
     </div>

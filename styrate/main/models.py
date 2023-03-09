@@ -20,6 +20,7 @@ class Review(models.Model):
     videoID = models.CharField(max_length=100, editable=True)
     productName = models.CharField(max_length=25, editable=True, null=True)
     itemLink = models.CharField(max_length=150, editable=True, null=True)
+    rating = models.IntegerField(editable=True, auto_created=0)
     createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ReviewsCreatedBy_List')
 
 class Follow(models.Model):
