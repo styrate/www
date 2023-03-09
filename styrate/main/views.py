@@ -29,6 +29,6 @@ def renderReviewPage(request, reviewID):
     ALTERED_reviewObject = LikeController.AddLikeData(request, object=reviewObject, objectList=None)
     payload = {
         'pageTitle': ALTERED_reviewObject.title,
-        'data': ALTERED_reviewObject
+        'reviewObject': ALTERED_reviewObject
     }
     return render(request, 'main/Review/review.html', payload)
