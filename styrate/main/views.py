@@ -32,3 +32,20 @@ def renderReviewPage(request, reviewID):
         'reviewObject': ALTERED_reviewObject
     }
     return render(request, 'main/Review/review.html', payload)
+
+# API
+def newComment(request):
+    if request.user.is_authenticated:
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        try:
+            createdByUserObject = User.objects.get(id=request.user.id)
+            onReviewObject = Review.objects.get(id=body['reviewID'])
+            Comment(textField=body['commentBody'], createdByUser_Key=createdByUserObject, onReview_Key=onReviewObject).save()
+            payload = {'success': True}
+        except Exception as e: 
+            print(e)
+            payload = {'success': False}
+    else:
+        payload = {'success': False}
+    return JsonResponse(payload)
