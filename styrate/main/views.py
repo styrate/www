@@ -52,6 +52,7 @@ def newComment(request):
             print(e)
             payload = {'success': False}
     else:
+        print('No auth')
         payload = {'success': False}
     return JsonResponse(payload)
 
@@ -92,8 +93,8 @@ def registerNewUser(request):
             image='default/user.png'
         )
         newUser.save()
-        payload['error'] = 'Created'
-        return render(request, 'main/Auth/auth.html', payload)
+        user = authenticate(request=request, user=newUser)
+        return redirect('/account/'+str(newUser.id))
     except Exception as e:
         payload['error'] = e
         return render(request, 'main/Auth/auth.html', payload)
