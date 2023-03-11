@@ -53,7 +53,10 @@ def renderRegister(request):
     return render(request, 'main/Auth/auth.html', payload)
 
 def renderNewReview(request):
-    return render(request, 'main/New/new.html')
+    payload = {
+        'pageTitle': 'Write a review',
+    }
+    return render(request, 'main/New/new.html', payload)
 
 # API
 def newComment(request):
@@ -92,6 +95,9 @@ def newReview(request):
             return redirect('/review/'+str(newReview.id))
         except Exception as e:
             print(e)
+            payload = {
+                'pageTitle': 'Create - Error',
+            }
             return render(request, 'main/New/new.html', {'errorMessage':e })
     else: 
         return redirect('/login')
