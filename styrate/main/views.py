@@ -70,6 +70,9 @@ def renderRegister(request):
     }
     return render(request, 'main/Auth/auth.html', payload)
 
+def renderNewReview(request):
+    return render(request, 'main/New/new.html')
+
 # Auth
 def logOut(request):   
     logout(request)

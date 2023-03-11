@@ -13,4 +13,5 @@ urlpatterns = [
     path('register', views.renderRegister, name='renderRegister'),
     path('registerNewUser', views.registerNewUser, name='registerNewUser'),
     path('loginUser', views.loginUser, name='loginUser'),
+    path('new', views.renderNewReview, name='renderNewReview')
 ] + static('/css/', document_root = settings.CSS_ROOT)

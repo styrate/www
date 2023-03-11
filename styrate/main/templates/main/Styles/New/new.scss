@@ -1,0 +1,63 @@
+section#new{
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    & form{
+        width: 90%;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 3px #AAAAAA;
+        box-sizing: border-box;
+        padding: 40px 5%;
+        & h1{
+            font-size: 1.5em;
+            font-weight: 500;
+            margin-bottom: 30px
+        }
+        & .inputContainer{
+            display: flex; flex-direction: column;
+            margin-bottom: 20px;
+            & label{
+                margin-bottom: 15px;
+            }
+            & input, & textarea{
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                border: 2px solid #DDDDDD;
+                border-radius: 5px;
+            }
+        }
+        & .reviewBody{
+            & textarea{resize: vertical; height: 150px}
+        }
+        & .reviewOverview{
+            & textarea{height: 70px; resize: none}
+        }
+        & .reviewRating{
+            & input{width: 10%;}
+        }
+        & .reviewImage{
+            position: relative;
+            z-index: 0;
+            & input{
+                border: 0; padding: 0;
+                // opacity: 0;
+                // cursor: pointer;
+            }
+        }
+        & > button{
+            color: white;
+            font-weight: 500;
+            box-sizing: border-box;
+            padding: 20px 30px;
+            background-color: #2f59ff;
+            margin: 20px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.9;
+            }
+        }
+    }
+}
