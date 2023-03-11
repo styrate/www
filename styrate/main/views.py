@@ -38,6 +38,23 @@ def renderReviewPage(request, reviewID):
     }
     return render(request, 'main/Review/review.html', payload)
 
+def renderlogIn(request):
+    payload = {
+        'pageTitle': 'Styrate Login',
+        'login': True,
+    }
+    return render(request, 'main/Auth/auth.html', payload)
+
+def renderRegister(request):
+    payload = {
+        'pageTitle': 'Join Styrate',
+        'login': False,
+    }
+    return render(request, 'main/Auth/auth.html', payload)
+
+def renderNewReview(request):
+    return render(request, 'main/New/new.html')
+
 # API
 def newComment(request):
     if request.user.is_authenticated:
@@ -56,22 +73,28 @@ def newComment(request):
         payload = {'success': False}
     return JsonResponse(payload)
 
-def renderlogIn(request):
-    payload = {
-        'pageTitle': 'Styrate Login',
-        'login': True,
-    }
-    return render(request, 'main/Auth/auth.html', payload)
-
-def renderRegister(request):
-    payload = {
-        'pageTitle': 'Join Styrate',
-        'login': False,
-    }
-    return render(request, 'main/Auth/auth.html', payload)
-
-def renderNewReview(request):
-    return render(request, 'main/New/new.html')
+def newReview(request):
+    if(request.user.is_authenticated):
+        try:
+            newReview = Review(
+                title = request.POST["reviewTitle"],
+                productName = request.POST["reviewProductName"],
+                rating = request.POST["reviewRating"],
+                createdByUser_Key = User.objects.get(id=request.user.id),
+                itemCategory = request.POST["reviewCategory"],
+                textField = request.POST["reviewBody"],
+                overview = request.POST["reviewOverview"],
+                itemLink = request.POST["reviewProductLink"],
+                videoID = request.POST["reviewVideoID"],
+                image = request.FILES['reviewImage']
+            )
+            newReview.save()
+            return redirect('/review/'+str(newReview.id))
+        except Exception as e:
+            print(e)
+            return render(request, 'main/New/new.html', {'errorMessage':e })
+    else: 
+        return redirect('/login')
 
 # Auth
 def logOut(request):   
