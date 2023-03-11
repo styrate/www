@@ -34,8 +34,22 @@ header .headerInner{
             display: flex; justify-content: center; align-items: center;
             border-bottom: 3px solid white;
             &:hover{
-                border-bottom: 3px solid #750497;
-                color: #750497;
+                border-bottom: 3px solid #2f59ff;
+                color: #2f59ff;
+            }
+            &.account{
+                border: 0;
+                min-width: unset;
+                &:hover{color: unset; border: 0;}
+                background-position: center; background-size: cover; background-repeat: no-repeat;
+                height: 45px; width: 45px;
+                margin: 0;
+                margin-left: 20px;
+                border-radius: 9999px;
+                // padding: 3px;
+                &:hover{
+                    outline: 2px solid #2f59ff;
+                }
             }
         }
         // & li:first-of-type a{padding-left: 0;}

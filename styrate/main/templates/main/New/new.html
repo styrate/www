@@ -3,7 +3,7 @@
 {% block body %}
 <link rel="stylesheet" href="css/New/new.css">
 <section id="new" class='center'>
-    <form onsubmit='null'>
+    <form onsubmit='checkReviewDetails(event)' action='/newReview' method='POST' enctype='multipart/form-data'>
         <h1>Create A Review</h1>
         <div class="reviewTitle inputContainer">
             <label for="reviewTitle">Give your review a title</label>
@@ -36,4 +36,9 @@
         <button type="submit">Submit Review</button>
     </form>
 </section>
+<script>
+    const checkReviewDetails = (e) => {
+        console.log(e)
+    }
+</script>
 {% endblock body %}
