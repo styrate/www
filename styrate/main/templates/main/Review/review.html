@@ -17,7 +17,7 @@
                 <div class="reviewInfo">
                     {% comment %} <h3>Details</h3> {% endcomment %}
                     <div class="userInfo">
-                        <div class="imageContainer" style='background-image:url("https://i.pinimg.com/474x/03/9a/78/039a781473b77ed7244d15a2488a03b0.jpg")'></div>
+                        <a class="imageContainer" style='background-image: url("{%static ''%}{{reviewObject.createdByUser_Key.image}}")' href="/account/{{reviewObject.createdByUser_Key.id}}"></a>
                         <span>{{reviewObject.createdByUser_Key.username}}</span>
                     </div>
                     <ul class="list">
@@ -52,6 +52,17 @@
                         <textarea name="" placeholder='Write a Comment' required ></textarea>
                         <button type="submit">Submit</button>
                     </form>
+                    <div class="commentsContainer">
+                        {% for commentObject in commentObjects %}
+                            <div class="comment">
+                                <h4>
+                                    <a class="commentPic" style='background-image: url("{%static ''%}{{commentObject.createdByUser_Key.image}}")' href="/account/{{commentObject.createdByUser_Key.id}}"></a>
+                                    <span>{{commentObject.createdByUser_Key.username}}</span>
+                                </h4>
+                                <p>{{commentObject.textField}}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

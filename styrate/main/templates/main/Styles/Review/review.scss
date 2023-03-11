@@ -30,6 +30,7 @@ section#review .reviewContent{
         position: sticky; z-index: 0;
         top: 110px;
         height: 35vw; width: 40%;
+        max-height: 600px;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -64,7 +65,8 @@ section#review .reviewContent{
                     background-position: center; background-size: cover; background-repeat: no-repeat;
                 }
                 & span{
-                    text-decoration: underline;
+                    text-decoration: none;
+                    font-weight: 500;
                 }
             }
             & ul{
@@ -118,7 +120,6 @@ section#review .reviewContent{
 section#review .reviewContent .commentList{
     width: 100%;
     display: flex; flex-direction: column;
-    margin-bottom: 100px;
     & h3{
         font-size: 1.5em;
         margin-bottom: 30px;
@@ -131,13 +132,15 @@ section#review .reviewContent .commentList{
             width: 100%;
             height: 80px;
             resize: none;
-            border-radius: 5px;
+            border-radius: 10px;
             // border: 1px solid black;
             box-shadow: 0 0 3px #AAAAAA;
             margin-bottom: 20px;
             padding: 10px;
             box-sizing: border-box;
             line-height: 1.8;
+            font-size: 0.9em;
+            &:focus{outline: 2px solid rgb(0, 72, 255);}
         }
         & button{
             padding: 15px;
@@ -145,9 +148,43 @@ section#review .reviewContent .commentList{
             color:white;
             border-radius: 5px;
             font-weight: 500;
+            font-size: 0.8em;
             cursor: pointer;
             &:hover{
                 background-color: #222222;
+            }
+        }
+    }
+    & .commentsContainer{
+        width: 100%;
+        margin-top:  30px;
+        display: flex; flex-direction: column;align-items: flex-start;
+        & .comment{
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 3px #AAAAAA;
+            box-sizing: border-box;
+            padding: 10px;
+            & h4{
+                display: flex; align-items: center;
+                margin-bottom: 10px;
+                & .commentPic{
+                    height: 30px; width: 30px;
+                    border-radius: 9999px;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    margin-right: 10px;
+                }
+                & span{
+                    font-weight: 500;
+                    font-size: 0.9em;
+                }
+            }
+            &>p{
+                font-size: 0.9em;
             }
         }
     }

@@ -27,9 +27,12 @@ def renderReviewPage(request, reviewID):
     reviewObject = Review.objects.get(id=reviewID)
     # Getting the Like Count
     ALTERED_reviewObject = LikeController.AddLikeData(request, object=reviewObject, objectList=None)
+    # Getting the comment list
+    commentObjects = Comment.objects.filter(onReview_Key=reviewObject).order_by('-dateCreated')
     payload = {
         'pageTitle': ALTERED_reviewObject.title,
-        'reviewObject': ALTERED_reviewObject
+        'reviewObject': ALTERED_reviewObject,
+        'commentObjects': commentObjects
     }
     return render(request, 'main/Review/review.html', payload)
 
