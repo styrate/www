@@ -27,6 +27,21 @@ section#new{
                 border: 2px solid #DDDDDD;
                 border-radius: 5px;
             }
+            & span{
+                color: red;
+                &.off{display: none;}
+            }
+            & select{
+                border-radius: 5px;
+                background-color: #EEEEEE;
+                cursor: pointer;
+                width: fit-content;
+                padding:15px  20px;
+                &:hover{background-color: #CDCDCD;}
+                & option{
+                    background-color: #EEEEEE;
+                }
+            }
         }
         & .reviewBody{
             & textarea{resize: vertical; height: 150px}
@@ -41,6 +56,7 @@ section#new{
             position: relative;
             z-index: 0;
             & input{
+                width: fit-content;
                 border: 0; padding: 0;
                 // opacity: 0;
                 // cursor: pointer;

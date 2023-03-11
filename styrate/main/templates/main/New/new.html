@@ -3,23 +3,41 @@
 {% block body %}
 <link rel="stylesheet" href="css/New/new.css">
 <section id="new" class='center'>
-    <form onsubmit='checkReviewDetails(event)' action='/newReview' method='POST' enctype='multipart/form-data'>
+    <form onsubmit='checkReviewDetails(event)' action='/newReview' method='POST' enctype='multipart/form-data' id='newForm'>
+        {% csrf_token %}
         <h1>Create A Review</h1>
         <div class="reviewTitle inputContainer">
             <label for="reviewTitle">Give your review a title</label>
             <input type="text" required name='reviewTitle'>
+            <span class='off'>Review title should be less than 100 charachters.</span>
+        </div>
+        <div class="reviewProductName inputContainer">
+            <label for="reviewProductName">What is the name of the product</label>
+            <input type="text" required name='reviewProductName'>
+            <span class='off'>Product name should be less than 25 charachters.</span>
         </div>
         <div class="inputContainer reviewRating">
             <label for="reviewRating">Give the product a rating out of 10</label>
             <input type="number" name="reviewRating" placeHolder='' required></input>
+            <span class='off'>Rating should be between 1 and 10</span>
+        </div>
+        <div class="inputContainer reviewCategory">
+            <label for="reviewCategory">What category does the item fall under</label>
+            <select name="reviewCategory" id="">
+                <option value="misc" default>Miscellaneous</option>
+                <option value="clothing">Clothing</option>
+                <option value="tech">Tech</option>
+            </select>
         </div>
         <div class="reviewBody inputContainer">
             <label for="reviewBody">Write your review</label>
             <textarea type="text" required name='reviewBody'></textarea>
+            <span class='off'>Review should be less than 1000 charachters</span>
         </div>
         <div class="reviewOverview inputContainer">
             <label for="reviewOverview">Give a short summary of your review</label>
             <textarea type="text" required name='reviewOverview'></textarea>
+            <span class='off'>Review summary should be less than 100 charachters</span>
         </div>
         <div class="inputContainer reviewProductLink">
             <label for="reviewProductLink">Provide a link to the product page</label>
@@ -33,12 +51,14 @@
             <label for="reviewImage">Upload an image of the product</label>
             <input type="file" name="reviewImage" placeHolder='' required></input>
         </div>
+        <p class="error"></p>
         <button type="submit">Submit Review</button>
     </form>
 </section>
 <script>
     const checkReviewDetails = (e) => {
-        console.log(e)
+        var formData = new FormData(newForm);
+        e.preventDefault()
     }
 </script>
 {% endblock body %}
