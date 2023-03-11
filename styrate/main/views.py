@@ -56,14 +56,14 @@ def newComment(request):
 def renderlogIn(request):
     payload = {
         'pageTitle': 'Styrate Login',
-        'login': True
+        'login': True,
     }
     return render(request, 'main/Auth/auth.html', payload)
 
 def renderRegister(request):
     payload = {
         'pageTitle': 'Join Styrate',
-        'login': False
+        'login': False,
     }
     return render(request, 'main/Auth/auth.html', payload)
 
@@ -71,3 +71,45 @@ def renderRegister(request):
 def logOut(request):   
     logout(request)
     return redirect('/')
+
+def registerNewUser(request):
+    payload = {
+        'pageTitle': 'Join Styrate',
+        'login': False,
+    }
+    try:
+        # Checking whether the data
+        if(request.POST.get('password')!=request.POST.get('repassword')):
+            payload['error'] ='Passwords are not the same'
+            return render(request, 'main/Auth/auth.html', payload)
+        newUser = User.objects.create_user(
+            username=request.POST.get('username'),
+            email=request.POST.get('email'),
+            password=request.POST.get('password'),
+            bioText=f"Hi there. I'm a new user."
+        )
+        newUser.save()
+        payload['error'] = 'Created'
+        return render(request, 'main/Auth/auth.html', payload)
+    except Exception as e:
+        payload['error'] = e
+        return render(request, 'main/Auth/auth.html', payload)
+
+def loginUser(request):
+    payload = {
+        'pageTitle': 'Styrate Login',
+        'login': True,
+    }
+    try:
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            payload['error'] = 'Invalid username or password'
+            return render(request, "main/Auth/auth.html", payload)
+    except Exception as e:
+        payload['error'] = e
+        return render(request, 'main/Auth/auth.html', payload)

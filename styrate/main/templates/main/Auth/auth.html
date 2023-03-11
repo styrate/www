@@ -9,14 +9,33 @@
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/Auth/auth.css">
 </head>
-<body>
+<body class='center'>
     {% if login %}
     <form action="/loginUser" method='POST'>
     {% else %}
-    <form action="/registerUser" method='POST'>
+    <form action="/registerNewUser" method='POST' class='register'>
     {% endif %}
     {% csrf_token %}
-    
+        <h1>Styrate</h1>
+        <input type="text" placeholder='Username' required name='username'>
+        {% if not login %}
+        <input type="text" placeholder='Email' required name='email'>
+        {% endif %}
+        <input type="text" placeholder='Password' required name='password'>
+        {% if not login %}
+        <input type="text" placeholder='Re-enter Password' required name='repassword'>
+        {% endif %}
+        {% comment %} Error message {% endcomment %}
+        {% if error %}
+        <p class='error'>*{{error}}</p>
+        {% endif %}
+        {% if login %}
+        <button type="submit">Login</button>
+        <a href="/register" class='center'>Register Instead</a>
+        {% else %}
+        <button type="submit">Register</button>
+        <a href="/login" class='center'>Login Instead</a>
+        {% endif %}
     </form>
 </body>
 </html>
