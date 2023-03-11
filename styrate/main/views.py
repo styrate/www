@@ -53,6 +53,20 @@ def newComment(request):
         payload = {'success': False}
     return JsonResponse(payload)
 
+def renderlogIn(request):
+    payload = {
+        'pageTitle': 'Styrate Login',
+        'login': True
+    }
+    return render(request, 'main/Auth/auth.html', payload)
+
+def renderRegister(request):
+    payload = {
+        'pageTitle': 'Join Styrate',
+        'login': False
+    }
+    return render(request, 'main/Auth/auth.html', payload)
+
 # Auth
 def logOut(request):   
     logout(request)
