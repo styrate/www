@@ -8,6 +8,8 @@ from .models import *
 import json
 from django.core import serializers
 from .controllers.LikeController import LikeController
+from django.core.files import File
+import os
 
 def renderIndex(request):
     reviewObjects = Review.objects.all()
@@ -86,7 +88,8 @@ def registerNewUser(request):
             username=request.POST.get('username'),
             email=request.POST.get('email'),
             password=request.POST.get('password'),
-            bioText=f"Hi there. I'm a new user."
+            bioText=f"Hi there. I'm a new user.",
+            image='default/user.png'
         )
         newUser.save()
         payload['error'] = 'Created'
