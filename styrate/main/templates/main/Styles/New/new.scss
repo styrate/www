@@ -30,6 +30,8 @@ section#new{
             & span{
                 color: red;
                 &.off{display: none;}
+                font-size: 0.8em;
+                margin-top: 10px
             }
             & select{
                 border-radius: 5px;
@@ -63,6 +65,7 @@ section#new{
             }
         }
         & > button{
+            display: flex;
             color: white;
             font-weight: 500;
             box-sizing: border-box;
@@ -71,9 +74,15 @@ section#new{
             margin: 20px 0;
             border-radius: 5px;
             cursor: pointer;
+            margin-bottom: 10px;
             &:hover{
                 opacity: 0.9;
             }
+        }
+        & > span.error{
+            color: red;
+            font-size: 0.8em;
+            &.off{display: none;}
         }
     }
 }

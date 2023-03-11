@@ -9,17 +9,17 @@
         <div class="reviewTitle inputContainer">
             <label for="reviewTitle">Give your review a title</label>
             <input type="text" required name='reviewTitle'>
-            <span class='off'>Review title should be less than 100 charachters.</span>
+            <span class='off error' id='titleError'>Review title should be less than 100 charachters.</span>
         </div>
         <div class="reviewProductName inputContainer">
             <label for="reviewProductName">What is the name of the product</label>
             <input type="text" required name='reviewProductName'>
-            <span class='off'>Product name should be less than 25 charachters.</span>
+            <span class='off error' id='nameError'>Product name should be less than 25 charachters.</span>
         </div>
         <div class="inputContainer reviewRating">
             <label for="reviewRating">Give the product a rating out of 10</label>
             <input type="number" name="reviewRating" placeHolder='' required></input>
-            <span class='off'>Rating should be between 1 and 10</span>
+            <span class='off error' id='ratingError'>Rating should be a whole number between 1 and 10.</span>
         </div>
         <div class="inputContainer reviewCategory">
             <label for="reviewCategory">What category does the item fall under</label>
@@ -32,12 +32,12 @@
         <div class="reviewBody inputContainer">
             <label for="reviewBody">Write your review</label>
             <textarea type="text" required name='reviewBody'></textarea>
-            <span class='off'>Review should be less than 1000 charachters</span>
+            <span class='off error'  id='bodyError'>Review should be less than 1000 charachters.</span>
         </div>
         <div class="reviewOverview inputContainer">
             <label for="reviewOverview">Give a short summary of your review</label>
             <textarea type="text" required name='reviewOverview'></textarea>
-            <span class='off'>Review summary should be less than 100 charachters</span>
+            <span class='off error'  id='overviewError'>Review summary should be less than 100 charachters.</span>
         </div>
         <div class="inputContainer reviewProductLink">
             <label for="reviewProductLink">Provide a link to the product page</label>
@@ -51,14 +51,57 @@
             <label for="reviewImage">Upload an image of the product</label>
             <input type="file" name="reviewImage" placeHolder='' required></input>
         </div>
-        <p class="error"></p>
         <button type="submit">Submit Review</button>
+        {% if errorMessage %}
+            <span class="error">{{errorMessage}}</span>
+        {% endif %}
+        <span class="error off" id='mainErr'>Please check the re-check the form for errors.</span>
     </form>
 </section>
-<script>
+<script defer>
     const checkReviewDetails = (e) => {
+        //Removing all previous err messages
+        allErr = document.querySelectorAll('.error')
+        allErr.forEach(el => {
+            if(!el.classList.contains('off')){el.classList.add('off')}
+        })
         var formData = new FormData(newForm);
-        e.preventDefault()
+        reviewDetails = {
+            rating: formData.get('reviewRating'),
+            reviewBody: formData.get('reviewBody'),
+            reviewTitle: formData.get('reviewTitle'),
+            reviewOverview: formData.get('reviewOverview'),
+            productName: formData.get('reviewProductName')
+        }
+        let err = false
+        if(reviewDetails.rating>10||reviewDetails.rating<1){
+            ratingError.classList.remove('off')
+            mainErr.classList.remove('off')
+            err = true
+            e.preventDefault()
+        }
+        if(reviewDetails.reviewTitle.length>100){
+            titleError.classList.remove('off')
+            mainErr.classList.remove('off')
+            err = true
+            e.preventDefault()
+        }
+        if(reviewDetails.reviewOverview.length>100){
+            overviewError.classList.remove('off')
+            mainErr.classList.remove('off')
+            err = true
+            e.preventDefault()
+        }
+        if(reviewDetails.productName.length>25){
+            nameError.classList.remove('off')
+            err = true
+            mainErr.classList.remove('off')
+            e.preventDefault()
+        }
+        // If no errors
+        if(err){
+            console.log('yo')
+        }
     }
 </script>
 {% endblock body %}
