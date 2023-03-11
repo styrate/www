@@ -2,11 +2,13 @@ div.reviewList.outer{
     width: 100%;
     display: flex; flex-direction: column;
     margin-bottom: 30px;
+    align-items: center;
 }
 div.reviewList.inner{
     width: 100%;
     display: flex;
     justify-content: space-between;
+    max-width: 1500px;
     & .reviews{
         width: 100%;
         display: grid;
@@ -35,6 +37,7 @@ div.reviewList.inner .review.outer{
     &:hover{
         background-color: #EFEFEF;
     }
+    min-height: 100%;
     & .review.inner{
         width: 100%; 
         min-height: 200px;
