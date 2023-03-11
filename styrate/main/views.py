@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
@@ -52,3 +52,8 @@ def newComment(request):
     else:
         payload = {'success': False}
     return JsonResponse(payload)
+
+# Auth
+def logOut(request):   
+    logout(request)
+    return redirect('/')

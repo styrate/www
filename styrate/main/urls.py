@@ -7,5 +7,6 @@ urlpatterns = [
     path('', views.renderIndex, name='renderIndex'),
     path('account', views.renderAccountPage, name='renderAccountPage'),
     path('review/<str:reviewID>', views.renderReviewPage, name='renerReviewPage'),
-    path('/newComment', views.newComment, name='newComment')
+    path('newComment', views.newComment, name='newComment'),
+    path('logout', views.logOut, name='logOut')
 ] + static('/css/', document_root = settings.CSS_ROOT)
