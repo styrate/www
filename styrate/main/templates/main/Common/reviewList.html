@@ -21,6 +21,14 @@
             </article>
             {% endfor %}
         </div>
+        <div class="pagination">
+            {% comment %} Should insert the previous filters into the url using payload {% endcomment %}
+            {% if pagination.displayPrev %}
+            <a href="{{pagination.prevPageURL}}" class='prev'>Prev Page</a>
+            {% endif %}
+            <span>Page: {{pageNumber}}</span>
+            <a href="{{pagination.nextPageURL}}" class='next'>Next Page</a>
+        </div>
     </div>
 </div>
 <script>

@@ -6,8 +6,7 @@ div.reviewList.outer{
 }
 div.reviewList.inner{
     width: 100%;
-    display: flex;
-    justify-content: space-between;
+    display: flex;flex-direction: column;
     max-width: 1500px;
     & .reviews{
         width: 100%;
@@ -24,6 +23,32 @@ div.reviewList.inner{
         border-radius: 10px;
         // border: 1px solid #AAAAAA;
         box-shadow: 0 0 3px #AAAAAA;
+    }
+    & .pagination{
+        margin-top: 40px;
+        width: 100%;
+        display: flex; align-items: center; justify-content: flex-start;
+        & a{
+            background-color: #DEDEDE;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            &:last-of-type{margin-right: 0;}
+            &:hover{
+                background-color: #CCCCCC;
+            }
+        }
+        & span{
+            padding: 10px 15px;
+            background-color: white;
+            box-shadow: 0 0 3px #AAAAAA;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-weight: 500;
+            cursor: default;
+        }
     }
 }
 div.reviewList.inner .review.outer{
