@@ -47,11 +47,15 @@
                 </div>
                 <div class="commentList">
                     <h3>Comments</h3>
+                    {% if request.user.is_authenticated %}                    
                     <form id="newComment" onsubmit='formSubmit(event, "{{reviewObject.id}}")'>
                         {% csrf_token %}
                         <textarea name="" placeholder='Write a Comment' required ></textarea>
                         <button type="submit">Submit</button>
                     </form>
+                    {% else %}
+                    <p><a href="/login">Login</a> or <a href="/register">register</a> to leave a comment.</p>
+                    {% endif %}
                     <div class="commentsContainer">
                         {% for commentObject in commentObjects %}
                             <div class="comment">

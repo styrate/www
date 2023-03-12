@@ -141,7 +141,7 @@ section#review .reviewContent .commentList{
             padding: 15px;
             box-sizing: border-box;
             line-height: 1.9;
-            font-size: 0.9em;
+            font-size: 1em;
             &:focus{outline: 2px solid rgb(0, 72, 255);}
         }
         & button{
@@ -156,9 +156,12 @@ section#review .reviewContent .commentList{
             }
         }
     }
+    & > p{
+        & a{text-decoration: underline;}
+    }
     & .commentsContainer{
         width: 100%;
-        margin-top:  30px;
+        margin-top:  50px;
         display: flex; flex-direction: column;align-items: flex-start;
         & .comment{
             width: 100%;

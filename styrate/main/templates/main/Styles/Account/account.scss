@@ -15,7 +15,7 @@ section#account > .innerAccount{
             height: 100px; width: 100px;
             border-radius: 9999px;
             background-size: cover; background-position: center; background-repeat: no-repeat;
-            box-shadow: 0 0 3px #AAAAAA;
+            outline: 2px solid #CCCCCC;
             margin-right: 50px;
             flex-shrink: 0;
         }

@@ -46,7 +46,8 @@ header .headerInner{
                 margin: 0;
                 margin-left: 20px;
                 border-radius: 9999px;
-                box-shadow: 0 0 3px #AAAAAA;
+                // box-shadow: 0 0 3px #AAAAAA;
+                outline: 2px solid #CCCCCC;
                 // padding: 3px;
                 &:hover{
                     outline: 2px solid #2f59ff;
