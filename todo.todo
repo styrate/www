@@ -1,22 +1,22 @@
  Styrate:
     General:
-        ☐ Nav bar
+        ✔ Nav bar @done (3/12/2023, 1:37:18 PM)
         ☐ Delete reviews
-        ☐ Create login Page
-        ☐ Create register Page
-        ☐ New review Page
+        ✔ Create login Page @done (3/12/2023, 1:37:23 PM)
+        ✔ Create register Page @done (3/12/2023, 1:37:25 PM)
+        ✔ New review Page @done (3/12/2023, 1:37:28 PM)
         ☐ Top influencer Page
         ☐ Top influencer backend logic
-        ☐ Following user's Page
+        ✔ Following user's Page @done (3/12/2023, 1:37:33 PM)
         ☐ Full text search
         ☐ Liked posts page
-        ☐ Review page
-        ☐ Comment section for review page
+        ✔ Review page @done (3/12/2023, 1:37:38 PM)
+        ✔ Comment section for review page @done (3/12/2023, 1:37:39 PM)
     Home Page:
-        ☐ Review list
+        ✔ Review list @done (3/12/2023, 1:37:41 PM)
         ☐ Pagination
         ☐ Filters
     My Account:
-        ☐ General Layout
-        ☐ Follower/ing list
-        ☐ Account actions
+        ✔ General Layout @done (3/12/2023, 1:37:45 PM)
+        ✔ Follower/ing list @done (3/12/2023, 1:37:46 PM)
+        ✔ Account actions @done (3/12/2023, 1:37:47 PM)
