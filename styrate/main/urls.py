@@ -15,5 +15,6 @@ urlpatterns = [
     path('new', views.renderNewReview, name='renderNewReview'),
     path('newReview', views.newReview, name='newReview'),
     path('account/<str:id>', views.renderAccountPage, name='renderAccountPage'),
-    path('follow', views.followHandler, name='followHandler')
+    path('follow', views.followHandler, name='followHandler'),
+    path('deleteUser', views.deleteUser, name='deleteUser')
 ] + static('/css/', document_root = settings.CSS_ROOT)

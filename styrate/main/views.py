@@ -184,3 +184,11 @@ def loginUser(request):
     except Exception as e:
         payload['error'] = e
         return render(request, 'main/Auth/auth.html', payload)
+
+def deleteUser(request):
+    if request.user.is_authenticated and request.POST.get('userID')==str(request.user.id):
+        userObj = User.objects.get(id=request.user.id)
+        userObj.delete()
+        logout(request)
+        return redirect('/')
+    return redirect('/')

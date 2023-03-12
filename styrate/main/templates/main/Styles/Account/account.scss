@@ -119,7 +119,7 @@ section#account > .options{
         margin-bottom: 20px;
         &:last-of-type{margin-bottom: 0;}
         & p{font-weight: 500;}
-        & a, & > button{
+        & a, & button{
             margin-top:  20px;
             background-color: #DDDDDD;
             height: 50px;
@@ -132,11 +132,15 @@ section#account > .options{
                 background-color: #CCCCCC;
             }
         }
-        & > button.first{
-            background-color: #b70000;
-            color: white;
-            &:hover{
-                opacity: 0.8;
+        & form{
+            margin-top: 20px;
+            & > button.first{
+                margin: 0;
+                background-color: #b70000;
+                color: white;
+                &:hover{
+                    opacity: 0.8;
+                }
             }
         }
     }
