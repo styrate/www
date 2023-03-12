@@ -1,7 +1,7 @@
 {% extends '../layout.html' %}
 {% load static %}
 {% block body %}
-<link rel="stylesheet" href="css/New/new.css">
+{% comment %} <link rel="stylesheet" href="css/New/new.css"> {% endcomment %}
 <section id="new" class='center'>
     <form onsubmit='checkReviewDetails(event)' action='/newReview' method='POST' enctype='multipart/form-data' id='newForm'>
         {% csrf_token %}
