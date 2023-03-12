@@ -137,6 +137,15 @@ def followHandler(request):
                 return redirect(request.META['HTTP_REFERER'])
     except Exception as e:
         print(e)
+
+def likeControl(request):
+    if request.user.is_authenticated:
+        addLike = request.POST.get('add')
+        if addLike=='True':
+            Like(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).save()
+        else:
+            Like.objects.get(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).delete()
+        return redirect(request.META['HTTP_REFERER'])
 # Auth
 def logOut(request):   
     logout(request)

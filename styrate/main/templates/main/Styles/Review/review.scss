@@ -115,6 +115,36 @@ section#review .reviewContent{
                 line-height: 1.9;
                 margin-bottom: 20px;
             }
+            & .buttonContainer{
+                display: flex; align-items: center;
+                margin-bottom: 20px;
+                & > *{margin-right: 10px;}
+                & form{
+                    width: fit-content;
+                    & button{
+                        justify-content: center;
+                        display: flex; align-items: center;
+                        & .heart{
+                            margin-right: 10px;
+                            background-repeat: no-repeat; background-size: cover; background-position: center;
+                            height: 30px; width: 30px;
+                        }
+                        & span{
+                            font-weight: 500 !important;
+                        }
+                    }
+                }
+                & button, & a{
+                    width: 100px;
+                    height: 40px; border-radius: 5px;
+                    background-color: #DDDDDD;
+                    font-weight: 500;
+                    &:hover{
+                        opacity: 0.9;
+                    }
+                    cursor: pointer;
+                }
+            }
         }
     }
 }
