@@ -69,6 +69,7 @@ def renderAccountPage(request, id):
         userObject = User.objects.get(id=id)
         payload = {
             'pageTitle': 'Account | '+userObject.username,
+            'userObject': userObject
         }
         return render(request, 'main/Account/Account.html', payload)
     else:

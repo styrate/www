@@ -2,7 +2,27 @@
 {% load static  %}
 {% block body%}
 <link rel="stylesheet" href="/css/Account/account.css">
-<section id="account">
-    Account
+<section id="account" class='center'>
+    <div class="innerAccount">
+        <div class="profile">
+            <div class="profImage" style='background-image: url("{% static ''%}{{userObject.image}}")'></div>
+            <div class="stats">
+                <div class="row top">
+                    <h2>{{userObject.username}}</h2>
+                    <button class='follow' onclick='handleFollow(event, "{{userObject.id}}" )'>Follow</button>
+                </div>
+                <div class="row two">
+                    <span class='posts'> 12 <span class="inner">posts</span></span>
+                    <span class='followers'> 120 <span class="inner">followers</span></span>
+                    <span class='following'> 150 <span class="inner">following</span></span>
+                    <span class='likes'> 122 <span class="inner">likes</span></span>
+                </div>
+                <div class="row three">
+                    <h3>About</h3>
+                    <p>{{userObject.bioText}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock %}

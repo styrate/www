@@ -1,4 +1,68 @@
 section#account{
     width: 100%;
-    display: flex; flex-direction: column; align-items: center;
+    margin-top: 20px;
+}
+section#account > .innerAccount{
+    width: 70%;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 3px #AAAAAA;
+    box-sizing: border-box;
+    padding: 40px 5%;
+    & .profile{
+        display: flex;
+        & .profImage{
+            height: 100px; width: 100px;
+            border-radius: 9999px;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            box-shadow: 0 0 3px #AAAAAA;
+            margin-right: 50px;
+            flex-shrink: 0;
+        }
+        & .stats{
+            flex-grow: 1;
+            display: flex; flex-direction: column;
+            & .row{
+                width: 100%;
+                display: flex; align-items: center;
+                &.top{
+                    height: 100px;
+                    & h2{
+                        font-size: 1.5em;
+                        font-weight: 500;
+                    }
+                    & button{
+                        margin-left: auto;
+                        &.follow{
+                            background-color: #2f59ff;
+                            width: 100px;
+                            height: 40px;
+                            border-radius: 5px;
+                            color: white;
+                            font-weight: 500;
+                            cursor: pointer;
+                            &:hover{
+                                opacity: 0.9;
+                            }
+                        }
+                    }
+                }
+                &.two{
+                    & > span{
+                        margin-right: 15px;
+                        font-weight: 600;
+                        & > span{font-weight: 400;}
+                    }
+                }
+                &.three{
+                    margin-top: 10px;
+                    display: flex; flex-direction: column; align-items: flex-start;
+                    & h3{
+                        font-weight: 600;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+    }
 }
