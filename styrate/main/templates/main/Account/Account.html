@@ -30,10 +30,10 @@
                     {% endif %}
                 </div>
                 <div class="row two">
-                    <span class='posts'> 12 <span class="inner">posts</span></span>
-                    <span class='followers'> 120 <span class="inner">followers</span></span>
-                    <span class='following'> 150 <span class="inner">following</span></span>
-                    <span class='likes'> 122 <span class="inner">likes</span></span>
+                    <span class='posts'> {{userObject.numReviews}} <span class="inner">review{% if userObject.numReviews != 1 %}s{% endif %}</span></span>
+                    <span class='followers'> {{userObject.numFollowers}} <span class="inner">follower{% if userObject.numFollowers != 1 %}s{% endif %}</span></span>
+                    <span class='following'> {{userObject.numFollowing}} <span class="inner">following</span></span>
+                    <span class='likes'> {{userObject.likeCount}} <span class="inner">like{% if userObject.likeCount != 1 %}s{% endif %}</span></span>
                 </div>
                 <div class="row three">
                     <h3>About</h3>
