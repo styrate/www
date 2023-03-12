@@ -159,7 +159,7 @@ def registerNewUser(request):
             image='default/user.png'
         )
         newUser.save()
-        user = authenticate(request=request, user=newUser)
+        user = authenticate(request, username=newUser.username, password=newUser.password)
         return redirect('/account/'+str(newUser.id))
     except Exception as e:
         payload['error'] = e
