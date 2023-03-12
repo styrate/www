@@ -31,18 +31,45 @@ section#account > .innerAccount{
                         font-size: 1.5em;
                         font-weight: 500;
                     }
-                    & button{
+                    & button.edit{
                         margin-left: auto;
-                        &.follow{
-                            background-color: #2f59ff;
-                            width: 100px;
-                            height: 40px;
-                            border-radius: 5px;
-                            color: white;
-                            font-weight: 500;
-                            cursor: pointer;
-                            &:hover{
-                                opacity: 0.9;
+                        background-color: #DDDDDD;
+                        width: 120px;
+                        height: 40px;
+                        border-radius: 5px;
+                        color: black;
+                        font-weight: 500;
+                        cursor: pointer;
+                        &:hover{
+                            background-color: #CCCCCC;
+                        }
+                    }
+                    & .form{
+                        margin-left: auto; width: fit-content; height: fit-content;
+                        & button{
+                            &.follow{
+                                background-color: #2f59ff;
+                                width: 100px;
+                                height: 40px;
+                                border-radius: 5px;
+                                color: white;
+                                font-weight: 500;
+                                cursor: pointer;
+                                &:hover{
+                                    opacity: 0.9;
+                                }
+                            }
+                            &.following{
+                                background-color: #DDDDDD;
+                                width: 100px;
+                                height: 40px;
+                                border-radius: 5px;
+                                color: black;
+                                font-weight: 500;
+                                cursor: pointer;
+                                &:hover{
+                                    background-color: #CCCCCC;
+                                }
                             }
                         }
                     }

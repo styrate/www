@@ -9,7 +9,25 @@
             <div class="stats">
                 <div class="row top">
                     <h2>{{userObject.username}}</h2>
-                    <button class='follow' onclick='handleFollow(event, "{{userObject.id}}" )'>Follow</button>
+                    {% if not userObject.isEqual %}
+                        {% if userObject.following %}
+                        <form action="/follow" class="form" method='POST'>
+                            {% csrf_token %}
+                            <input type="hidden" value='True' name='isRemove'>
+                            <input type="hidden" value='{{userObject.id}}' name='followTo_ID'>
+                            <button class='following' type='submit'>Following</button>
+                        </form>
+                        {% else %}
+                        <form action="/follow?remove=False" class="form" method='POST'>
+                            {% csrf_token %}
+                            <input type="hidden" value='False' name='isRemove'>
+                            <input type="hidden" value='{{userObject.id}}' name='followTo_ID'>
+                            <button class='follow' type='submit'>Follow</button>
+                        </form>
+                        {% endif %}
+                    {% else %}
+                    <button class="edit">Edit Profile</button>
+                    {% endif %}
                 </div>
                 <div class="row two">
                     <span class='posts'> 12 <span class="inner">posts</span></span>

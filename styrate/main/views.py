@@ -8,6 +8,7 @@ from .models import *
 import json
 from django.core import serializers
 from .controllers.LikeController import LikeController
+from .controllers.General import GeneralController
 from django.core.files import File
 import os
 
@@ -67,11 +68,13 @@ def renderNewReview(request):
 def renderAccountPage(request, id):
     if User.objects.filter(id=id).exists():
         userObject = User.objects.get(id=id)
+        ALTERED_userObject = GeneralController.AccountInformation(request=request, userObject=userObject)
         payload = {
             'pageTitle': 'Account | '+userObject.username,
-            'userObject': userObject
+            'userObject': ALTERED_userObject
         }
         return render(request, 'main/Account/Account.html', payload)
+    
     else:
         return redirect('/404')
 
@@ -119,6 +122,20 @@ def newReview(request):
     else: 
         return redirect('/login')
 
+def followHandler(request):
+    try:
+        if request.user.is_authenticated:
+            isRemove = request.POST.get("isRemove")
+            followFromUser_Key = User.objects.get(id=request.user.id)
+            followToUser_Key = User.objects.get(id=request.POST.get("followTo_ID"))
+            if isRemove=='True':
+                followObject = Follow.objects.get(followFromUser_Key=followFromUser_Key, followToUser_Key=followToUser_Key).delete()
+                return redirect(request.META['HTTP_REFERER'])
+            else:
+                Follow(followFromUser_Key=followFromUser_Key, followToUser_Key=followToUser_Key).save()
+                return redirect(request.META['HTTP_REFERER'])
+    except Exception as e:
+        print(e)
 # Auth
 def logOut(request):   
     logout(request)
