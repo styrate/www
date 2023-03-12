@@ -86,6 +86,12 @@
             err = true
             e.preventDefault()
         }
+        if(reviewDetails.reviewBody.length>1000){
+            bodyError.classList.remove('off')
+            mainErr.classList.remove('off')
+            err = true
+            e.preventDefault()
+        }
         if(reviewDetails.reviewOverview.length>100){
             overviewError.classList.remove('off')
             mainErr.classList.remove('off')

@@ -12,18 +12,13 @@ from django.core.files import File
 import os
 
 def renderIndex(request):
-    reviewObjects = Review.objects.all()
+    reviewObjects = Review.objects.all().order_by('-dateCreated')
     payload = {
         'pageTitle': 'Styrate - Product Reviews',
         'reviewObjects': reviewObjects
     }
     return render(request, 'main/Home/home.html', payload)
 
-def renderAccountPage(request):
-    payload = {
-        'pageTitle': 'Account',
-    }
-    return render(request, 'main/Account/Account.html', payload)
 
 def renderReviewPage(request, reviewID):
     reviewObject = Review.objects.get(id=reviewID)
@@ -57,6 +52,15 @@ def renderNewReview(request):
         'pageTitle': 'Write a review',
     }
     return render(request, 'main/New/new.html', payload)
+
+def renderAccountPage(request, id):
+    if User.objects.filter(id=id).exists():
+        payload = {
+            'pageTitle': 'Account',
+        }
+        return render(request, 'main/Account/Account.html', payload)
+    else:
+        return redirect('/404')
 
 # API
 def newComment(request):
