@@ -55,8 +55,9 @@ def renderNewReview(request):
 
 def renderAccountPage(request, id):
     if User.objects.filter(id=id).exists():
+        userObject = User.objects.get(id=id)
         payload = {
-            'pageTitle': 'Account',
+            'pageTitle': 'Account | '+userObject.username,
         }
         return render(request, 'main/Account/Account.html', payload)
     else:
