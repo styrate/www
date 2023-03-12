@@ -1,6 +1,7 @@
 section#account{
     width: 100%;
     margin-top: 20px;
+    display: flex; flex-direction: column;
 }
 section#account > .innerAccount{
     width: 70%;
@@ -92,6 +93,50 @@ section#account > .innerAccount{
                         line-height: 1.8;
                     }
                 }
+            }
+        }
+    }
+}
+
+section#account > .options{
+    margin-bottom: 40px;
+    margin-top: 20px;
+    height: fit-content;
+    width: 70%;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 3px #AAAAAA;
+    box-sizing: border-box;
+    padding: 40px 5%;
+    & h3{
+        font-size: 1.2em;
+        font-weight: 500;
+        margin-bottom: 30px;
+    }
+    & .row{
+        width: 100%;
+        display: flex;flex-direction: column;
+        margin-bottom: 20px;
+        &:last-of-type{margin-bottom: 0;}
+        & p{font-weight: 500;}
+        & a, & > button{
+            margin-top:  20px;
+            background-color: #DDDDDD;
+            height: 50px;
+            width: 150px;
+            border-radius: 5px;
+            color: black;
+            font-weight: 500;
+            cursor: pointer;
+            &:hover{
+                background-color: #CCCCCC;
+            }
+        }
+        & > button.first{
+            background-color: #b70000;
+            color: white;
+            &:hover{
+                opacity: 0.8;
             }
         }
     }

@@ -42,5 +42,18 @@
             </div>
         </div>
     </div>
+    {% if userObject.isEqual %}    
+    <div class="options">
+        <h3>Account Options</h3>
+        <div class="logout row">
+            <p>Logout of your account.</p>
+            <a href="/logout" class='center'>Logout</a>
+        </div>
+        <div class="logout row">
+            <p>Delete your account. This action is permanent and cannot be reversed.</p>
+            <button class='center first'>Delete Account</button>
+        </div>
+    </div>
+    {% endif %}
 </section>
 {% endblock %}

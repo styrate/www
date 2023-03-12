@@ -13,21 +13,22 @@ from django.core.files import File
 import os
 
 def renderIndex(request):
-    pageNumber = int(request.GET.get('page', '1'))
-    numPerPage = 9
-    reviewObjects = Review.objects.all().order_by('-dateCreated')[(pageNumber-1)*numPerPage : (pageNumber)*numPerPage]
-    nextPageURL = '/?page='+str(pageNumber+1)
-    prevPageURL = '/?page='+str(pageNumber-1)
+    # pageNumber = int(request.GET.get('page', '1'))
+    # numPerPage = 9
+    # reviewObjects = Review.objects.all().order_by('-dateCreated')[(pageNumber-1)*numPerPage : (pageNumber)*numPerPage]
+    # nextPageURL = '/?page='+str(pageNumber+1)
+    # prevPageURL = '/?page='+str(pageNumber-1)
+    reviewObjects = Review.objects.all().order_by('-dateCreated')
     payload = {
         'pageTitle': 'Styrate - Product Reviews',
         'reviewObjects': reviewObjects,
-        'pageNumber': pageNumber,
-        'pagination': {
-            'nextPageURL':nextPageURL,
-            'displayNext': True,
-            'prevPageURL': prevPageURL,
-            'displayPrev': True if not (pageNumber==1) else False 
-        }
+        # 'pageNumber': pageNumber,
+        # 'pagination': {
+        #     'nextPageURL':nextPageURL,
+        #     'displayNext': True,
+        #     'prevPageURL': prevPageURL,
+        #     'displayPrev': True if not (pageNumber==1) else False 
+        # }
     }
     return render(request, 'main/Home/home.html', payload)
 
