@@ -145,6 +145,8 @@ def likeControl(request):
             Like(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).save()
         else:
             Like.objects.get(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).delete()
+        # After adding and removing the like, the rankings will be recalculated.
+        LikeController.calculateLeaderboard()
         return redirect(request.META['HTTP_REFERER'])
 # Auth
 def logOut(request):   

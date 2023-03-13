@@ -1,4 +1,4 @@
-from ..models import Like
+from ..models import Like, User
 
 class LikeController:
 
@@ -21,3 +21,13 @@ class LikeController:
                 if request.user.is_authenticated:
                     tempObj.userLiked = True if Like.objects.filter(onReview_Key=tempObj, createdByUser_Key=request.user.id) else False
             return tempObjList
+        
+    def calculateLeaderboard():
+        allUserObjects = User.objects.all()
+        userObject_and_likeCount = [] #2d array
+        for userObject in allUserObjects:
+            users_ReviewObjects = userObject.ReviewsCreatedBy_List.all()
+            users_likeCount  = len(Like.objects.filter(onReview_Key__in = users_ReviewObjects))
+            userObject_and_likeCount.append([userObject, users_likeCount])
+        print(userObject_and_likeCount)
+        
