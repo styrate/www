@@ -1,0 +1,22 @@
+{% extends '../layout.html' %}
+{% load static %}
+{% block body %}
+{% comment %} <link rel="stylesheet" href="/css/Top/top.css"> {% endcomment %}
+<section id="top" class='center'>
+    <div class="topInner">
+        <h1>User Leaderboard</h1>
+        <div class="userList">
+            {% for userObject in userObjects %}
+                <div class="user">
+                    <div class="profImage" style='background-image: url("{% static '' %}{{userObject.image}}")'></div>
+                    <a href="/account/{{userObject.id}}">{{userObject.username}}</a>
+                    <div class="text"><span>Ranking</span><span>{{userObject.ranking}}</span></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<style>
+    section#top{width:100%;margin-bottom:40px}section#top .topInner{margin-top:20px;width:50%;display:flex;flex-direction:column}section#top .topInner h1{font-size:1.5em;font-weight:500;margin-bottom:20px}section#top .topInner .userList{width:100%;display:flex;flex-direction:column}section#top .topInner .userList .user{width:100%;display:flex;align-items:center;background-color:#fff;border-radius:10px;margin-bottom:20px;box-shadow:0 0 3px #aaa;box-sizing:border-box;padding:30px 40px}section#top .topInner .userList .user:last-of-type{margin-bottom:0px}section#top .topInner .userList .user .profImage{height:80px;width:80px;background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:9999px;margin-right:30px;box-sizing:border-box;border:2px solid #ccc}section#top .topInner .userList .user a{font-size:1.2em;font-weight:500}section#top .topInner .userList .user .text{margin-left:auto;display:flex;align-items:center}section#top .topInner .userList .user .text span{font-weight:500}section#top .topInner .userList .user .text span:first-of-type{font-style:italic;margin-right:10px}
+</style>
+{% endblock body %}

@@ -79,6 +79,14 @@ def renderAccountPage(request, id):
     
     else:
         return redirect('/404')
+    
+def renderTop(request):
+    userObjects = User.objects.all().order_by('ranking')
+    payload = {
+        'pageTitle': 'User Rankings',
+        'userObjects': userObjects
+    }
+    return render(request, 'main/Top/top.html', payload)
 
 # API
 def newComment(request):
@@ -149,6 +157,7 @@ def likeControl(request):
         # After adding and removing the like, the rankings will be recalculated. This will occur on a second thread for efficiency.
         Thread(target=LikeController.calculateLeaderboard, args=()).start()
         return redirect(request.META['HTTP_REFERER'])
+    
 # Auth
 def logOut(request):   
     logout(request)

@@ -11,9 +11,11 @@
             <ul>
                 {% if user.is_authenticated %}
                 <li><a href="/" class='off'>Home</a></li>
+                <li><a href="/top" class='off'>Leaderboard</a></li>
                 <li><a href="/new" class='off'>Create</a></li>
                 <li class='center'><a href="/account/{{user.id}}" class='account' style='background-image: url("{%static ''%}{{user.image}}")' aria-label='Account Page'></a></li>
                 {% else %}
+                <li><a href="/top" class='off'>Leaderboard</a></li>
                 <li><a href="/login" class='off'>Login</a></li>
                 <li><a href="/register" class='off'>Register</a></li>
                 {% endif %}
