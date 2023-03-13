@@ -1,5 +1,5 @@
 from ..models import Like, User
-
+import time
 class LikeController:
 
     def AddLikeData(request, objectList, object):
@@ -24,10 +24,19 @@ class LikeController:
         
     def calculateLeaderboard():
         allUserObjects = User.objects.all()
-        userObject_and_likeCount = [] #2d array
+        userObject_and_likeCount_list = [] #2d array
         for userObject in allUserObjects:
             users_ReviewObjects = userObject.ReviewsCreatedBy_List.all()
             users_likeCount  = len(Like.objects.filter(onReview_Key__in = users_ReviewObjects))
-            userObject_and_likeCount.append([userObject, users_likeCount])
-        print(userObject_and_likeCount)
+            userObject_and_likeCount_list.append([userObject, users_likeCount])
+        # sorts the 2d array in terms of its second column
+        ranked_userObject_and_likeCount_list = sorted(userObject_and_likeCount_list,key=lambda l:l[1], reverse=True)
+        count = 1
+        for userObject_and_likeCount in ranked_userObject_and_likeCount_list:
+            [userObject, likeCount] = userObject_and_likeCount
+            userObject.ranking = count
+            userObject.likeCount = likeCount
+            userObject.save()
+            count += 1
+
         

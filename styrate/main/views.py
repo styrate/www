@@ -11,6 +11,7 @@ from .controllers.LikeController import LikeController
 from .controllers.General import GeneralController
 from django.core.files import File
 import os
+from threading import Thread
 
 def renderIndex(request):
     # pageNumber = int(request.GET.get('page', '1'))
@@ -145,8 +146,8 @@ def likeControl(request):
             Like(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).save()
         else:
             Like.objects.get(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).delete()
-        # After adding and removing the like, the rankings will be recalculated.
-        LikeController.calculateLeaderboard()
+        # After adding and removing the like, the rankings will be recalculated. This will occur on a second thread for efficiency.
+        Thread(target=LikeController.calculateLeaderboard, args=()).start()
         return redirect(request.META['HTTP_REFERER'])
 # Auth
 def logOut(request):   
@@ -168,7 +169,8 @@ def registerNewUser(request):
             email=request.POST.get('email'),
             password=request.POST.get('password'),
             bioText=f"Hi there. I'm a new user.",
-            image='default/user.png'
+            image='default/user.png',
+            likeCount = 0,
         )
         newUser.save()
         login(request, newUser)

@@ -12,6 +12,7 @@ class GeneralController:
         tempObj.numFollowers = len(userObject.FollowedBy_List.all())
         tempObj.numFollowing = len(userObject.Follows_List.all())
         # Finding the number of likes
-        users_ReviewObjects = userObject.ReviewsCreatedBy_List.all()
-        tempObj.likeCount  = len(Like.objects.filter(onReview_Key__in = users_ReviewObjects))
+        # users_ReviewObjects = userObject.ReviewsCreatedBy_List.all()
+        # tempObj.likeCount  = len(Like.objects.filter(onReview_Key__in = users_ReviewObjects))
+        print(tempObj.likeCount)
         return tempObj
