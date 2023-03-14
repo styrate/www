@@ -20,9 +20,10 @@ def renderIndex(request):
     # nextPageURL = '/?page='+str(pageNumber+1)
     # prevPageURL = '/?page='+str(pageNumber-1)
     reviewObjects = Review.objects.all().order_by('-dateCreated')
+    ALTERED_reviewObjects = LikeController.AddLikeData(object=None, objectList=reviewObjects, request=request)
     payload = {
         'pageTitle': 'Styrate - Product Reviews',
-        'reviewObjects': reviewObjects,
+        'reviewObjects': ALTERED_reviewObjects,
         # 'pageNumber': pageNumber,
         # 'pagination': {
         #     'nextPageURL':nextPageURL,
