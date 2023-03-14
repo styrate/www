@@ -16,9 +16,10 @@ section#account > .innerAccount{
             height: 100px; width: 100px;
             border-radius: 9999px;
             background-size: cover; background-position: center; background-repeat: no-repeat;
-            outline: 2px solid #CCCCCC;
+            border: 2px solid #CCCCCC;
             margin-right: 50px;
             flex-shrink: 0;
+            box-sizing: border-box;
         }
         & .stats{
             flex-grow: 1;

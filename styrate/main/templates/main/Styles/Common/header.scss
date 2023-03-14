@@ -38,7 +38,7 @@ header .headerInner{
                 color: #2f59ff;
             }
             &.account{
-                border: 0;
+                box-sizing: border-box;
                 min-width: unset;
                 &:hover{color: unset; border: 0;}
                 background-position: center; background-size: cover; background-repeat: no-repeat;
@@ -47,10 +47,10 @@ header .headerInner{
                 margin-left: 20px;
                 border-radius: 9999px;
                 // box-shadow: 0 0 3px #AAAAAA;
-                outline: 2px solid #CCCCCC;
+                border: 2px solid #CCCCCC;
                 // padding: 3px;
                 &:hover{
-                    outline: 2px solid #2f59ff;
+                    border: 2px solid #2f59ff;
                 }
             }
         }
