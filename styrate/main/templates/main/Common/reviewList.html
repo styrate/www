@@ -17,7 +17,7 @@
                         </div>
                         <p class="meta overview">{{review.textField}}</p>
                         <div class="buttons">
-                            <form onsubmit='handleLike(event, "{{review.id}}", "{{review.userLiked}}")'>
+                            <form onsubmit='handleLike(event, "{{review.id}}", "{{review.userLiked}}", "{{request.user.is_authenticated}}")'>
                                 {% if not review.userLiked %}
                                 <button type="submit" class='displayOn'>
                                     <div  class='upvote normal' style='background-image: url("/css/Media/heartOff.png")'></div>
@@ -60,8 +60,13 @@
             window.location.href = redirectLink
         }
     }
-    const handleLike = async(e, reviewID, userLiked) => {
+    const handleLike = async(e, reviewID, userLiked, userLoggedIn) => {
         e.preventDefault()
+        // checking whether the user is request.user.is_authenticated
+        if(userLoggedIn==='False'){
+            window.location.href = '/login'
+            return
+        }
         // checking whether the alternate or normal
         originalUserLiked = userLiked
         if(e.target.classList.contains('alternate')){

@@ -120,17 +120,36 @@ section#review .reviewContent{
                 margin-bottom: 20px;
                 & > *{margin-right: 10px;}
                 & form{
+                    .upvote{
+                        &.normal{display: flex;}
+                        &.alternate{display: none}
+                    }
+                    &.alternate .upvote{
+                        &.normal{display: none;}
+                        &.alternate{display: flex}
+                    }
                     width: fit-content;
                     & button{
-                        justify-content: center;
                         display: flex; align-items: center;
-                        & .heart{
+                        background-color: #DDDDDD;
+                        border: none;
+                        border-radius: 5px;
+                        padding: 10px 15px;
+                        font-weight: 500;
+                        width: 100px;
+                        justify-content: center;
+                        cursor: pointer;
+                        &:hover{
+                            background-color: #CCCCCC;
+                        }
+                        & .upvote{
+                            height: 20px; width: 20px;
+                            background-size: cover; background-position: center;
+                            background-repeat: no-repeat;
                             margin-right: 10px;
-                            background-repeat: no-repeat; background-size: cover; background-position: center;
-                            height: 30px; width: 30px;
                         }
                         & span{
-                            font-weight: 500 !important;
+                            font-weight: 500;
                         }
                     }
                 }
