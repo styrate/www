@@ -1,3 +1,4 @@
+import requests
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -12,7 +13,6 @@ from .controllers.General import GeneralController
 from django.core.files import File
 import os
 from threading import Thread
-import requests
 
 def renderIndex(request):
     # pageNumber = int(request.GET.get('page', '1'))
