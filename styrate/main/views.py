@@ -12,6 +12,7 @@ from .controllers.General import GeneralController
 from django.core.files import File
 import os
 from threading import Thread
+import requests
 
 def renderIndex(request):
     # pageNumber = int(request.GET.get('page', '1'))
@@ -41,10 +42,13 @@ def renderReviewPage(request, reviewID):
     ALTERED_reviewObject = LikeController.AddLikeData(request, object=reviewObject, objectList=None)
     # Getting the comment list
     commentObjects = Comment.objects.filter(onReview_Key=reviewObject).order_by('-dateCreated')
+    # Getting the embedded video data
+    tikTokVideoData = requests.get('https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID).json()
     payload = {
         'pageTitle': ALTERED_reviewObject.title,
         'reviewObject': ALTERED_reviewObject,
-        'commentObjects': commentObjects
+        'commentObjects': commentObjects,
+        'tikTokVideoData': tikTokVideoData
     }
     return render(request, 'main/Review/review.html', payload)
 

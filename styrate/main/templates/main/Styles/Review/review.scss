@@ -244,3 +244,15 @@ section#review .reviewContent .commentList{
         }
     }
 }
+
+section#review .videoEmbed{
+    width: 100%;
+    margin-bottom: 20px;
+    & h3{
+        font-size: 1.5em;
+        margin-bottom: 30px;
+    }
+    & .videoEmbedInner{
+        width: fit-content;
+    }
+}
