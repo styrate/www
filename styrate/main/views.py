@@ -43,18 +43,11 @@ def renderReviewPage(request, reviewID):
     # Getting the comment list
     commentObjects = Comment.objects.filter(onReview_Key=reviewObject).order_by('-dateCreated')
     # Getting the embedded video data
-    # tikTokVideoData = requests.get('https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID).json()
-    http = urllib3.PoolManager()
-    try:
-        r = http.request('GET', 'https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID)        
-        tikTokVideoData = json.loads(r.data.decode('utf-8'))
-    except Exception as e:
-        tikTokVideoData = None
+    # tikTokVideoData = requests.get('https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID)
     payload = {
         'pageTitle': ALTERED_reviewObject.title,
         'reviewObject': ALTERED_reviewObject,
         'commentObjects': commentObjects,
-        'tikTokVideoData': tikTokVideoData
     }
     return render(request, 'main/Review/review.html', payload)
 
