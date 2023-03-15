@@ -47,7 +47,6 @@ def renderReviewPage(request, reviewID):
     http = urllib3.PoolManager()
     r = http.request('GET', 'https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID)        
     tikTokVideoData = json.loads(r.data.decode('utf-8'))
-    print(tikTokVideoData)
     payload = {
         'pageTitle': ALTERED_reviewObject.title,
         'reviewObject': ALTERED_reviewObject,
