@@ -175,7 +175,7 @@ section#review{margin-bottom:30px}section#review .reviewInner{width:100%;display
         const response = await fetch('https://www.tiktok.com/oembed?url={{reviewObject.videoID}}')
         const data = await response.json()
         console.log(data)
-        document.querySelector('.videoEmbedInner').innerHTML = `<iframe src="https://www.tiktok.com/embed/${data.embed_product_id}" frameBorder="0" allow="autoplay" style='height: 500px;' />`    
+        document.querySelector('.videoEmbedInner').innerHTML = `<iframe src="https://www.tiktok.com/embed/${data.embed_product_id}" frameBorder="0" allow="autoplay" style='height: 500px; border-radius: 10px' />`    
     }
     getVideoEmbed()
 </script>
