@@ -1,4 +1,4 @@
-import requests
+import urllib3
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -43,7 +43,11 @@ def renderReviewPage(request, reviewID):
     # Getting the comment list
     commentObjects = Comment.objects.filter(onReview_Key=reviewObject).order_by('-dateCreated')
     # Getting the embedded video data
-    tikTokVideoData = requests.get('https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID).json()
+    # tikTokVideoData = requests.get('https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID).json()
+    http = urllib3.PoolManager()
+    r = http.request('GET', 'https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID)        
+    tikTokVideoData = json.loads(r.data.decode('utf-8'))
+    print(tikTokVideoData)
     payload = {
         'pageTitle': ALTERED_reviewObject.title,
         'reviewObject': ALTERED_reviewObject,
