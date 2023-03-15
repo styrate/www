@@ -45,8 +45,11 @@ def renderReviewPage(request, reviewID):
     # Getting the embedded video data
     # tikTokVideoData = requests.get('https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID).json()
     http = urllib3.PoolManager()
-    r = http.request('GET', 'https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID)        
-    tikTokVideoData = json.loads(r.data.decode('utf-8'))
+    try:
+        r = http.request('GET', 'https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID)        
+        tikTokVideoData = json.loads(r.data.decode('utf-8'))
+    except Exception as e:
+        tikTokVideoData = None
     payload = {
         'pageTitle': ALTERED_reviewObject.title,
         'reviewObject': ALTERED_reviewObject,
