@@ -40,7 +40,8 @@
                     </ul>
                 </div>
                 <div class="reviewText">
-                    <div class="title">
+                    {% comment %} Will put the like id here {% endcomment %}
+                    <div class="title" id='like_{{reviewObject.id}}'>
                         <h3>Review</h3>
                     </div>
                     <p>{{reviewObject.textField}}</p>

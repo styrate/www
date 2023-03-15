@@ -150,14 +150,17 @@ def followHandler(request):
 
 def likeControl(request):
     if request.user.is_authenticated:
-        addLike = request.POST.get('add')
-        if addLike=='True':
+        userLiked = request.POST.get('userLiked')
+        if userLiked=='False' or userLiked=='false' or userLiked==False:
             Like(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).save()
         else:
             Like.objects.get(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).delete()
         # After adding and removing the like, the rankings will be recalculated. This will occur on a second thread for efficiency.
         Thread(target=LikeController.calculateLeaderboard, args=()).start()
-        return redirect(request.META['HTTP_REFERER'])
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
+
     
 # Auth
 def logOut(request):   

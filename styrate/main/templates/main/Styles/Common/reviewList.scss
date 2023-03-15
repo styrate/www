@@ -84,8 +84,8 @@ div.reviewList.inner .review.outer{
             margin-top: 5px;
         }
         & .image{
-            height: clamp(300px, 23vw, 500px);
-            width: clamp(300px, 23vw, 500px);
+            height: clamp(300px, 20vw, 500px);
+            width: clamp(300px, 20vw, 500px);
             border-radius: 10px;
             background-color: #DDDDDD;
             background-size: cover;
@@ -141,8 +141,46 @@ div.reviewList.inner .review.outer{
             font-size: 0.9em;
             line-height: 1.8;
             height: 100px;
-            text-overflow:ellipsis;    
             overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        & .buttons{
+            display: flex; align-items: center;
+            margin-top: 20px;
+            & form{
+                .upvote{
+                    &.normal{display: flex;}
+                    &.alternate{display: none}
+                }
+                &.alternate .upvote{
+                    &.normal{display: none;}
+                    &.alternate{display: flex}
+                }
+                width: fit-content;
+                & button{
+                    display: flex; align-items: center;
+                    background-color: #DDDDDD;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 10px 15px;
+                    font-weight: 500;
+                    width: 80px;
+                    justify-content: center;
+                    cursor: pointer;
+                    &:hover{
+                        background-color: #CCCCCC;
+                    }
+                    & .upvote{
+                        height: 20px; width: 20px;
+                        background-size: cover; background-position: center;
+                        background-repeat: no-repeat;
+                        margin-right: 10px;
+                    }
+                    & span{
+                        font-weight: 500;
+                    }
+                }
+            }
         }
     }
 }
