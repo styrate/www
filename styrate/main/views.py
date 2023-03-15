@@ -154,7 +154,7 @@ def likeControl(request):
         if userLiked=='False' or userLiked=='false' or userLiked==False:
             Like(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).save()
         else:
-            Like.objects.get(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).delete()
+            Like.objects.filter(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).delete()
         # After adding and removing the like, the rankings will be recalculated. This will occur on a second thread for efficiency.
         Thread(target=LikeController.calculateLeaderboard, args=()).start()
         return JsonResponse({'success': True})
