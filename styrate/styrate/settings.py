@@ -167,4 +167,4 @@ else:
 
 CSS_ROOT = os.path.join(BASE_DIR, 'main', 'templates', 'main', 'Styles')
 # add server to csfr whitelist
-CSRF_TRUSTED_ORIGINS = ['localhost:8000', 'https://styrate.co']
+CSRF_TRUSTED_ORIGINS = ['https://styrate.co']
