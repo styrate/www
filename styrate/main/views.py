@@ -161,6 +161,24 @@ def likeControl(request):
     else:
         return JsonResponse({'success': False})
 
+def editProfile(reqeust):
+    try:
+        if reqeust.user.is_authenticated:
+            # get data from reqeust
+            username = reqeust.POST.get('username')
+            about = reqeust.POST.get('about')
+            image = reqeust.FILES.get('image')
+            userObject = User.objects.get(id=reqeust.user.id)
+            userObject.username = username
+            userObject.bioText = about
+            if image!=None:
+                userObject.image = image
+            userObject.save()
+            return JsonResponse({'success': True})
+        else:
+            return redirect('/login')
+    except Exception as e:
+        return JsonResponse({'success': False})
     
 # Auth
 def logOut(request):   

@@ -18,5 +18,6 @@ urlpatterns = [
     path('follow', views.followHandler, name='followHandler'),
     path('deleteUser', views.deleteUser, name='deleteUser'),
     path('likecontrol', views.likeControl, name='likeControl'),
-    path('top', views.renderTop, name='renderTop')
+    path('top', views.renderTop, name='renderTop'),
+    path('editProfile', views.editProfile, name='editProfile'),
 ] + static('/css/', document_root = settings.CSS_ROOT)
