@@ -83,6 +83,7 @@
                     <button class="cancel" onclick='event.preventDefault(); toggleModal()'>Cancel</button>
                     <button type='submit'>Save</button>
                 </div>
+                <p class="submission off">Submitting Request...</p>
             </form>
         </div> 
     </div>
@@ -96,6 +97,8 @@
         // removing all errors
         document.querySelector('.nameError').classList.contains('off') ?  null : document.querySelector('.nameError').classList.add('off') ;
         document.querySelector('.aboutError').classList.contains('off') ? null : document.querySelector('.aboutError').classList.add('off');
+        // showing submission message
+        document.querySelector('.submission').classList.remove('off');
         //get form data into a json object
         const formData = new FormData(e.target);
         const data = {};

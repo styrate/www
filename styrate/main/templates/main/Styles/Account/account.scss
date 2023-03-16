@@ -190,10 +190,18 @@ section#account > .editProfile{
             & .error{
                 color: red;
                 font-size: 0.8em;
-                margin-top: 5px;
+                margin-top: 10px;
                 &.off{
                     display: none;
                 }
+            }
+        }
+        & .submission{
+            margin-top: 5px;
+            font-size: 0.8em;
+            font-weight: 600;
+            &.off{
+                display: none;
             }
         }
         & .buttons{
