@@ -146,3 +146,84 @@ section#account > .options{
         }
     }
 }
+
+section#account > .editProfile{
+    display: flex;
+    width: 100vw; height: 100vh;
+    background-color: rgba(black, 0.3);
+    z-index: 9999;
+    position: fixed; top: 0; left: 0;
+    & .inner{
+        width: fit-content; height: fit-content;
+        max-height: 95vh; overflow-y: scroll;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 3px #AAAAAA;
+        box-sizing: border-box;
+        padding: 40px;;
+        & h2{
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 20px;;
+        }
+        & .row{
+            display: flex; flex-direction: column;
+            margin-bottom: 10px;
+            & label{
+                margin-bottom: 5px;
+            }
+            & input, & textarea{
+                border: 2px solid #CCCCCC;
+                border-radius: 5px;
+                padding: 10px;
+                box-sizing: border-box;
+                resize: none;
+                width: 400px;
+                &.image{
+                    border: 0;
+                    padding: 0;
+                }
+            }
+            & textarea{
+                height: 100px;
+            }
+            & .error{
+                color: red;
+                font-size: 0.8em;
+                margin-top: 5px;
+                &.off{
+                    display: none;
+                }
+            }
+        }
+        & .buttons{
+            margin-top: 20px;
+            display: flex; align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            & button{
+                background-color: #DDDDDD;
+                width: 45%;
+                &:last-of-type{
+                    background-color: #2f59ff;
+                    color: white;
+                    &:hover{
+                        background-color: #2f59ff;
+                        opacity: 0.9;
+                    }
+                }
+                height: 40px;
+                border-radius: 5px;
+                color: black;
+                font-weight: 500;
+                cursor: pointer;
+                &:hover{
+                    background-color: #CCCCCC;
+                }
+            }
+        }
+    }
+    &.off{
+        display: none;
+    }
+}
