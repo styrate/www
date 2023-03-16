@@ -7,11 +7,13 @@
         <h1>User Leaderboard</h1>
         <div class="userList">
             {% for userObject in userObjects %}
+                {% if userObject.ranking != None %}
                 <div class="user">
                     <div class="profImage" style='background-image: url("{% static '' %}{{userObject.image}}")'></div>
                     <a href="/account/{{userObject.id}}">{{userObject.username}}</a>
                     <div class="text"><span>Ranking</span><span>{{userObject.ranking}}</span></div>
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
