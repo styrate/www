@@ -14,5 +14,4 @@ class GeneralController:
         # Finding the number of likes
         # users_ReviewObjects = userObject.ReviewsCreatedBy_List.all()
         # tempObj.likeCount  = len(Like.objects.filter(onReview_Key__in = users_ReviewObjects))
-        print(tempObj.likeCount)
         return tempObj

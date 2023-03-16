@@ -103,10 +103,8 @@ def newComment(request):
             Comment(textField=body['commentBody'], createdByUser_Key=createdByUserObject, onReview_Key=onReviewObject).save()
             payload = {'success': True}
         except Exception as e: 
-            print(e)
             payload = {'success': False}
     else:
-        print('No auth')
         payload = {'success': False}
     return JsonResponse(payload)
 
@@ -128,7 +126,6 @@ def newReview(request):
             newReview.save()
             return redirect('/review/'+str(newReview.id))
         except Exception as e:
-            print(e)
             payload = {
                 'pageTitle': 'Create - Error',
             }
@@ -149,7 +146,7 @@ def followHandler(request):
                 Follow(followFromUser_Key=followFromUser_Key, followToUser_Key=followToUser_Key).save()
                 return redirect(request.META['HTTP_REFERER'])
     except Exception as e:
-        print(e)
+        pass
 
 def likeControl(request):
     if request.user.is_authenticated:
