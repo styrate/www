@@ -42,7 +42,6 @@ def renderIndex(request):
     if followedValue=='followed' and request.user.is_authenticated:
         followObjectsFromUser = request.user.Follows_List.all()
         followingUsers = User.objects.filter(id__in =followObjectsFromUser.values('followToUser_Key') )
-        print(followingUsers)
         reviewObjects = reviewObjects.filter(createdByUser_Key__in=followingUsers)
     # Get like data
     ALTERED_reviewObjects = LikeController.AddLikeData(request=request, objectList=reviewObjects, object=None)
@@ -149,7 +148,6 @@ def newReview(request):
                 likeCount = 0
             )
             newReview.save()
-            print(newReview)
             return redirect('/review/'+str(newReview.id))
         except Exception as e:
             payload = {
