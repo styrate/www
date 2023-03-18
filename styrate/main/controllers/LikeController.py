@@ -6,7 +6,7 @@ class LikeController:
         if(object!=None and objectList==None):
             # Getting the like count
             tempObj = object
-            tempObj.likeCount = len(Like.objects.filter(onReview_Key = tempObj))
+            #tempObj.likeCount = len(Like.objects.filter(onReview_Key = tempObj))
             # Checking whether the user has liked the post
             if request.user.is_authenticated:
                 tempObj.userLiked = True if Like.objects.filter(onReview_Key=tempObj, createdByUser_Key=request.user.id) else False
@@ -15,7 +15,7 @@ class LikeController:
             tempObjList = objectList
             for tempObj in tempObjList:
                 # Getting the like count
-                tempObj.likeCount = len(Like.objects.filter(onReview_Key = tempObj))
+                #tempObj.likeCount = len(Like.objects.filter(onReview_Key = tempObj))
                 # Checking whether the user has liked the post
                 if request.user.is_authenticated:
                     tempObj.userLiked = True if Like.objects.filter(onReview_Key=tempObj, createdByUser_Key=request.user.id) else False

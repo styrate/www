@@ -138,6 +138,7 @@ section#review{margin-bottom:30px}section#review .reviewInner{width:100%;display
         if(e.target.classList.contains('alternate')){
             userLiked = userLiked === 'True' ? 'False' : 'True'
         }
+        console.log(userLiked)
         const formData = new FormData()
         formData.append('reviewID', reviewID)  
         formData.append('userLiked', userLiked) 

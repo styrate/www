@@ -16,6 +16,7 @@
                             <option value="misc" {% if category == 'misc' %}selected{% endif %}>Misc</option>
                             <option value="tech" {% if category == 'tech' %}selected{% endif %}>Tech</option>
                             <option value="fashion" {% if category == 'fashion' %}selected{% endif %}>Fashion</option>
+                            <option value="beauty" {% if category == 'beauty' %}selected{% endif %}>Beauty</option>
                         </select>
                     </div>
                     <div class="dropDown sort">
@@ -29,7 +30,7 @@
                     <div class="dropDown followed">
                         <select name="followed" id="followed">
                             <option value="all" {% if followed == 'all' %}selected{% endif %}>All Users</option>
-                            <option value="followed" {% if followed == 'followed' %}selected{% endif %}>Followed Users</option>
+                            <option value="followed" {% if followed == 'followed' %}selected{% endif %}>Following Users</option>
                         </select>
                     </div>
                     <button type="submit" class='search'>Search</button>

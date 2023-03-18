@@ -18,27 +18,37 @@ from django.db.models import Q
 def renderIndex(request):
     # Getting filter params
     searchValue = request.GET.get('search', None)
-    categoryValue = request.GET.get('category', 'all')  # all, tech, misc, fashion
+    categoryValue = request.GET.get('category', 'all')  # all, tech, misc, fashion, beauty
     sortValue = request.GET.get('sort', 'newest') # newest, oldest, lessLikes, moreLikes
     followedValue = request.GET.get('followed', 'all') # all, followed
     if searchValue=='':
         searchValue=None
     #Converting the filter params to usable django commands. 
-    likeQuery = ''
-    dateQuery = ''
     if sortValue=='newest': sortQuery = '-dateCreated'
     elif sortValue == 'oldest': sortQuery = 'dateCreated'
     elif sortValue == 'lessLikes': sortQuery = 'likeCount'
     elif sortValue == 'moreLikes': sortQuery = '-likeCount'
-    # Getting the product list
-    print(searchValue)
+    # Full text search
     if searchValue==None:
         reviewObjects = Review.objects.all()
     else:
         reviewObjects = Review.objects.filter(Q(title__icontains=searchValue) | Q(productName__icontains=searchValue))
+    # Filtering by category
+    if categoryValue!='all':
+        reviewObjects = reviewObjects.filter(itemCategory=categoryValue)
+    # Sorting
+    reviewObjects = reviewObjects.order_by(sortQuery)
+    # Filtering by followed
+    if followedValue=='followed' and request.user.is_authenticated:
+        followObjectsFromUser = request.user.Follows_List.all()
+        followingUsers = User.objects.filter(id__in =followObjectsFromUser.values('followToUser_Key') )
+        print(followingUsers)
+        reviewObjects = reviewObjects.filter(createdByUser_Key__in=followingUsers)
+    # Get like data
+    ALTERED_reviewObjects = LikeController.AddLikeData(request=request, objectList=reviewObjects, object=None)
     payload = {
         'pageTitle': 'Styrate - Product Reviews',
-        'reviewObjects': reviewObjects, 
+        'reviewObjects': ALTERED_reviewObjects, 
         'search': searchValue,
         'category': categoryValue,
         'sort': sortValue,
@@ -53,9 +63,11 @@ def renderReviewPage(request, reviewID):
     commentObjects = Comment.objects.filter(onReview_Key=reviewObject).order_by('-dateCreated')
     # Getting the embedded video data
     # tikTokVideoData = requests.get('https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID)
+    # Checking if the user liked the review
+    ALTERED_reviewObject = LikeController.AddLikeData(request=request, object=reviewObject, objectList=None)
     payload = {
-        'pageTitle': reviewObject.title,
-        'reviewObject': reviewObject,
+        'pageTitle': ALTERED_reviewObject.title,
+        'reviewObject': ALTERED_reviewObject,
         'commentObjects': commentObjects,
     }
     return render(request, 'main/Review/review.html', payload)
