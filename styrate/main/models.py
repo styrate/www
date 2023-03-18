@@ -32,6 +32,7 @@ class Review(models.Model):
     itemCategory = models.CharField(max_length=20, editable=True, null=True)
     image = models.ImageField(editable=True, blank=True, null=True, upload_to=ChangeName.reviewImage)
     videoID = models.CharField(max_length=100, editable=True)
+    videoIsYT = models.BooleanField(auto_created=False, editable=True, null=True, blank=True)
     productName = models.CharField(max_length=25, editable=True, null=True)
     itemLink = models.CharField(max_length=150, editable=True, null=True)
     rating = models.IntegerField(editable=True, auto_created=0)

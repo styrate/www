@@ -143,9 +143,11 @@ def newReview(request):
                 itemLink = request.POST["reviewProductLink"],
                 videoID = request.POST["reviewVideoID"],
                 image = request.FILES['reviewImage'],
+                videoIsYT = True if request.POST["isYT"]=='true' else False,
                 likeCount = 0
             )
             newReview.save()
+            print(newReview)
             return redirect('/review/'+str(newReview.id))
         except Exception as e:
             payload = {

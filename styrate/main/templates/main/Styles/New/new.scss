@@ -65,6 +65,24 @@ section#new{
                 // cursor: pointer;
             }
         }
+        & .reviewVideoID{
+            & .checkbox{
+                width: fit-content;
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                & label{
+                    width: 100px;
+                    margin: 0;
+                    margin-right: 10px;
+                    font-size: 0.9em;
+                    font-weight: 500;
+                }
+                & input{
+                    width: fit-content;
+                }
+            }
+        }
         & > button{
             display: flex;
             color: white;
