@@ -13,6 +13,7 @@ from .controllers.General import GeneralController
 from django.core.files import File
 import os
 from threading import Thread
+from django.db.models import Q
 
 def renderIndex(request):
     # Getting filter params
@@ -22,12 +23,22 @@ def renderIndex(request):
     followedValue = request.GET.get('followed', 'all') # all, followed
     if searchValue=='':
         searchValue=None
+    #Converting the filter params to usable django commands. 
+    likeQuery = ''
+    dateQuery = ''
+    if sortValue=='newest': sortQuery = '-dateCreated'
+    elif sortValue == 'oldest': sortQuery = 'dateCreated'
+    elif sortValue == 'lessLikes': sortQuery = 'likeCount'
+    elif sortValue == 'moreLikes': sortQuery = '-likeCount'
     # Getting the product list
-    reviewObjects = Review.objects.all().order_by('-dateCreated')
-    ALTERED_reviewObjects = LikeController.AddLikeData(object=None, objectList=reviewObjects, request=request)
+    print(searchValue)
+    if searchValue==None:
+        reviewObjects = Review.objects.all()
+    else:
+        reviewObjects = Review.objects.filter(Q(title__icontains=searchValue) | Q(productName__icontains=searchValue))
     payload = {
         'pageTitle': 'Styrate - Product Reviews',
-        'reviewObjects': ALTERED_reviewObjects, 
+        'reviewObjects': reviewObjects, 
         'search': searchValue,
         'category': categoryValue,
         'sort': sortValue,
@@ -38,15 +49,13 @@ def renderIndex(request):
 
 def renderReviewPage(request, reviewID):
     reviewObject = Review.objects.get(id=reviewID)
-    # Getting the Like Count
-    ALTERED_reviewObject = LikeController.AddLikeData(request, object=reviewObject, objectList=None)
     # Getting the comment list
     commentObjects = Comment.objects.filter(onReview_Key=reviewObject).order_by('-dateCreated')
     # Getting the embedded video data
     # tikTokVideoData = requests.get('https://www.tiktok.com/oembed?url='+ALTERED_reviewObject.videoID)
     payload = {
-        'pageTitle': ALTERED_reviewObject.title,
-        'reviewObject': ALTERED_reviewObject,
+        'pageTitle': reviewObject.title,
+        'reviewObject': reviewObject,
         'commentObjects': commentObjects,
     }
     return render(request, 'main/Review/review.html', payload)
@@ -121,7 +130,8 @@ def newReview(request):
                 overview = request.POST["reviewOverview"],
                 itemLink = request.POST["reviewProductLink"],
                 videoID = request.POST["reviewVideoID"],
-                image = request.FILES['reviewImage']
+                image = request.FILES['reviewImage'],
+                likeCount = 0
             )
             newReview.save()
             return redirect('/review/'+str(newReview.id))
@@ -157,6 +167,11 @@ def likeControl(request):
             Like.objects.filter(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).delete()
         # After adding and removing the like, the rankings will be recalculated. This will occur on a second thread for efficiency.
         Thread(target=LikeController.calculateLeaderboard, args=()).start()
+        # Chnaging post like count
+        reviewObject = Review.objects.get(id=request.POST.get('reviewID'))
+        likeCountOnObject = len(Like.objects.filter(onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))))
+        reviewObject.likeCount = likeCountOnObject
+        reviewObject.save()
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False})

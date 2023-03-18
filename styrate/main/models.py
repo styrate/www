@@ -35,6 +35,7 @@ class Review(models.Model):
     productName = models.CharField(max_length=25, editable=True, null=True)
     itemLink = models.CharField(max_length=150, editable=True, null=True)
     rating = models.IntegerField(editable=True, auto_created=0)
+    likeCount = models.IntegerField(editable=True, null=True, blank=True)
     createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ReviewsCreatedBy_List')
 
 class Follow(models.Model):
