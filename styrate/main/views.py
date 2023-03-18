@@ -131,6 +131,8 @@ def newComment(request):
 
 def newReview(request):
     if(request.user.is_authenticated):
+        isYT = request.POST.get('isYT', False)
+        if isYT=='on': isYT=True
         try:
             newReview = Review(
                 title = request.POST["reviewTitle"],
@@ -143,7 +145,7 @@ def newReview(request):
                 itemLink = request.POST["reviewProductLink"],
                 videoID = request.POST["reviewVideoID"],
                 image = request.FILES['reviewImage'],
-                videoIsYT = True if request.POST["isYT"]=='true' else False,
+                videoIsYT = isYT,
                 likeCount = 0
             )
             newReview.save()
