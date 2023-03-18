@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # Additions
     'main',
     'storages',
+    'corsheaders',
     # 'compressor',
 ]
 
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'styrate.urls'
@@ -168,3 +170,4 @@ else:
 CSS_ROOT = os.path.join(BASE_DIR, 'main', 'templates', 'main', 'Styles')
 # add server to csfr whitelist
 CSRF_TRUSTED_ORIGINS = ['https://styrate.co']
+CORS_ORIGIN_ALLOW_ALL = True
