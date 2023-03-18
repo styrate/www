@@ -15,23 +15,23 @@ import os
 from threading import Thread
 
 def renderIndex(request):
-    # pageNumber = int(request.GET.get('page', '1'))
-    # numPerPage = 9
-    # reviewObjects = Review.objects.all().order_by('-dateCreated')[(pageNumber-1)*numPerPage : (pageNumber)*numPerPage]
-    # nextPageURL = '/?page='+str(pageNumber+1)
-    # prevPageURL = '/?page='+str(pageNumber-1)
+    # Getting filter params
+    searchValue = request.GET.get('search', None)
+    categoryValue = request.GET.get('category', 'all')  # all, tech, misc, fashion
+    sortValue = request.GET.get('sort', 'newest') # newest, oldest, lessLikes, moreLikes
+    followedValue = request.GET.get('followed', 'all') # all, followed
+    if searchValue=='':
+        searchValue=None
+    # Getting the product list
     reviewObjects = Review.objects.all().order_by('-dateCreated')
     ALTERED_reviewObjects = LikeController.AddLikeData(object=None, objectList=reviewObjects, request=request)
     payload = {
         'pageTitle': 'Styrate - Product Reviews',
-        'reviewObjects': ALTERED_reviewObjects,
-        # 'pageNumber': pageNumber,
-        # 'pagination': {
-        #     'nextPageURL':nextPageURL,
-        #     'displayNext': True,
-        #     'prevPageURL': prevPageURL,
-        #     'displayPrev': True if not (pageNumber==1) else False 
-        # }
+        'reviewObjects': ALTERED_reviewObjects, 
+        'search': searchValue,
+        'category': categoryValue,
+        'sort': sortValue,
+        'followed': followedValue,
     }
     return render(request, 'main/Home/home.html', payload)
 
