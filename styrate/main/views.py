@@ -15,6 +15,13 @@ import os
 from threading import Thread
 from django.db.models import Q
 
+def renderLanding(request):
+    payload = {
+        'pageTitle': 'Styrate',
+    }
+
+    return render(request, 'main/landing/index.html', payload)
+
 def renderIndex(request):
     # Getting filter params
     searchValue = request.GET.get('search', None)
@@ -95,6 +102,7 @@ def renderAccountPage(request, id):
     if User.objects.filter(id=id).exists():
         userObject = User.objects.get(id=id)
         ALTERED_userObject = GeneralController.AccountInformation(request=request, userObject=userObject)
+        print(ALTERED_userObject)
         payload = {
             'pageTitle': 'Account | '+userObject.username,
             'userObject': ALTERED_userObject
@@ -207,6 +215,47 @@ def editProfile(reqeust):
         else:
             return redirect('/login')
     except Exception as e:
+        return JsonResponse({'success': False})
+    
+@csrf_exempt
+def getReviews(request):
+    # JSON request and response
+    if request.method == 'POST':
+        body_unicode = request.body.decode('utf-8')
+
+        try:
+            body = json.loads(body_unicode)
+        except:
+            return JsonResponse({'success': False})
+        
+        # Make sure the request contains a username
+        if 'id' not in body:
+            return JsonResponse({'success': False})
+        
+        # Get the reviews of said user (limit 6)
+        reviews = Review.objects.filter(createdByUser_Key=User.objects.get(id=body['id'])).order_by('-dateCreated')[:6]
+
+        # Create a list of reviews
+        reviewList = []
+        for review in reviews:
+            reviewList.append({
+                'id': review.id,
+                'title': review.title,
+                'productName': review.productName,
+                'rating': review.rating,
+                'createdByUser_Key': review.createdByUser_Key.id,
+                'itemCategory': review.itemCategory,
+                'textField': review.textField,
+                'overview': review.overview,
+                'itemLink': review.itemLink,
+                'videoID': review.videoID,
+                'image': review.image.url,
+                'videoIsYT': review.videoIsYT,
+                'likeCount': review.likeCount,
+                'createdOn': review.dateCreated,
+            })
+        return JsonResponse({'success': True, 'reviews': reviewList})
+    else:
         return JsonResponse({'success': False})
     
 # Auth
