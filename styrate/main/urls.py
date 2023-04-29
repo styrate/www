@@ -5,8 +5,11 @@ from django.conf import  settings
 
 urlpatterns = [
     path('', views.renderIndex, name='renderIndex'),
+    path('landing/', views.renderLanding, name='renderLanding'),
+    path('reviews', views.renderIndex, name='renderIndex'),
     path('review/<str:reviewID>', views.renderReviewPage, name='renerReviewPage'),
     path('newComment', views.newComment, name='newComment'),
+    path('getReviews', views.getReviews, name='getReviews'),
     path('logout', views.logOut, name='logOut'),
     path('login', views.renderlogIn, name='renderLogIn'),
     path('register', views.renderRegister, name='renderRegister'),
@@ -20,4 +23,4 @@ urlpatterns = [
     path('likecontrol', views.likeControl, name='likeControl'),
     path('top', views.renderTop, name='renderTop'),
     path('editProfile', views.editProfile, name='editProfile'),
-] + static('/css/', document_root = settings.CSS_ROOT)
+] + static('/css/', document_root = settings.CSS_ROOT) + static('/landing/', document_root = 'main/templates/main/landing/')

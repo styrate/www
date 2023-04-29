@@ -2,6 +2,106 @@
 {% load static  %}
 {% block body%}
 {% comment %} <link rel="stylesheet" href="/css/Account/account.css"> {% endcomment %}
+<script>
+    function htmlspecialchars(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+    }
+
+    // Get the str after account/ in the url
+    let url = window.location.href;
+    let id = url.split('account/')[1];
+
+    fetch('/getReviews', {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify({
+            'id': id,
+        })
+    }).then(res => res.json()).then(function (data) {
+        /* {"success": true, "reviews": [{"id": "2ac17dff-6583-4a0e-8f4c-d30a7765ba51", "title": "Nice", "productName": "Cool", "rating": 10, "createdByUser_Key": "a71ae50a-27ac-420d-bafe-1a9edb0cf248", "itemCategory": "misc", "textField": "Cool stuff", "overview": "No", "itemLink": "No", "videoID": "https://www.youtube.com/watch?v=IUgF49Rtg7Q", "image": "https://styrate.s3.amazonaws.com/static/profileImage/a7cb58dc-a24c-48ed-b4bd-f3ff17243e32__audio.audio", "videoIsYT": true, "likeCount": 0, "createdOn": "2023-04-28T22:00:36.475Z"}, {"id": "bd063a28-6248-4ce6-9a0c-bf44d5b02343", "title": "Excellent", "productName": "This product was good", "rating": 10, "createdByUser_Key": "a71ae50a-27ac-420d-bafe-1a9edb0cf248", "itemCategory": "beauty", "textField": "It was nice", "overview": "Nice stuff", "itemLink": "https://link/", "videoID": "no", "image": "https://styrate.s3.amazonaws.com/static/profileImage/fd8e3e66-a2f2-41e1-b628-fd83f975f78d__audio.audio", "videoIsYT": false, "likeCount": 1, "createdOn": "2023-04-28T21:41:58.066Z"}]} */
+
+        // Append reviews to page in a 3x2 grid
+        let reviews = data.reviews;
+        let reviewContainer = document.querySelector('.reviews');
+        let reviewHTML = '';
+
+        for (let i = 0; i < reviews.length; i++) {
+            // Layout: Video and description under in a 3x2 grid
+            let review = reviews[i];
+            let video = review.videoID;
+
+            if (review.videoIsYT) {
+                // Isolate the v= GET parameter
+                video = video.split('v=')[1];
+
+                video = `<iframe src="https://www.youtube.com/embed/${escape(video)}" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+                video = `<video controls src="${video}"></video>`;
+            }
+
+            reviewHTML += `
+            <div class="review">
+                <div class="video">
+                    ${video}
+                </div>
+                <div class="description">
+                    <a href="/review/${review.id}">
+                        <p>${htmlspecialchars(review.title)}</p>
+                    </a>
+                </div>
+            </div>
+            `;
+        }
+
+        reviewContainer.innerHTML += reviewHTML;
+    }).catch(err => console.log(err));
+
+</script>
+
+<style>
+    /* review css */
+    .review-heading h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+        padding-top: 5rem;
+    }
+
+    .reviews {
+        padding-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .reviews .review {
+        width: fit-content;
+    }
+
+    .reviews .review .video {
+        width: 100%;
+        height: 91%;
+    }
+
+    /* descriptions should be centered relative to the video */
+    .description p {
+        text-align: center;
+    }
+
+</style>
+
 <section id="account" class='center'>
     <div class="innerAccount">
         <div class="profile">
@@ -30,7 +130,9 @@
                     {% endif %}
                 </div>
                 <div class="row two">
-                    <span class='posts'> {{userObject.numReviews}} <span class="inner">review{% if userObject.numReviews != 1 %}s{% endif %}</span></span>
+                    <span class='posts'> {{userObject.numReviews}} <span class="inner">
+                        review{% if userObject.numReviews != 1 %}s{% endif %}
+                    </span></span>
                     <span class='followers'> {{userObject.numFollowers}} <span class="inner">follower{% if userObject.numFollowers != 1 %}s{% endif %}</span></span>
                     <span class='following'> {{userObject.numFollowing}} <span class="inner">following</span></span>
                     <span class='likes'> {{userObject.likeCount}} <span class="inner">like{% if userObject.likeCount != 1 %}s{% endif %}</span></span>
@@ -40,6 +142,13 @@
                     <p>{{userObject.bioText}}</p>
                 </div>
             </div>
+        </div>
+
+        <div class="review-heading">
+            <h2>Recent reviews by this user</h2>
+        </div>
+
+        <div class="reviews">
         </div>
     </div>
     {% if userObject.isEqual %}    
