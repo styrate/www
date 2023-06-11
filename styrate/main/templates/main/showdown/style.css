@@ -1,0 +1,293 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    gap: 0.09rem;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    padding-right: 0.2rem;
+    height: 100h;
+    gap: 0.1rem;
+    position: relative;
+}
+
+.sidebar iframe {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.sidebar video {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+@media (max-width: 980px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .main-content {
+        flex-direction: column;
+    }
+
+    .ctd * {
+        padding: 0.8rem;
+        min-width: 2rem !important;
+    }
+
+    .flex-product {
+        flex-direction: column;
+        padding-bottom: 0 !important;
+    }
+
+    .flex-product * {
+        width: 100% !important;
+    }
+}
+
+.sidebar>* {
+    /* background-color: #fff;
+    padding: 3rem;
+    height: 100%;
+    padding-bottom: 2rem;
+    position: relative; */
+    background-color: #fff;
+    padding: 3rem;
+
+    height: 300%;
+    position: relative;
+    padding-bottom: 5rem;
+}
+
+.sidebar p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+
+    padding: 0.6rem 0;
+}
+
+.top-video p {
+    background-color: gold;
+}
+
+.second-video p {
+    background-color: silver;
+}
+
+.third-video {
+    height: 100%;
+}
+
+.third-video p {
+    background-color: #cd7f32;
+}
+
+.mid-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.mid-content *:not(.flexed) {
+    background-color: #fff;
+}
+
+.ctd {
+    height: 45%;
+    width: 100%;
+}
+
+.flex-product {
+    display: flex;
+    width: 100%;
+    gap: 0.3rem;
+    height: 100%;
+    padding-bottom: 4rem;
+}
+
+.flex-product * {
+    background-color: #fff;
+    padding: 2rem;
+}
+
+.product-info {
+    width: 75%;
+    height: 100%;
+    position: relative;
+}
+
+.product-info div {
+    /* position: absolute; */
+    /* bottom: 0; */
+}
+
+.rules {
+    width: 25%;
+    height: 100%;
+}
+
+.mid-content {
+    gap: 0.3rem;
+    height: 100vh;
+}
+
+.aps {
+    width: 100%;
+    height: 5.35rem;
+}
+
+.product-info * {
+    padding: 0;
+    width: fit-content;
+}
+
+s {
+    padding: 0 !important;
+}
+
+.ctd {
+    animation: color-change 2s infinite;
+    font-size: 4rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    background-color: #f1f1f1 !important;
+    text-align: center;
+}
+
+.ctd * {
+    min-width: 10rem;
+    text-align: center;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aps {
+    position: relative;
+}
+
+.aps p {
+    padding-left: 0.3rem;
+    text-align: center;
+    font-size: 2.2rem !important;
+    z-index: 10;
+}
+
+.aps p {
+    background-color: #248502 !important;
+    width: 100%;
+    height: 100%;
+    /* z-index: 20; */
+    text-align: center;
+}
+
+.bold {
+    background-color: transparent !important;
+}
+
+.bold {
+    appearance: none;
+}
+
+/* .aps::after {
+  content: "Prize $200";
+  padding-left: 0.3rem;
+  text-align: center;
+  font-size: 2.2rem !important;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: #248502 !important;
+} */
+body {
+    font-size: 1.4rem;
+}
+
+@keyframes color-change {
+    0% {
+        color: red;
+    }
+
+    25% {
+        color: yellow;
+    }
+
+    50% {
+        color: green;
+    }
+
+    75% {
+        color: blue;
+    }
+
+    100% {
+        color: red;
+    }
+}
+
+.timebox {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.bgimg-product {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.container-info *:not(.bgimg-product) {
+    z-index: 10 !important;
+    /* background-color: red; */
+}
+
+.vid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    left: 0;
+    top: 0;
+}
+
+img {
+    object-fit: cover;
+}
