@@ -1,0 +1,440 @@
+<body>
+    <div class="headerContainer">
+        <header id="header" class="center">
+            <div class="headerInner">
+                <div class="logo center">
+                    <h3 class="center">
+                        <a href="/" class="center">STYRATE</a>
+                    </h3>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="/" class="off">Home</a></li>
+                        <li><a href="/top" class="off">Leaderboard</a></li>
+                        <li><a href="/new" class="off">Create</a></li>
+                        <li class="center">
+                            <a href="/account/" class="account" style="
+                  background-image: url('');
+                " aria-label="Account Page"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <style>
+            header {
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 999;
+                height: 60px;
+                background-color: #fff;
+                box-shadow: 0 0 3px #aaa;
+            }
+
+            header .headerInner {
+                height: 100%;
+                width: 90%;
+                max-width: 2000px;
+                display: flex;
+                align-items: center;
+            }
+
+            header .headerInner>* {
+                height: 100%;
+            }
+
+            header .headerInner .logo>* {
+                height: 100%;
+            }
+
+            header .headerInner .logo a {
+                height: 100%;
+                font-size: 1.1em;
+                font-weight: 600;
+            }
+
+            header .headerInner .logo a:hover {
+                color: #333;
+            }
+
+            header .headerInner nav {
+                height: 100%;
+                margin-left: auto;
+            }
+
+            header .headerInner nav * {
+                height: 100%;
+            }
+
+            header .headerInner nav ul {
+                display: flex;
+            }
+
+            header .headerInner nav a {
+                height: 100%;
+                box-sizing: border-box;
+                margin: 0 20px;
+                min-width: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-bottom: 3px solid #fff;
+            }
+
+            header .headerInner nav a:hover {
+                border-bottom: 3px solid #2f59ff;
+                color: #2f59ff;
+            }
+
+            header .headerInner nav a.account {
+                box-sizing: border-box;
+                min-width: unset;
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                height: 45px;
+                width: 45px;
+                margin: 0;
+                margin-left: 20px;
+                border-radius: 9999px;
+                border: 2px solid #ccc;
+            }
+
+            header .headerInner nav a.account:hover {
+                color: unset;
+                border: 0;
+            }
+
+            header .headerInner nav a.account:hover {
+                border: 2px solid #2f59ff;
+            }
+        </style>
+    </div>
+    <div class="contentContainer">
+        <section id="new" class="center">
+            <form onsubmit="checkReviewDetails(event)" action="/newReview" method="POST" enctype="multipart/form-data"
+                id="newForm" data-form-type="other">
+                <h1>Create A Review</h1>
+                <a href="#" class="reviewLink">Video link</a>
+                <input type="text" required="" name="reviewTitle" data-form-type="title,job">
+                <div class="reviewTitle inputContainer">
+                    <label for="reviewTitle">Give your review a title</label>
+                    <input type="text" required="" name="reviewTitle" data-form-type="title,job"
+                        data-kwimpalastatus="alive" data-kwimpalaid="1684947120595-0" />
+                    <span class="off error" id="titleError">Review title should be less than 100 charachters.</span>
+                </div>
+                <div class="inputContainer reviewRating">
+                    <label for="reviewRating">Give the product a rating out of 10</label>
+                    <input type="number" name="reviewRating" placeholder="" required="" data-form-type="other" />
+                    <span class="off error" id="ratingError">Rating should be a whole number between 1 and 10.</span>
+                </div>
+                <div class="inputContainer reviewCategory">
+                    <label for="reviewCategory">What category does the item fall under</label>
+                    <select name="reviewCategory" id="" data-form-type="other">
+                        <option value="misc" default="">Miscellaneous</option>
+                        <option value="beauty">Beauty</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="tech">Tech</option>
+                    </select>
+                </div>
+                <div class="reviewBody inputContainer">
+                    <label for="reviewBody">Write your review</label>
+                    <textarea type="text" required="" name="reviewBody" data-form-type="other"></textarea>
+                    <span class="off error" id="bodyError">Review should be less than 1000 charachters.</span>
+                </div>
+                <div class="reviewOverview inputContainer">
+                    <label for="reviewOverview">Give a short summary of your review</label>
+                    <textarea type="text" required="" name="reviewOverview" data-form-type="other"></textarea>
+                    <span class="off error" id="overviewError">Review summary should be less than 100
+                        charachters.</span>
+                </div>
+                <div class="inputContainer reviewProductLink">
+                    <label for="reviewProductLink">Provide a link to the product page</label>
+                    <input type="text" name="reviewProductLink" required="" data-form-type="other" />
+                </div>
+                <div class="inputContainer reviewVideoID">
+                    <label for="reviewVideoID">Provide the video link</label>
+                    <div class="checkbox">
+                        <label for="isYT">Youtube Video</label>
+                        <input type="checkbox" name="isYT" id="" placeholder="Youtube Video" data-form-type="other" />
+                    </div>
+                    <input type="text" name="reviewVideoID" required="" data-form-type="other" />
+                </div>
+                <div class="inputContainer reviewImage">
+                    <label for="reviewImage">Upload an image of the product</label>
+                    <input type="file" name="reviewImage" placeholder="" required="" data-form-type="other" />
+                </div>
+                <button type="submit" data-form-type="action">
+                    Submit Review
+                </button>
+
+                <span class="error off" id="mainErr">Please check the re-check the form for errors.</span>
+            </form>
+        </section>
+        <script defer="">
+            const checkReviewDetails = (e) => {
+                //Removing all previous err messages
+                allErr = document.querySelectorAll(".error");
+                allErr.forEach((el) => {
+                    if (!el.classList.contains("off")) {
+                        el.classList.add("off");
+                    }
+                });
+                var formData = new FormData(newForm);
+                reviewDetails = {
+                    rating: formData.get("reviewRating"),
+                    reviewBody: formData.get("reviewBody"),
+                    reviewTitle: formData.get("reviewTitle"),
+                    reviewOverview: formData.get("reviewOverview"),
+                    productName: formData.get("reviewProductName"),
+                    isYT: formData.get("isYT"),
+                };
+                let err = false;
+                if (reviewDetails.rating > 10 || reviewDetails.rating < 1) {
+                    ratingError.classList.remove("off");
+                    mainErr.classList.remove("off");
+                    err = true;
+                    e.preventDefault();
+                }
+                if (reviewDetails.reviewTitle.length > 100) {
+                    titleError.classList.remove("off");
+                    mainErr.classList.remove("off");
+                    err = true;
+                    e.preventDefault();
+                }
+                if (reviewDetails.reviewBody.length > 1000) {
+                    bodyError.classList.remove("off");
+                    mainErr.classList.remove("off");
+                    err = true;
+                    e.preventDefault();
+                }
+                if (reviewDetails.reviewOverview.length > 100) {
+                    overviewError.classList.remove("off");
+                    mainErr.classList.remove("off");
+                    err = true;
+                    e.preventDefault();
+                }
+                if (reviewDetails.productName.length > 25) {
+                    nameError.classList.remove("off");
+                    err = true;
+                    mainErr.classList.remove("off");
+                    e.preventDefault();
+                }
+                // If no errors
+                if (err) {
+                    console.log("yo");
+                }
+            };
+        </script>
+        <style>
+            .reviewLink {
+                color: blue;
+            }
+
+            .text-review {
+                box-shadow: 0 0 3px #aaa;
+                padding: 0.4rem;
+                margin-bottom: 1rem;
+            }
+
+            section#new {
+                width: 100%;
+                margin-top: 20px;
+                margin-bottom: 40px;
+            }
+
+            section#new form {
+                width: 90%;
+                background-color: #fff;
+                border-radius: 10px;
+                box-shadow: 0 0 3px #aaa;
+                box-sizing: border-box;
+                padding: 40px 5%;
+            }
+
+            section#new form h1 {
+                font-size: 1.5em;
+                font-weight: 500;
+                margin-bottom: 30px;
+            }
+
+            section#new form .inputContainer {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 20px;
+            }
+
+            section#new form .inputContainer label {
+                margin-bottom: 15px;
+            }
+
+            section#new form .inputContainer input,
+            section#new form .inputContainer textarea {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                border: 2px solid #ddd;
+                border-radius: 5px;
+                line-height: 1.9;
+            }
+
+            section#new form .inputContainer span {
+                color: red;
+                font-size: 0.8em;
+                margin-top: 10px;
+            }
+
+            section#new form .inputContainer span.off {
+                display: none;
+            }
+
+            section#new form .inputContainer select {
+                border-radius: 5px;
+                background-color: #eee;
+                cursor: pointer;
+                width: -moz-fit-content;
+                width: fit-content;
+                padding: 15px 20px;
+            }
+
+            section#new form .inputContainer select:hover {
+                background-color: #cdcdcd;
+            }
+
+            section#new form .inputContainer select option {
+                background-color: #eee;
+            }
+
+            section#new form .reviewBody textarea {
+                resize: vertical;
+                height: 150px;
+            }
+
+            section#new form .reviewOverview textarea {
+                height: 70px;
+                resize: none;
+            }
+
+            section#new form .reviewRating input {
+                width: 10%;
+            }
+
+            section#new form .reviewImage {
+                position: relative;
+                z-index: 0;
+            }
+
+            section#new form .reviewImage input {
+                width: -moz-fit-content;
+                width: fit-content;
+                border: 0;
+                padding: 0;
+            }
+
+            section#new form .reviewVideoID .checkbox {
+                width: -moz-fit-content;
+                width: fit-content;
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            section#new form .reviewVideoID .checkbox label {
+                width: 100px;
+                margin: 0;
+                margin-right: 10px;
+                font-size: 0.9em;
+                font-weight: 500;
+            }
+
+            section#new form .reviewVideoID .checkbox input {
+                width: -moz-fit-content;
+                width: fit-content;
+            }
+
+            section#new form>button {
+                display: flex;
+                color: #fff;
+                font-weight: 500;
+                box-sizing: border-box;
+                padding: 20px 30px;
+                background-color: #2f59ff;
+                margin: 40px 0;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 10px;
+            }
+
+            section#new form>button:hover {
+                opacity: 0.9;
+            }
+
+            section#new form>span.error {
+                color: red;
+                font-size: 0.8em;
+            }
+
+            section#new form>span.error.off {
+                display: none;
+            }
+        </style>
+    </div>
+    <style>
+        @import "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap";
+
+        * {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            text-decoration: none;
+            list-style: none;
+            font-size: 16px;
+            font-weight: normal;
+            color: inherit;
+            font-family: "Open Sans", sans-serif;
+            letter-spacing: inherit;
+        }
+
+        html {
+            background-color: #fff;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: -moz-fit-content;
+            height: fit-content;
+        }
+
+        .center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f8f8f8;
+            min-height: 100vh;
+        }
+
+        body .headerContainer,
+        body .contentContainer {
+            width: 100%;
+            height: -moz-fit-content;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body .contentContainer {
+            margin-top: 80px;
+            width: 90%;
+            max-width: 2000px;
+        }
+    </style>
+</body>
