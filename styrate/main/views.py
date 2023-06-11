@@ -22,6 +22,7 @@ def renderLanding(request):
 
     return render(request, 'main/landing/index.html', payload)
 
+ new-branch
 def renderShowdown(request):
     payload = {
         'pageTitle': 'Styrate - Showdown',
@@ -29,6 +30,8 @@ def renderShowdown(request):
 
     return render(request, 'main/showdown/index.html', payload)
 
+
+main
 def renderIndex(request):
     # Getting filter params
     searchValue = request.GET.get('search', None)
