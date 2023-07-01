@@ -42,7 +42,7 @@
             {% comment %} Like id for like button reference {% endcomment %}
             <article class="review outer" id='{{review.id}}' href='/review/{{review.id}}' onclick='redirectToReview(event, "/review/{{review.id}}")'>
                 <div class="review inner">
-                    <div class="image" style="background-image: url('{%static ''%}{{review.image}}')"></div>
+                    <div class="image" style="background-image: url('{{review.image.url}}')"></div>
                     <div class="itemInfo">
                         <h3  id='like_{{review.id}}'>{{review.title}}</h3>
                         <div class="innerInfo">
@@ -51,15 +51,18 @@
                             <a class='username' href='/account/{{review.createdByUser_Key.id}}' target='_blank'>by <span class='innerUser'>{{review.createdByUser_Key.username}}</span></a>
                         </div>
                         <p class="meta overview">{{review.textField}}</p>
+    
                         <div class="buttons">
                             <form onsubmit='handleLike(event, "{{review.id}}", "{{review.userLiked}}", "{{request.user.is_authenticated}}")'>
                                 {% if not review.userLiked %}
+                                {{review.userLiked}}
                                 <button type="submit" class='displayOn'>
                                     <div  class='upvote normal' style='background-image: url("/css/Media/heartOff.png")'></div>
                                     <div  class='upvote alternate' style='background-image: url("/css/Media/heartOn.png")'></div>
                                     <span>{{review.likeCount}}</span>
                                 </button>
                                 {% else %}
+                                {{review.userLiked}}
                                 <button type="submit"  class='normal displayOff'>
                                     <div  class='upvote normal' style='background-image: url("/css/Media/heartOn.png")'></div>
                                     <div  class='upvote alternate' style='background-image: url("/css/Media/heartOff.png")'></div>

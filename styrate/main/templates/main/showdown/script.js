@@ -1,4 +1,4 @@
-var countDownDate = new Date().getTime() + 12 * 60 * 60 * 1000; // 12 hours from now
+var countDownDate = new Date().getTime() + (21 * 24 * 60 * 60 * 1000); // 20 days from now
 
 var countdown = setInterval(function () {
     var now = new Date().getTime();
@@ -6,7 +6,7 @@ var countdown = setInterval(function () {
 
     // Time calculations for hours, minutes and seconds
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var days = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60 * 60));
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 

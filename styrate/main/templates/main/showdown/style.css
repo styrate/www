@@ -271,7 +271,7 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: -1;
+    
 }
 
 .container-info *:not(.bgimg-product) {
@@ -290,4 +290,10 @@ body {
 
 img {
     object-fit: cover;
+}
+
+.container-new {
+    position: relative;
+    color: #fff;
+    background-color: transparent !important;
 }

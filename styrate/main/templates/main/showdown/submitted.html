@@ -1,716 +1,499 @@
-<!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<script>
+    function embedVideo(videoUrl) {
+        if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+          const videoId = extractYouTubeVideoId(videoUrl);
+          return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else if (videoUrl.includes('vimeo.com')) {
+          const videoId = extractVimeoVideoId(videoUrl);
+          return `<iframe src="https://player.vimeo.com/video/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+        } else if (videoUrl.includes('facebook.com') || videoUrl.includes('fb.watch')) {
+          const videoId = extractFacebookVideoId(videoUrl);
+          return `<iframe src="https://www.facebook.com/plugins/video.php?href=${videoUrl}&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>`;
+        } else if (videoUrl.includes('tiktok.com')) {
+          const videoId = extractTikTokVideoId(videoUrl);
+          return `<iframe src="https://www.tiktok.com/embed/v2/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          // Handle other platforms or display an error message
+          return 'Video platform not supported';
+        }
+    }
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="./submitted.js"></script>
-    <title>Document</title>
-</head>
+    
 
-<body>
-    <div class="headerContainer">
-        <header id="header" class="center">
-            <div class="headerInner">
-                <div class="logo center">
-                    <h3 class="center">
-                        <a href="/" class="center">STYRATE</a>
-                    </h3>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="/" class="off">Home</a></li>
-                        <li><a href="/top" class="off">Leaderboard</a></li>
-                        <li><a href="/new" class="off">Create</a></li>
-                        <li class="center">
-                            <a href="/account/25875beb-8c24-4986-8c07-ffb108911258" class="account" style="
-                    background-image: url('https://styrate.s3.amazonaws.com/static/default/user.png');
-                  " aria-label="Account Page"></a>
-                        </li>
-                    </ul>
-                </nav>
+    function extractYouTubeVideoId(url) {
+        const youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(youtubeRegex);
+        return match ? match[1] : null;
+      }
+      
+      function extractVimeoVideoId(url) {
+        const vimeoRegex = /^(?:https?:\/\/)?(?:www\.)?(?:vimeo\.com\/|player\.vimeo\.com\/video\/)([0-9]+)/;
+        const match = url.match(vimeoRegex);
+        return match ? match[1] : null;
+      }
+      
+      function extractFacebookVideoId(url) {
+        const facebookRegex = /^(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:video\.php\?v=|watch\?v=)([0-9]+)/;
+        const match = url.match(facebookRegex);
+        return match ? match[1] : null;
+      }
+      
+      function extractInstagramVideoId(url) {
+        const instagramRegex = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p\/|tv\/)([\w-]+)/;
+        const match = url.match(instagramRegex);
+        return match ? match[1] : null;
+      }
+      
+      function extractTikTokVideoId(url) {
+        const tiktokRegex = /^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/(?:@[\w-]+\/video\/|v\/)([\w-]+)/;
+        const match = url.match(tiktokRegex);
+        return match ? match[1] : null;
+      }
+</script>
+{% comment %} <link rel="stylesheet" href="/css/Common/reviewList.css"> {% endcomment %}
+<div class="reviewList outer">
+    <div class="reviewList inner">
+        <div class="filter">
+            <div class="filters outer">
+                <form action="/" method="GET">
+                    {% if search == None %}
+                    <input type="text" name="search" id="search" placeholder="Browse Our Catalogue">
+                    {% else %}
+                    <input type="text" name="search" id="search" placeholder="Browse Our Catalogue" value="{{search}}">
+                    {% endif %}
+                    <div class="dropDown category">
+                        <select name="category" id="category">
+                            <option value="all" {% if category == 'all' %}selected{% endif %}>All Categories</option>
+                            <option value="misc" {% if category == 'misc' %}selected{% endif %}>Misc</option>
+                            <option value="tech" {% if category == 'tech' %}selected{% endif %}>Tech</option>
+                            <option value="fashion" {% if category == 'fashion' %}selected{% endif %}>Fashion</option>
+                            <option value="beauty" {% if category == 'beauty' %}selected{% endif %}>Beauty</option>
+                        </select>
+                    </div>
+                    <div class="dropDown sort">
+                        <select name="sort" id="sort">
+                            <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+                            <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Oldest</option>
+                            <option value="lessLikes" {% if sort == 'lessLikes' %}selected{% endif %}>Less Likes To More</option>
+                            <option value="moreLikes" {% if sort == 'moreLikes' %}selected{% endif %}>More Likes To Less</option>
+                        </select>        
+                    </div>
+                    <div class="dropDown followed">
+                        <select name="followed" id="followed">
+                            <option value="all" {% if followed == 'all' %}selected{% endif %}>All Users</option>
+                            <option value="followed" {% if followed == 'followed' %}selected{% endif %}>Following Users</option>
+                        </select>
+                    </div>
+                    <button type="submit" class='search'>Search</button>
+                </form>
             </div>
-        </header>
-        <style>
-            header {
-                width: 100%;
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 999;
-                height: 60px;
-                background-color: #fff;
-                box-shadow: 0 0 3px #aaa;
-            }
-
-            header .headerInner {
-                height: 100%;
-                width: 90%;
-                max-width: 2000px;
-                display: flex;
-                align-items: center;
-            }
-
-            header .headerInner>* {
-                height: 100%;
-            }
-
-            header .headerInner .logo>* {
-                height: 100%;
-            }
-
-            header .headerInner .logo a {
-                height: 100%;
-                font-size: 1.1em;
-                font-weight: 600;
-            }
-
-            header .headerInner .logo a:hover {
-                color: #333;
-            }
-
-            header .headerInner nav {
-                height: 100%;
-                margin-left: auto;
-            }
-
-            header .headerInner nav * {
-                height: 100%;
-            }
-
-            header .headerInner nav ul {
-                display: flex;
-            }
-
-            header .headerInner nav a {
-                height: 100%;
-                box-sizing: border-box;
-                margin: 0 20px;
-                min-width: 50px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border-bottom: 3px solid #fff;
-            }
-
-            header .headerInner nav a:hover {
-                border-bottom: 3px solid #2f59ff;
-                color: #2f59ff;
-            }
-
-            header .headerInner nav a.account {
-                box-sizing: border-box;
-                min-width: unset;
-                background-position: center;
-                background-size: cover;
-                background-repeat: no-repeat;
-                height: 45px;
-                width: 45px;
-                margin: 0;
-                margin-left: 20px;
-                border-radius: 9999px;
-                border: 2px solid #ccc;
-            }
-
-            header .headerInner nav a.account:hover {
-                color: unset;
-                border: 0;
-            }
-
-            header .headerInner nav a.account:hover {
-                border: 2px solid #2f59ff;
-            }
-        </style>
-    </div>
-    <div class="contentContainer">
-        <section class="home" id="home">
-            <div class="productListContainer">
-                <div class="reviewList outer">
-                    <div class="reviewList inner">
-                        <div class="filter">
-                            <div class="filters outer">
-                                <form action="/" method="GET" data-form-type="">
-                                    <input type="text" name="search" id="search" placeholder="Browse Our Catalogue"
-                                        data-form-type="" />
-
-                                    <div class="dropDown category">
-                                        <select name="category" id="category" data-form-type="">
-                                            <option value="all" selected="">All Categories</option>
-                                            <option value="misc">Misc</option>
-                                            <option value="tech">Tech</option>
-                                            <option value="fashion">Fashion</option>
-                                            <option value="beauty">Beauty</option>
-                                        </select>
-                                    </div>
-                                    <div class="dropDown sort">
-                                        <select name="sort" id="sort" data-form-type="">
-                                            <option value="newest" selected="">Newest</option>
-                                            <option value="oldest">Oldest</option>
-                                            <option value="lessLikes">Less Likes To More</option>
-                                            <option value="moreLikes">More Likes To Less</option>
-                                        </select>
-                                    </div>
-                                    <div class="dropDown followed">
-                                        <select name="followed" id="followed" data-form-type="">
-                                            <option value="all" selected="">All Users</option>
-                                            <option value="followed">Following Users</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="search" data-form-type="">
-                                        Search
-                                    </button>
-                                </form>
-                            </div>
+        </div>
+        <div class="reviews">
+            {% for review in reviews %}
+            {% comment %} Like id for like button reference {% endcomment %}
+            <article class="review outer" id='{{review.id}}' href='/review/{{review.id}}' onclick='redirectToReview(event, "/review/{{review.id}}")'>
+                <div class="review inner">                    
+                    <div id="videoEmbedInner{{ forloop.counter }}">  
+                    </div>
+                    <script>
+                        document.getElementById('videoEmbedInner{{ forloop.counter }}').innerHTML = embedVideo('{{ review.videoID }}');;
+                    </script>                                        
+                    <div class="itemInfo">
+                        <h3  id='like_{{review.id}}'>{{review.title}}</h3>
+                        <div class="innerInfo">
+                            <a  href='{{review.itemLink}}' target='_blank' class='meta productName'>{{review.productName}}</a>
+                            <span class='meta category'>{{review.itemCategory}}</span>
+                            <a class='username' href='/account/{{review.createdByUser_Key.id}}' target='_blank'>by <span class='innerUser'>{{review.createdByUser_Key.username}}</span></a>
                         </div>
-                        <div class="reviews">
-                            <!-- <div class="top"> -->
-                            <article class="review outer"
-                                href="/review/f4fe518b-6909-424c-9a0b-3f827a806c27" onclick="">
-                                <div class="review inner">
-                                    <div class="image" style="
-                        background-image: url('https://styrate.s3.amazonaws.com/static/profileImage/fb8eaba8-5f1b-4bf9-9c66-af0d2ac132ae__IMG_9631.acr.jpeg');
-                      "></div>
-                                    <div class="itemInfo">
-                                        <h3>
-                                            Canon EOS M50 Mark II Camera: Finally a Camera with
-                                            Upgraded Autofocus and Streaming Features
-                                        </h3>
-                                        <div class="innerInfo">
-                                            <a href="https://www.bhphotovideo.com/c/product/1598385-REG/canon_4728c006_eos_m50_mark_ii.html/?ap=y&amp;ap=y&amp;smp=ba_f1_lar&amp;smp=y&amp;lsft=BI%3A514&amp;gclid=Cj0KCQjw6cKiBhD5ARIsAKXUdyY-2SMVEC2oxVHFifXrzM4bAKhYLMwd3MgJe03xxnIDBeZ7vgfMUtQaApanEALw_wcB"
-                                                target="_blank" class="meta productName">Canon EOS M50
-                                            </a>
-                                            <span class="meta category">tech</span>
-                                            <a class="username" href="/account/005ff52e-19cb-40cb-b4cd-01a74701d4a9"
-                                                target="_blank">by <span class="innerUser">Thomas</span></a>
-                                        </div>
-                                        <p class="meta overview">
-                                            The Canon EOS M50 Mark II camera is an impressive
-                                            upgrade with enhanced autofocus and streaming
-                                            capabilities. It offers greater accuracy and speed when
-                                            tracking moving subjects, making it ideal for
-                                            action-packed scenes and sports photography. The camera
-                                            can now be used as a webcam for high-quality video
-                                            conferencing, live streaming, and content creation.
-                                            Other features include a high-resolution electronic
-                                            viewfinder, a flip-out touchscreen display, and an
-                                            intuitive user interface. The M50 Mark II is a versatile
-                                            and reliable tool for capturing high-quality content,
-                                            and its user-friendly design makes it accessible to a
-                                            wide range of users.
-                                        </p>
-                                        <div class="buttons">
-                                            <form onsubmit=""></form>
-                                        </div>
-                                    </div>
-
-                                    <a href="/review/f4fe518b-6909-424c-9a0b-3f827a806c27" style="display: none">SEO
-                                        CRAWLER HELPER</a>
-                                </div>
-                            </article>
-                            <article class="review outer" id="f4fe518b-6909-424c-9a0b-3f827a806c27"
-                                href="/review/f4fe518b-6909-424c-9a0b-3f827a806c27" onclick="">
-                                <div class="review inner">
-                                    <div class="image" style="
-                        background-image: url('https://styrate.s3.amazonaws.com/static/profileImage/fb8eaba8-5f1b-4bf9-9c66-af0d2ac132ae__IMG_9631.acr.jpeg');
-                      "></div>
-                                    <div class="itemInfo">
-                                        <h3 id="like_f4fe518b-6909-424c-9a0b-3f827a806c27">
-                                            Canon EOS M50 Mark II Camera: Finally a Camera with
-                                            Upgraded Autofocus and Streaming Features
-                                        </h3>
-                                        <div class="innerInfo">
-                                            <a href="https://www.bhphotovideo.com/c/product/1598385-REG/canon_4728c006_eos_m50_mark_ii.html/?ap=y&amp;ap=y&amp;smp=ba_f1_lar&amp;smp=y&amp;lsft=BI%3A514&amp;gclid=Cj0KCQjw6cKiBhD5ARIsAKXUdyY-2SMVEC2oxVHFifXrzM4bAKhYLMwd3MgJe03xxnIDBeZ7vgfMUtQaApanEALw_wcB"
-                                                target="_blank" class="meta productName">Canon EOS M50
-                                            </a>
-                                            <span class="meta category">tech</span>
-                                            <a class="username" href="/account/005ff52e-19cb-40cb-b4cd-01a74701d4a9"
-                                                target="_blank">by <span class="innerUser">Thomas</span></a>
-                                        </div>
-                                        <p class="meta overview">
-                                            The Canon EOS M50 Mark II camera is an impressive
-                                            upgrade with enhanced autofocus and streaming
-                                            capabilities. It offers greater accuracy and speed when
-                                            tracking moving subjects, making it ideal for
-                                            action-packed scenes and sports photography. The camera
-                                            can now be used as a webcam for high-quality video
-                                            conferencing, live streaming, and content creation.
-                                            Other features include a high-resolution electronic
-                                            viewfinder, a flip-out touchscreen display, and an
-                                            intuitive user interface. The M50 Mark II is a versatile
-                                            and reliable tool for capturing high-quality content,
-                                            and its user-friendly design makes it accessible to a
-                                            wide range of users.
-                                        </p>
-                                        <div class="buttons">
-                                            <form onsubmit=""></form>
-                                        </div>
-                                    </div>
-
-                                    <a href="/review/f4fe518b-6909-424c-9a0b-3f827a806c27" style="display: none">SEO
-                                        CRAWLER HELPER</a>
-                                </div>
-                            </article>
-                            <!-- </div> -->
-
-                            <article class="review outer" id="f4fe518b-6909-424c-9a0b-3f827a806c27"
-                                href="/review/f4fe518b-6909-424c-9a0b-3f827a806c27" onclick="">
-                                <div class="review inner">
-                                    <div class="image" style="
-                        background-image: url('https://styrate.s3.amazonaws.com/static/profileImage/fb8eaba8-5f1b-4bf9-9c66-af0d2ac132ae__IMG_9631.acr.jpeg');
-                      "></div>
-                                    <div class="itemInfo">
-                                        <h3 id="like_f4fe518b-6909-424c-9a0b-3f827a806c27">
-                                            Canon EOS M50 Mark II Camera: Finally a Camera with
-                                            Upgraded Autofocus and Streaming Features
-                                        </h3>
-                                        <div class="innerInfo">
-                                            <a href="https://www.bhphotovideo.com/c/product/1598385-REG/canon_4728c006_eos_m50_mark_ii.html/?ap=y&amp;ap=y&amp;smp=ba_f1_lar&amp;smp=y&amp;lsft=BI%3A514&amp;gclid=Cj0KCQjw6cKiBhD5ARIsAKXUdyY-2SMVEC2oxVHFifXrzM4bAKhYLMwd3MgJe03xxnIDBeZ7vgfMUtQaApanEALw_wcB"
-                                                target="_blank" class="meta productName">Canon EOS M50
-                                            </a>
-                                            <span class="meta category">tech</span>
-                                            <a class="username" href="/account/005ff52e-19cb-40cb-b4cd-01a74701d4a9"
-                                                target="_blank">by <span class="innerUser">Thomas</span></a>
-                                        </div>
-                                        <p class="meta overview">
-                                            The Canon EOS M50 Mark II camera is an impressive
-                                            upgrade with enhanced autofocus and streaming
-                                            capabilities. It offers greater accuracy and speed when
-                                            tracking moving subjects, making it ideal for
-                                            action-packed scenes and sports photography. The camera
-                                            can now be used as a webcam for high-quality video
-                                            conferencing, live streaming, and content creation.
-                                            Other features include a high-resolution electronic
-                                            viewfinder, a flip-out touchscreen display, and an
-                                            intuitive user interface. The M50 Mark II is a versatile
-                                            and reliable tool for capturing high-quality content,
-                                            and its user-friendly design makes it accessible to a
-                                            wide range of users.
-                                        </p>
-                                        <div class="buttons">
-                                            <form onsubmit=""></form>
-                                        </div>
-                                    </div>
-
-                                    <a href="/review/f4fe518b-6909-424c-9a0b-3f827a806c27" style="display: none">SEO
-                                        CRAWLER HELPER</a>
-                                </div>
-                            </article>
-                            <article class="review outer" id="90c10bfa-b1b0-47c7-ac19-6a2e54323819"
-                                href="/review/90c10bfa-b1b0-47c7-ac19-6a2e54323819"
-                                onclick='redirectToReview(event, "/review/90c10bfa-b1b0-47c7-ac19-6a2e54323819")'>
-                                <div class="review inner">
-                                    <div class="image" style="
-                        background-image: url('https://styrate.s3.amazonaws.com/static/profileImage/ae07a855-d426-4999-8b10-68e99b9d57a6__mobile.jpg');
-                      "></div>
-                                    <div class="itemInfo">
-                                        <h3 id="like_90c10bfa-b1b0-47c7-ac19-6a2e54323819">
-                                            The perfume that smells absolutely amazing
-                                        </h3>
-                                        <div class="innerInfo">
-                                            <a href="https://www.sephora.com/ca/en/product/nest-madagascar-vanilla-perfume-oil-P470232?country_switch=ca&amp;skuId=2411429&amp;om_mmc=ppc-GG_2024543025_70610903454_aud-1530325602921%3Apla-419087547282_2411429_354742832580_9000913_c&amp;gclid=Cj0KCQiAoY-PBhCNARIsABcz7727sPqmL13JGlhBemzvwuehuBcAr5uq95WNjbOIWOUj8wlJaf8cc34aAh4ZEALw_wcB&amp;gclsrc=aw.ds"
-                                                target="_blank" class="meta productName">Nest Vanilla Perfume
-                                            </a>
-                                            <span class="meta category">beauty</span>
-                                            <a class="username" href="/account/005ff52e-19cb-40cb-b4cd-01a74701d4a9"
-                                                target="_blank">by <span class="innerUser">Thomas</span></a>
-                                        </div>
-                                        <p class="meta overview">
-                                            The Nest Madagascar Vanilla Perfume Oil is a luxurious
-                                            and long-lasting fragrance that features the rich and
-                                            warm aroma of vanilla beans from Madagascar. The perfume
-                                            oil is crafted with high-quality ingredients and
-                                            designed to be applied to pulse points on the body, such
-                                            as the wrists, neck, and temples, to provide a subtle
-                                            yet sophisticated scent that lingers throughout the day.
-                                            Many customers who have tried the Nest Madagascar
-                                            Vanilla Perfume Oil praise its natural and authentic
-                                            vanilla scent, noting that it is not too overpowering or
-                                            artificial. Some also mention that the oil is very
-                                            moisturizing and does not leave a greasy residue on the
-                                            skin
-                                        </p>
-                                        <div class="buttons">
-                                            <form onsubmit=""></form>
-                                        </div>
-                                    </div>
-
-                                    <a href="/review/90c10bfa-b1b0-47c7-ac19-6a2e54323819" style="display: none">SEO
-                                        CRAWLER HELPER</a>
-                                </div>
-                            </article>
+                        <p class="meta overview">{{review.textField}}</p>
+    
+                        <div class="buttons">
+                            <form onsubmit='handleLike(event, "{{review.id}}", "{{review.userLiked}}", "{{request.user.is_authenticated}}", "{{review.userDisLiked}}")'>
+                                {% if not review.userLiked %}
+                                <button type="submit" class='displayOn'>
+                                    <div  class='upvote normal' style='background-image: url("/css/Media/heartOff.png")'></div>
+                                    <div  class='upvote alternate' style='background-image: url("/css/Media/heartOn.png")'></div>
+                                    <span class="spanLike">{{review.likeCountVideo}}</span>
+                                </button>
+                                {% else %}
+                                <button type="submit"  class='normal displayOff'>
+                                    <div  class='upvote normal' style='background-image: url("/css/Media/heartOn.png")'></div>
+                                    <div  class='upvote alternate' style='background-image: url("/css/Media/heartOff.png")'></div>
+                                    <span class="spanLike">{{review.likeCountVideo}}</span>
+                                </button>
+                                {% endif %}
+                            </form>
+                            <form style="padding-left:30px" onsubmit='handleDisLike(event, "{{review.id}}", "{{review.userDisLiked}}", "{{request.user.is_authenticated}}", "{{review.userLiked}}")'>
+                                {% if not review.userDisLiked %}
+                                <button type="submit" class='displayOn'>
+                                    <div  class='upvote normal' style='background-image: url("/css/Media/heartOff.png"); rotate:180deg'></div>
+                                    <div  class='upvote alternateDisLike' style='background-image: url("/css/Media/heartOn.png"); rotate:180deg'></div>
+                                    <span class="spanDisLike">{{review.disLikeCount}}</span>
+                                </button>
+                                {% else %}
+                                <button type="submit"  class='normal displayOff'>
+                                    <div  class='upvote normal' style='background-image: url("/css/Media/heartOn.png"); rotate:180deg'></div>
+                                    <div  class='upvote alternateDisLike' style='background-image: url("/css/Media/heartOff.png"); rotate:180deg'></div>
+                                    <span class="spanDisLike">{{review.disLikeCount}}</span>
+                                </button>
+                                {% endif %}
+                            </form>
                         </div>
                     </div>
-                </div>
-
-                <style>
-                    .top {
-                        display: flex;
-                    }
-
-                    .reviews>.outer {
-                        width: 50% !important;
-                    }
-
-                    div.reviewList.outer {
-                        width: 100%;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                    }
-
-                    div.reviewList.inner {
-                        width: 100%;
-                        display: flex;
-                        flex-direction: column;
-                        max-width: 1500px;
-                    }
-
-                    div.reviewList.inner .reviews {
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 2rem;
-                    }
-
-                    /* If on mobile, make it one column */
-                    @media (max-width: 768px) {
-                        div.reviewList.inner .reviews {
-                            grid-template-columns: 1fr;
-                        }
-                    }
-
-                    .top {
-                        grid-area: 1 / 2;
-                        display: inline !important;
-                    }
-
-                    div.reviewList.inner .filters.outer {
-                        width: 100%;
-                        display: flex;
-                        align-items: center;
-                    }
-
-                    div.reviewList.inner .review.outer {
-                        display: flex;
-                        width: 100%;
-                        background-color: #fff;
-                        border-radius: 10px;
-                        box-shadow: 0 0 3px #aaa;
-                        cursor: pointer;
-                        height: -moz-fit-content;
-                        height: fit-content;
-                        margin-bottom: 30px;
-                        min-height: 100%;
-                        max-width: fit-content !important;
-                        min-width: 40rem;
-                    }
-
-                    div.reviewList.inner .review.outer:hover {
-                        background-color: #efefef;
-                    }
-
-                    div.reviewList.inner .review.outer:last-of-type {
-                        margin-bottom: 0;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner {
-                        width: 100%;
-                        box-sizing: border-box;
-                        padding: 20px;
-                        /* display: flex; */
-                        flex-direction: row;
-                        min-width: 40rem;
-                        height: max-content;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner h3 {
-                        font-size: 1.2em;
-                        font-weight: 500;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .meta.underTitle {
-                        font-size: 0.9em;
-                        margin-top: 5px;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .meta.underTitle span {
-                        all: inherit;
-                        display: inline-block;
-                        margin: 0;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .meta.underTitle span.username {
-                        font-weight: 500;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .image {
-                        height: clamp(300px, 20vw, 500px);
-                        width: clamp(300px, 20vw, 500px);
-                        border-radius: 10px;
-                        background-color: #ddd;
-                        background-size: cover;
-                        background-repeat: no-repeat;
-                        background-position: center;
-                        flex-shrink: 0;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .itemInfo {
-                        display: flex;
-                        flex-direction: column;
-                        flex-grow: 1;
-                        margin: 0 20px;
-                        width: 40%;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .itemInfo a.productName {
-                        display: inline-block;
-                        font-size: 0.9em;
-                        background-color: #000;
-                        color: #fff;
-                        padding: 5px;
-                        border-radius: 3px;
-                        font-size: 0.8em;
-                        cursor: pointer;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .itemInfo a.productName:hover {
-                        background-color: #333;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo {
-                        width: 100%;
-                        margin-top: 20px;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo .category {
-                        background-color: #ddd;
-                        color: #000;
-                        padding: 5px;
-                        width: -moz-fit-content;
-                        width: fit-content;
-                        font-size: 0.8em;
-                        border-radius: 3px;
-                        margin: 0 5px;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo .username {
-                        background-color: #ddd;
-                        color: #000;
-                        padding: 5px;
-                        border-radius: 3px;
-                        font-size: 0.8em;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo .username span {
-                        all: inherit;
-                        display: inline-block;
-                        padding: 0;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo .username:hover span {
-                        text-decoration: underline;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .overview {
-                        margin-top: 30px;
-                        font-size: 0.9em;
-                        line-height: 1.8;
-                        height: 100px;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons {
-                        display: flex;
-                        align-items: center;
-                        margin-top: 20px;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form {
-                        width: -moz-fit-content;
-                        width: fit-content;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form .upvote.normal {
-                        display: flex;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form .upvote.alternate {
-                        display: none;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form.alternate .upvote.normal {
-                        display: none;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form.alternate .upvote.alternate {
-                        display: flex;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form button {
-                        display: flex;
-                        align-items: center;
-                        background-color: #ddd;
-                        border: none;
-                        border-radius: 5px;
-                        padding: 10px 15px;
-                        font-weight: 500;
-                        width: 100px;
-                        justify-content: center;
-                        cursor: pointer;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form button:hover {
-                        background-color: #ccc;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form button .upvote {
-                        height: 20px;
-                        width: 20px;
-                        background-size: cover;
-                        background-position: center;
-                        background-repeat: no-repeat;
-                        margin-right: 10px;
-                    }
-
-                    div.reviewList.inner .review.outer .review.inner .buttons form button span {
-                        font-weight: 500;
-                    }
-
-                    div.reviewList.inner .filters.outer {
-                        width: 100%;
-                        margin-bottom: 20px;
-                    }
-
-                    div.reviewList.inner .filters.outer form {
-                        width: 100%;
-                        display: flex;
-                        align-items: center;
-                    }
-
-                    div.reviewList.inner .filters.outer form input {
-                        width: 300px;
-                        height: 40px;
-                        background-color: #fff;
-                        border-radius: 5px;
-                        margin-right: 10px;
-                        border: 2px solid #ddd;
-                        padding: 5px;
-                        box-sizing: border-box;
-                        font-weight: 500;
-                    }
-
-                    div.reviewList.inner .filters.outer form button {
-                        margin-right: 10px;
-                        width: 80px;
-                        height: 40px;
-                        border-radius: 5px;
-                        font-weight: 500;
-                        cursor: pointer;
-                        border-radius: 5px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-
-                    div.reviewList.inner .filters.outer form button.search {
-                        background-color: #2f59ff;
-                        color: #fff;
-                    }
-
-                    div.reviewList.inner .filters.outer form button.search:hover {
-                        opacity: 0.9;
-                    }
-
-                    div.reviewList.inner .filters.outer form .dropDown select {
-                        width: 150px;
-                        height: 40px;
-                        background-color: #fff;
-                        border-radius: 5px;
-                        margin-right: 10px;
-                        border: 2px solid #ddd;
-                        padding: 5px;
-                        font-weight: 500;
-                        box-sizing: border-box;
-                        cursor: pointer;
-                    }
-
-                    div.reviewList.inner .filters.outer form .dropDown select:hover {
-                        background-color: #eee;
-                    }
-                </style>
-            </div>
-        </section>
-        <style>
-            section#home {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                margin-top: 20px;
-                margin-bottom: 40px;
-            }
-        </style>
+                    {% comment %} Adding an invisible anchor tag for SEO crawlers {% endcomment %}
+                    <a href="/review/{{review.id}}" style='display:none;'>SEO CRAWLER HELPER</a>
+                </div> 
+            </article>
+            {% endfor %}
+        </div>
+        
     </div>
-    <style>
-        @import "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap";
-
-        * {
-            margin: 0;
-            border: 0;
-            padding: 0;
-            text-decoration: none;
-            list-style: none;
-            font-size: 16px;
-            font-weight: normal;
-            color: inherit;
-            font-family: "Open Sans", sans-serif;
-            letter-spacing: inherit;
+</div>
+<script defer>
+</script>
+<script defer>
+    
+    
+    const redirectToReview = (e, redirectLink) => {
+        clickedElement = e.target
+        if(!clickedElement.classList.contains('productName') && !clickedElement.classList.contains('username') && !clickedElement.classList.contains('innerUser') && clickedElement.closest('.buttons')==null){
+            window.location.href = redirectLink
         }
-
-        html {
-            background-color: #fff;
+    }
+    const handleDisLike = async(e, reviewID, userDisLiked, userLoggedIn, userLiked) => {
+        e.preventDefault()
+        
+        if (userLoggedIn === "False") {
+            window.location.href = "/login"
+            return
         }
-
-        html,
-        body {
-            width: 100%;
-            height: -moz-fit-content;
-            height: fit-content;
+        originalUserDisLiked = userDisLiked
+        if (e.target.classList.contains("alternateDisLike")) {
+            userDisLiked = userDisLiked === "True" ? "False" : "True"
         }
-
-        .center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        const formData = new FormData()
+        formData.append('reviewID', reviewID)  
+        formData.append('userDisLiked', userDisLiked) 
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+        
+        const response = await fetch('/dislikecontrol', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: formData
+        })
+        const data = await response.json()
+        if(data.success){
+            e.target.classList.toggle('alternateDisLike')
+            spanElement = e.target.querySelector('.spanDisLike')
+            currLikes = parseInt(spanElement.innerText)
+            if(originalUserDisLiked === 'True'){
+                if(e.target.classList.contains('alternateDisLike')){
+                    spanElement.innerText = currLikes -1
+                }else{
+                    spanElement.innerText = currLikes +1
+                }
+            }else{
+                if(e.target.classList.contains('alternateDisLike')){
+                    spanElement.innerText = currLikes +1
+                }else{
+                    spanElement.innerText = currLikes -1
+                }
+            }
         }
+        
+    }
+    const handleLike = async(e, reviewID, userLiked, userLoggedIn, userDisLiked) => {
+        
+        e.preventDefault()
+        // checking whether the user is request.user.is_authenticated
+        
 
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f8f8f8;
-            min-height: 100vh;
+        if(userLoggedIn==='False'){
+            window.location.href = '/login'
+            return
         }
-
-        body .headerContainer,
-        body .contentContainer {
-            width: 100%;
-            height: -moz-fit-content;
-            height: fit-content;
-            display: flex;
-            flex-direction: column;
+        // checking whether the alternate or normal
+        originalUserLiked = userLiked
+        if(e.target.classList.contains('alternate')){
+            userLiked = userLiked === 'True' ? 'False' : 'True'
         }
-
-        body .contentContainer {
-            margin-top: 80px;
-            width: 90%;
-            max-width: 2000px;
+        const formData = new FormData()
+        formData.append('reviewID', reviewID)  
+        formData.append('userLiked', userLiked) 
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+        const response = await fetch('/likeVideo', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: formData
+        })
+        const data = await response.json()
+        if(data.success){
+            e.target.classList.toggle('alternate')
+            spanElement = e.target.querySelector('.spanLike')
+            currLikes = parseInt(spanElement.innerText)
+            
+            if(originalUserLiked === 'True'){
+                if(e.target.classList.contains('alternate')){
+                    spanElement.innerText = currLikes -1
+                }else{
+                    spanElement.innerText = currLikes +1
+                }
+            }else{
+                if(e.target.classList.contains('alternate')){
+                    spanElement.innerText = currLikes +1
+                }else{
+                    spanElement.innerText = currLikes -1
+                }
+            }
         }
-
-        .review.inner {
-            display: block;
-        }
-    </style>
-</body>
-
-</html>
+        
+    }
+</script>
+<style>
+   
+    div.reviewList.inner .review.outer .review.inner .buttons form .upvote.alternateDisLike{
+        display:none
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form.alternateDisLike .upvote.normal{
+        display:none
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form.alternateDisLike .upvote.alternateDisLike{
+        display:flex
+    }
+    div.reviewList.outer{
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        align-items:center
+    }
+    div.reviewList.inner{
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        max-width:1500px
+    }
+    div.reviewList.inner .reviews{
+        width:100%;
+        display:flex;
+        flex-direction:column
+    }
+    div.reviewList.inner .filters.outer{
+        width:100%;
+        display:flex;
+        align-items:center
+    }
+    div.reviewList.inner .review.outer{
+        display:flex;
+        width:100%;
+        background-color:#fff;
+        border-radius:10px;
+        box-shadow:0 0 3px #aaa;
+        cursor:pointer;
+        height:-moz-fit-content;
+        height:fit-content;
+        margin-bottom:30px;
+        min-height:100%
+    }
+    div.reviewList.inner .review.outer:hover{
+        background-color:#efefef
+    }
+    div.reviewList.inner .review.outer:last-of-type{
+        margin-bottom:0
+    }
+    div.reviewList.inner .review.outer .review.inner{
+        width:100%;
+        box-sizing:border-box;
+        padding:20px;
+        display:flex;
+        flex-direction:row
+    }
+    div.reviewList.inner .review.outer .review.inner h3{
+        font-size:1.2em;
+        font-weight:500
+    }
+    div.reviewList.inner .review.outer .review.inner .meta.underTitle{
+        font-size:.9em;
+        margin-top:5px
+    }
+    div.reviewList.inner .review.outer .review.inner .meta.underTitle span{
+        all:inherit;
+        display:inline-block;
+        margin:0
+    }
+    div.reviewList.inner .review.outer .review.inner .meta.underTitle span.username{
+        font-weight:500
+    }
+    div.reviewList.inner .review.outer .review.inner .image{
+        height:clamp(300px,20vw,500px);
+        width:clamp(300px,20vw,500px);
+        border-radius:10px;
+        background-color:#ddd;
+        background-size:cover;
+        background-repeat:no-repeat;
+        background-position:center;
+        flex-shrink:0
+    }
+    div.reviewList.inner .review.outer .review.inner .itemInfo{
+        display:flex;
+        flex-direction:column;
+        flex-grow:1;
+        margin:0 20px
+    }
+    div.reviewList.inner .review.outer .review.inner .itemInfo a.productName{
+        display:inline-block;
+        font-size:.9em;
+        background-color:#000;
+        color:#fff;
+        padding:5px;
+        border-radius:3px;
+        font-size:.8em;
+        cursor:pointer
+    }
+    div.reviewList.inner .review.outer .review.inner .itemInfo a.productName:hover{
+        background-color:#333
+    }
+    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo{
+        width:100%;
+        margin-top:20px
+    }
+    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo .category{
+        background-color:#ddd;
+        color:#000;
+        padding:5px;
+        width:-moz-fit-content;
+        width:fit-content;
+        font-size:.8em;
+        border-radius:3px;
+        margin:0 5px
+    }
+    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo .username{
+        background-color:#ddd;
+        color:#000;
+        padding:5px;
+        border-radius:3px;
+        font-size:.8em
+    }
+    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo .username span{
+        all:inherit;
+        display:inline-block;
+        padding:0
+    }
+    div.reviewList.inner .review.outer .review.inner .itemInfo .innerInfo .username:hover span{
+        text-decoration:underline
+    }
+    div.reviewList.inner .review.outer .review.inner .overview{
+        margin-top:30px;
+        font-size:.9em;
+        line-height:1.8;
+        height:100px;
+        overflow:hidden;
+        text-overflow:ellipsis
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons{
+        display:flex;
+        align-items:center;
+        margin-top:20px
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form{
+        width:-moz-fit-content;
+        width:fit-content
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form .upvote.normal{
+        display:flex
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form .upvote.alternate{
+        display:none
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form.alternate .upvote.normal{
+        display:none
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form.alternate .upvote.alternate{
+        display:flex
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form button{
+        display:flex;
+        align-items:center;
+        background-color:#ddd;
+        border:none;
+        border-radius:5px;
+        padding:10px 15px;
+        font-weight:500;
+        width:100px;
+        justify-content:center;
+        cursor:pointer
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form button:hover{
+        background-color:#ccc
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form button .upvote{
+        height:20px;
+        width:20px;
+        background-size:cover;
+        background-position:center;
+        background-repeat:no-repeat;
+        margin-right:10px
+    }
+    div.reviewList.inner .review.outer .review.inner .buttons form button span{
+        font-weight:500
+    }
+    div.reviewList.inner .filters.outer{
+        width:100%;
+        margin-bottom:20px
+    }
+    div.reviewList.inner .filters.outer form{
+        width:100%;
+        display:flex;
+        align-items:center
+    }
+    div.reviewList.inner .filters.outer form input{
+        width:300px;
+        height:40px;
+        background-color:#fff;
+        border-radius:5px;
+        margin-right:10px;
+        border:2px solid #ddd;
+        padding:5px;
+        box-sizing:border-box;
+        font-weight:500
+    }
+    div.reviewList.inner .filters.outer form button{
+        margin-right:10px;
+        width:80px;
+        height:40px;
+        border-radius:5px;
+        font-weight:500;
+        cursor:pointer;
+        border-radius:5px;
+        display:flex;
+        align-items:center;
+        justify-content:center
+    }
+    div.reviewList.inner .filters.outer form button.search{
+        background-color:#2f59ff;
+        color:#fff
+    }
+    div.reviewList.inner .filters.outer form button.search:hover{
+        opacity:.9
+    }
+    div.reviewList.inner .filters.outer form .dropDown select{
+        width:150px;
+        height:40px;
+        background-color:#fff;
+        border-radius:5px;
+        margin-right:10px;
+        border:2px solid #ddd;
+        padding:5px;
+        font-weight:500;
+        box-sizing:border-box;
+        cursor:pointer
+    }
+    div.reviewList.inner .filters.outer form .dropDown select:hover{
+        background-color:#eee
+    }
+    
+</style>
