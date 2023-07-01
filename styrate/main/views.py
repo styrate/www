@@ -15,6 +15,7 @@ import os
 from threading import Thread
 from django.db.models import Q
 
+
 def renderLanding(request):
     payload = {
         'pageTitle': 'Styrate',
@@ -22,16 +23,20 @@ def renderLanding(request):
 
     return render(request, 'main/landing/index.html', payload)
 
- new-branch
+#  new-branch
 def renderShowdown(request):
+    
+
+    videos = Review.objects.all().order_by("likeCountVideo")[::-1][:3]
     payload = {
         'pageTitle': 'Styrate - Showdown',
+        "review": videos
     }
-
+    
     return render(request, 'main/showdown/index.html', payload)
 
 
-main
+# main
 def renderIndex(request):
     # Getting filter params
     searchValue = request.GET.get('search', None)
@@ -70,6 +75,7 @@ def renderIndex(request):
         'sort': sortValue,
         'followed': followedValue,
     }
+    
     return render(request, 'main/Home/home.html', payload)
 
 
@@ -86,7 +92,40 @@ def renderReviewPage(request, reviewID):
         'reviewObject': ALTERED_reviewObject,
         'commentObjects': commentObjects,
     }
+    
     return render(request, 'main/Review/review.html', payload)
+
+def isVideoLiked(request, review: Review):
+    if LikeVideo.objects.filter(
+        onReview_Key=review, createdByUser_Key=request.user.id):
+        return True
+    return False
+
+def isVideoDisLiked(request, review):
+    
+    if DisLike.objects.filter(
+        onReview_Key=review.id, createdByUser_Key=request.user.id):
+        return True
+    return False
+def renderSubmitted(request):
+    reviews = Review.objects.all().order_by("likeCountVideo" ,"disLikeCount")[::-1]
+    for review in reviews:
+        if isVideoDisLiked(request=request, review=review):
+            review.userDisLiked = True
+        else:
+            review.userDisLiked = False
+        if isVideoLiked(request=request, review=review):
+            review.userLiked = True
+        else:
+            review.userLiked = False
+        print(review.likeCountVideo)
+        
+        
+    print("Here")
+    payload = {
+        "reviews": reviews
+    }
+    return render(request, "main/showdown/submitted.html", payload)
 
 def renderlogIn(request):
     payload = {
@@ -112,7 +151,6 @@ def renderAccountPage(request, id):
     if User.objects.filter(id=id).exists():
         userObject = User.objects.get(id=id)
         ALTERED_userObject = GeneralController.AccountInformation(request=request, userObject=userObject)
-        print(ALTERED_userObject)
         payload = {
             'pageTitle': 'Account | '+userObject.username,
             'userObject': ALTERED_userObject
@@ -129,6 +167,8 @@ def renderTop(request):
         'userObjects': userObjects
     }
     return render(request, 'main/Top/top.html', payload)
+
+
 
 # API
 def newComment(request):
@@ -150,30 +190,37 @@ def newReview(request):
     if(request.user.is_authenticated):
         isYT = request.POST.get('isYT', False)
         if isYT=='on': isYT=True
-        try:
-            newReview = Review(
-                title = request.POST["reviewTitle"],
-                productName = request.POST["reviewProductName"],
-                rating = request.POST["reviewRating"],
-                createdByUser_Key = User.objects.get(id=request.user.id),
-                itemCategory = request.POST["reviewCategory"],
-                textField = request.POST["reviewBody"],
-                overview = request.POST["reviewOverview"],
-                itemLink = request.POST["reviewProductLink"],
-                videoID = request.POST["reviewVideoID"],
-                image = request.FILES['reviewImage'],
-                videoIsYT = isYT,
-                likeCount = 0
-            )
-            newReview.save()
-            return redirect('/review/'+str(newReview.id))
-        except Exception as e:
-            payload = {
-                'pageTitle': 'Create - Error',
-            }
-            return render(request, 'main/New/new.html', {'errorMessage':e })
+        if request.method == "POST": 
+            
+            try:
+                newReview = Review(
+                    title = request.POST["reviewTitle"],
+                    # productName = request.POST["reviewProductName"],
+                    rating = request.POST["reviewRating"],
+                    createdByUser_Key = User.objects.get(id=request.user.id),
+                    itemCategory = request.POST["reviewCategory"],
+                    textField = request.POST["reviewBody"],
+                    overview = request.POST["reviewOverview"],
+                    itemLink = request.POST["reviewProductLink"],
+                    videoID = request.POST["reviewVideoID"],
+                    image = request.FILES['reviewImage'],
+                    videoIsYT = isYT,
+                    likeCount = 0
+                )
+                print(newReview.image)
+                newReview.save()
+                print("saved!")
+                return redirect('/review/'+str(newReview.id))
+            except Exception as e:
+                payload = {
+                    'pageTitle': 'Create - Error',
+                }
+                
+                return render(request, "main/showdown/newreview.html", {'errorMessage': e})
+            
     else: 
         return redirect('/login')
+    return render(request, "main/showdown/newreview.html")
 
 def followHandler(request):
     try:
@@ -192,6 +239,7 @@ def followHandler(request):
 
 def likeControl(request):
     if request.user.is_authenticated:
+        print(request.user)
         userLiked = request.POST.get('userLiked')
         if userLiked=='False' or userLiked=='false' or userLiked==False:
             Like(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).save()
@@ -207,6 +255,50 @@ def likeControl(request):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False})
+    
+def like_video(request):
+    if request.user.is_authenticated:
+        
+        userLiked = request.POST.get("userLiked")
+        vals = ["False", "false", False]
+        if userLiked in vals:
+            
+            LikeVideo(createdByUser_Key=User.objects.get(id=request.user.id), 
+                    onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))
+                    ).save()  
+        else:
+            LikeVideo.objects.filter(createdByUser_Key=User.objects.get(id=request.user.id),
+                                   onReview_Key=Review.objects.get(id=request.POST.get('reviewID')),
+                                   ).delete()
+        review = Review.objects.get(id=request.POST.get("reviewID"))
+        LikeCountOnObject = len(LikeVideo.objects.filter(
+            onReview_Key=Review.objects.get(id=request.POST.get("reviewID"))))
+        review.likeCountVideo = LikeCountOnObject
+        review.save()
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False})
+def disLikeControl(request):
+    
+    if request.user.is_authenticated:
+        
+        userDisLiked = request.POST.get("userDisLiked")
+        vals = ["False", "false", False]
+        if userDisLiked in vals:
+            DisLike(createdByUser_Key=User.objects.get(id=request.user.id), 
+                    onReview_Key=Review.objects.get(id=request.POST.get('reviewID')),
+                    ).save()  
+        else:
+            DisLike.objects.filter(createdByUser_Key=User.objects.get(id=request.user.id),
+                                   onReview_Key=Review.objects.get(id=request.POST.get('reviewID')),
+                                   ).delete()
+        review = Review.objects.get(id=request.POST.get("reviewID"))
+        disLikeCountOnObject = len(DisLike.objects.filter(
+            onReview_Key=Review.objects.get(id=request.POST.get("reviewID"))))
+        review.disLikeCount = disLikeCountOnObject
+        review.save()
+        return JsonResponse({"success": True})
+    
+    return JsonResponse({"success": False})
 
 def editProfile(reqeust):
     try:

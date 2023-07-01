@@ -13,6 +13,16 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from .env import *
 import os
+import environ
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# initialize environment variables 
+
+env_vars = environ.Env()
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +53,7 @@ INSTALLED_APPS = [
     'main',
     'storages',
     'corsheaders',
+    'cloudinary'
     # 'compressor',
 ]
 
@@ -130,10 +141,24 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Cloudinary settings
+CLOUD_NAME = env_vars("CLOUD_NAME")
+API_KEY = env_vars("API_KEY")
+API_SECRET = env_vars("API_SECRET")
+
+# cloudinary configuration
+
+cloudinary.config(
+    cloud_name=CLOUD_NAME,
+    api_key=API_KEY,
+    api_secret=API_SECRET
+)
+
 # Additions
 AUTH_USER_MODEL= 'main.User'
 USE_S3 = GV_AWS_USE_S3
 
+USE_S3 = False
 if USE_S3:
     # aws settings
     ADMIN_MEDIA_PREFIX = '/static/admin/'
@@ -154,6 +179,7 @@ if USE_S3:
 else:
     STATIC_URL = 'static/'
     # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 import uuid
+from cloudinary.models import CloudinaryField
+
 
 # Change filename
 class ChangeName:
@@ -21,7 +23,6 @@ class User(AbstractUser):
     image = models.ImageField(editable=True, blank=True, null=True, upload_to=ChangeName.userImage)
     ranking = models.IntegerField(editable=True, null=True, blank=True)
     likeCount = models.IntegerField(editable=True, null=True, blank=True)
-    pass
 
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
@@ -30,13 +31,15 @@ class Review(models.Model):
     overview = models.CharField(max_length=100, editable=True, null=True)
     textField = models.CharField(max_length=1000, editable=True, blank=True, null=True)
     itemCategory = models.CharField(max_length=20, editable=True, null=True)
-    image = models.ImageField(editable=True, blank=True, null=True, upload_to=ChangeName.reviewImage)
+    image = CloudinaryField("image", null=True)
     videoID = models.CharField(max_length=100, editable=True)
     videoIsYT = models.BooleanField(auto_created=False, editable=True, null=True, blank=True)
     productName = models.CharField(max_length=25, editable=True, null=True)
     itemLink = models.CharField(max_length=150, editable=True, null=True)
     rating = models.IntegerField(editable=True, auto_created=0)
     likeCount = models.IntegerField(editable=True, null=True, blank=True)
+    disLikeCount = models.IntegerField(editable=True, null=True, blank=True, default=0)
+    likeCountVideo = models.IntegerField(editable=True, null=True, blank=True, default=0)
     createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ReviewsCreatedBy_List')
 
 class Follow(models.Model):
@@ -57,3 +60,15 @@ class Like(models.Model):
     dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
     createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='LikesOfUser_List')
     onReview_Key = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='LikesOfPost_List')
+
+class DisLike(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
+    createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='DisLikesOfUser_List')
+    onReview_Key = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='DisLikesOfPost_List')
+    
+class LikeVideo(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
+    dateCreated = models.DateTimeField(auto_now_add=True, editable=True)
+    createdByUser_Key = models.ForeignKey(User, on_delete=models.CASCADE, related_name='LikesOfVideoUser_List')
+    onReview_Key = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='LikesOfVideoPost_List')

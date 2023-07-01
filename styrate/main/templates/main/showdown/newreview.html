@@ -116,6 +116,7 @@
         <section id="new" class="center">
             <form onsubmit="checkReviewDetails(event)" action="/newReview" method="POST" enctype="multipart/form-data"
                 id="newForm" data-form-type="other">
+                {% csrf_token %}
                 <h1>Create A Review</h1>
                 <a href="#" class="reviewLink">Video link</a>
                 <input type="text" required="" name="reviewTitle" data-form-type="title,job">
@@ -125,6 +126,7 @@
                         data-kwimpalastatus="alive" data-kwimpalaid="1684947120595-0" />
                     <span class="off error" id="titleError">Review title should be less than 100 charachters.</span>
                 </div>
+                
                 <div class="inputContainer reviewRating">
                     <label for="reviewRating">Give the product a rating out of 10</label>
                     <input type="number" name="reviewRating" placeholder="" required="" data-form-type="other" />
@@ -165,6 +167,10 @@
                 <div class="inputContainer reviewImage">
                     <label for="reviewImage">Upload an image of the product</label>
                     <input type="file" name="reviewImage" placeholder="" required="" data-form-type="other" />
+                </div>
+                <div class="inputContainer reviewVideo">
+                    <label for="reviewImage">Upload a video of the product</label>
+                    <input type="file" name="reviewVideo" placeholder="" required="" data-form-type="other" />
                 </div>
                 <button type="submit" data-form-type="action">
                     Submit Review
