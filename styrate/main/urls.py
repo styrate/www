@@ -33,8 +33,7 @@ urlpatterns = [
     path("likeVideo", views.like_video, name="likevideo")
 #  new-branch
 ] + static('/css/', document_root=settings.CSS_ROOT) +\
-    static('/landing/', document_root='main/templates/main/landing/') +\
     static('/', document_root='main/templates/main/showdown/') +\
-        static('/css/', document_root = settings.CSS_ROOT) +\
-            static('/landing/', document_root = 'main/templates/main/landing/')
+        static('/css/', document_root = settings.CSS_ROOT) 
+            
 #  main
