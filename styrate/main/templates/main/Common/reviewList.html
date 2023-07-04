@@ -55,14 +55,14 @@
                         <div class="buttons">
                             <form onsubmit='handleLike(event, "{{review.id}}", "{{review.userLiked}}", "{{request.user.is_authenticated}}")'>
                                 {% if not review.userLiked %}
-                                {{review.userLiked}}
+                                
                                 <button type="submit" class='displayOn'>
                                     <div  class='upvote normal' style='background-image: url("/css/Media/heartOff.png")'></div>
                                     <div  class='upvote alternate' style='background-image: url("/css/Media/heartOn.png")'></div>
                                     <span>{{review.likeCount}}</span>
                                 </button>
                                 {% else %}
-                                {{review.userLiked}}
+                                
                                 <button type="submit"  class='normal displayOff'>
                                     <div  class='upvote normal' style='background-image: url("/css/Media/heartOn.png")'></div>
                                     <div  class='upvote alternate' style='background-image: url("/css/Media/heartOff.png")'></div>
@@ -88,6 +88,7 @@
         </div> {% endcomment %}
     </div>
 </div>
+
 <script defer>
 </script>
 <script defer>

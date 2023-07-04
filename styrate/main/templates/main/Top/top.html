@@ -9,7 +9,7 @@
             {% for userObject in userObjects %}
                 {% if userObject.ranking != None %}
                 <div class="user">
-                    <div class="profImage" style='background-image: url("{% static '' %}{{userObject.image}}")'></div>
+                    <div class="profImage" style='background-image: url("{{userObject.image.url}}")'></div>
                     <a href="/account/{{userObject.id}}">{{userObject.username}}</a>
                     <div class="text"><span>Ranking</span><span>{{userObject.ranking}}</span></div>
                 </div>

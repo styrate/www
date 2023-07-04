@@ -1,4 +1,3 @@
-import urllib3
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -118,12 +117,8 @@ def renderSubmitted(request):
             review.userLiked = True
         else:
             review.userLiked = False
-        print(review.likeCountVideo)
-        
-        
-    print("Here")
     payload = {
-        "reviews": reviews
+        "reviews": reviews,
     }
     return render(request, "main/showdown/submitted.html", payload)
 
@@ -151,10 +146,13 @@ def renderAccountPage(request, id):
     if User.objects.filter(id=id).exists():
         userObject = User.objects.get(id=id)
         ALTERED_userObject = GeneralController.AccountInformation(request=request, userObject=userObject)
+        reviews = Review.objects.all().order_by("dateCreated")[::-1]
         payload = {
             'pageTitle': 'Account | '+userObject.username,
-            'userObject': ALTERED_userObject
+            'userObject': ALTERED_userObject,
+            "reviews": reviews
         }
+        
         return render(request, 'main/Account/Account.html', payload)
     
     else:
@@ -207,9 +205,8 @@ def newReview(request):
                     videoIsYT = isYT,
                     likeCount = 0
                 )
-                print(newReview.image)
                 newReview.save()
-                print("saved!")
+                
                 return redirect('/review/'+str(newReview.id))
             except Exception as e:
                 payload = {
@@ -239,7 +236,7 @@ def followHandler(request):
 
 def likeControl(request):
     if request.user.is_authenticated:
-        print(request.user)
+        
         userLiked = request.POST.get('userLiked')
         if userLiked=='False' or userLiked=='false' or userLiked==False:
             Like(createdByUser_Key=User.objects.get(id=request.user.id), onReview_Key=Review.objects.get(id=request.POST.get('reviewID'))).save()

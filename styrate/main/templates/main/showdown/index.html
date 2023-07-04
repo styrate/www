@@ -1,131 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% extends '../layout.html' %}
+{%load static%}
+{% block head %}
     <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
-    <title>Document</title>
     <script defer>
         function embedVideo(videoUrl) {
             if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
-              const videoId = extractYouTubeVideoId(videoUrl);
-              return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            const videoId = extractYouTubeVideoId(videoUrl);
+            return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             } else if (videoUrl.includes('vimeo.com')) {
-              const videoId = extractVimeoVideoId(videoUrl);
-              return `<iframe src="https://player.vimeo.com/video/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            const videoId = extractVimeoVideoId(videoUrl);
+            return `<iframe src="https://player.vimeo.com/video/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
             } else if (videoUrl.includes('facebook.com') || videoUrl.includes('fb.watch')) {
-              const videoId = extractFacebookVideoId(videoUrl);
-              return `<iframe src="https://www.facebook.com/plugins/video.php?href=${videoUrl}&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>`;
+            const videoId = extractFacebookVideoId(videoUrl);
+            return `<iframe src="https://www.facebook.com/plugins/video.php?href=${videoUrl}&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>`;
             } else if (videoUrl.includes('tiktok.com')) {
-              const videoId = extractTikTokVideoId(videoUrl);
-              return `<iframe src="https://www.tiktok.com/embed/v2/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            const videoId = extractTikTokVideoId(videoUrl);
+            return `<iframe src="https://www.tiktok.com/embed/v2/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
             } else {
-              // Handle other platforms or display an error message
-              return 'Video platform not supported';
+            // Handle other platforms or display an error message
+            return 'Video platform not supported';
             }
         }
-    
+
         function extractYouTubeVideoId(url) {
             const youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
             const match = url.match(youtubeRegex);
             return match ? match[1] : null;
-          }
-          
-          function extractVimeoVideoId(url) {
+        }
+        
+        function extractVimeoVideoId(url) {
             const vimeoRegex = /^(?:https?:\/\/)?(?:www\.)?(?:vimeo\.com\/|player\.vimeo\.com\/video\/)([0-9]+)/;
             const match = url.match(vimeoRegex);
             return match ? match[1] : null;
-          }
-          
-          function extractFacebookVideoId(url) {
+        }
+        
+        function extractFacebookVideoId(url) {
             const facebookRegex = /^(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:video\.php\?v=|watch\?v=)([0-9]+)/;
             const match = url.match(facebookRegex);
             return match ? match[1] : null;
-          }
-          
-          function extractInstagramVideoId(url) {
+        }
+        
+        function extractInstagramVideoId(url) {
             const instagramRegex = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p\/|tv\/)([\w-]+)/;
             const match = url.match(instagramRegex);
             return match ? match[1] : null;
-          }
-          
-          function extractTikTokVideoId(url) {
+        }
+        
+        function extractTikTokVideoId(url) {
             const tiktokRegex = /^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/(?:@[\w-]+\/video\/|v\/)([\w-]+)/;
             const match = url.match(tiktokRegex);
             return match ? match[1] : null;
-          }
+        }
     </script>
-</head>
+{% endblock %}
+{%block body%}
 
-<body>
-    <div class="main-content">
-        <div class="sidebar">
-            <div class="top-video">
-                <p>
-                    First video
-                </p>
-                <div id="videoEmbedInner1">  
-                </div>
-                <script defer>
-                    document.getElementById('videoEmbedInner1').innerHTML = embedVideo('{{ review.0.videoID }}');;
-                </script>                                        
-                <img src="" alt="" class="vid" />
+<div class="main-content">
+    <div class="sidebar">
+        <div class="top-video">
+            <p>
+                First video
+            </p>
+            <div id="videoEmbedInner1">  
             </div>
-            <div class="second-video">
-                <p>
-                    Second Video
-                </p>
-                <div id="videoEmbedInner2">  
-                </div>
-                <script defer>
-                    document.getElementById('videoEmbedInner2').innerHTML = embedVideo('{{ review.1.videoID }}');;
-                    
-                </script>
-                <img src="" alt="" class="vid" />
-            </div>
-            <div class="third-video">
-                <p>Third video</p>
-                <div id="videoEmbedInner3">  
-                </div>
-                <script defer>
-                    document.getElementById('videoEmbedInner3').innerHTML = embedVideo('{{ review.2.videoID }}');;
-                </script>
-                <img src="" alt="" class="vid" />
-            </div>
+            <script defer>
+                document.getElementById('videoEmbedInner1').innerHTML = embedVideo('{{ review.0.videoID }}');;
+            </script>                                        
+            <img src="" alt="" class="vid" />
         </div>
-        <div class="mid-content">
-            <div class="ctd">
-                <div class="daybox timebox"></div>
-                <div class="hourbox timebox"></div>
-                <div class="minutebox timebox"></div>
-                <div class="secondbox timebox"></div>
+        <div class="second-video">
+            <p>
+                Second Video
+            </p>
+            <div id="videoEmbedInner2">  
             </div>
-            <div class="flex-product flexed">
-                <div class="product-info">
-                    <div class="container-info ">
-                        <img 
-                        src=" https://cdn.shopify.com/s/files/1/0287/1138/7195/products/EKSA-E400-product-black_73faf5cc-5449-4cdf-866e-aff89aadabbc.jpg?v=1681452100&width=1000 " 
-                        alt="" 
-                        class="bgimg-product" 
-                        />
-                        <h2 class="container-new">Description</h2>
-                        <p class="price container-new">Original price: 95.98$</p>
-                        <p class="discounted-price container-new">
-                            Discounted price: <span class="strikethrough container-new"><s class="container-new">12.99$</s></span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="rules">Rules</div>
+            <script defer>
+                document.getElementById('videoEmbedInner2').innerHTML = embedVideo('{{ review.1.videoID }}');;
+                
+            </script>
+            <img src="" alt="" class="vid" />
+        </div>
+        <div class="third-video">
+            <p>Third video</p>
+            <div id="videoEmbedInner3">  
             </div>
-            <div class="aps">
-                <p>Prize <span class="bold">200$</span></p>
-            </div>
+            <script defer>
+                document.getElementById('videoEmbedInner3').innerHTML = embedVideo('{{ review.2.videoID }}');;
+            </script>
+            <img src="" alt="" class="vid" />
         </div>
     </div>
-</body>
+    <div class="mid-content">
+        <div class="ctd">
+            <div class="daybox timebox"></div>
+            <div class="hourbox timebox"></div>
+            <div class="minutebox timebox"></div>
+            <div class="secondbox timebox"></div>
+        </div>
+        <div class="flex-product flexed">
+            <div class="product-info">
+                <div class="container-info ">
+                    <img 
+                    src=" https://cdn.shopify.com/s/files/1/0287/1138/7195/products/EKSA-E400-product-black_73faf5cc-5449-4cdf-866e-aff89aadabbc.jpg?v=1681452100&width=1000 " 
+                    alt="" 
+                    class="bgimg-product" 
+                    />
+                    <h2 class="container-new">Description</h2>
+                    <p class="price container-new">Original price: 95.98$</p>
+                    <p class="discounted-price container-new">
+                        Discounted price: <span class="strikethrough container-new"><s class="container-new">12.99$</s></span>
+                    </p>
+                </div>
+            </div>
 
-</html>
+            <div class="rules">Rules</div>
+        </div>
+        <div class="aps">
+            <p>Prize <span class="bold">200$</span></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
