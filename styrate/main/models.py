@@ -20,7 +20,7 @@ class ChangeName:
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True, auto_created=True, blank=True)
     bioText = models.CharField(max_length=200, editable=True, blank=True, null=True)
-    image = models.ImageField(editable=True, blank=True, null=True, upload_to=ChangeName.userImage)
+    image = CloudinaryField("image", null=True)
     ranking = models.IntegerField(editable=True, null=True, blank=True)
     likeCount = models.IntegerField(editable=True, null=True, blank=True)
 

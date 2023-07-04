@@ -1,4 +1,6 @@
-{% load static %}
+
+{%load static%}
+{% block head %}
 <script>
     function embedVideo(videoUrl) {
         if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
@@ -51,7 +53,123 @@
         return match ? match[1] : null;
       }
 </script>
+{% endblock %}
 {% comment %} <link rel="stylesheet" href="/css/Common/reviewList.css"> {% endcomment %}
+{% block body %}
+<div class="headerContainer">
+    <header id="header" class="center">
+        <div class="headerInner">
+            <div class="logo center">
+                <h3 class="center">
+                    <a href="/" class="center">STYRATE</a>
+                </h3>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/" class="off">Home</a></li>
+                    <li><a href="/top" class="off">Leaderboard</a></li>
+                    <li><a href="/new" class="off">Create</a></li>
+                    <li><a href="/submitted" class='off'>Submitted</a></li>
+                    <li class="center">
+                        <a href="/account/{{user.id}}" class="account" style="
+              background-image: url('{{user.image.url}}');
+            " aria-label="Account Page"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <style>
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 0 3px #aaa;
+        }
+
+        header .headerInner {
+            height: 100%;
+            width: 90%;
+            max-width: 2000px;
+            display: flex;
+            align-items: center;
+        }
+
+        header .headerInner>* {
+            height: 100%;
+        }
+
+        header .headerInner .logo>* {
+            height: 100%;
+        }
+
+        header .headerInner .logo a {
+            height: 100%;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        header .headerInner .logo a:hover {
+            color: #333;
+        }
+
+        header .headerInner nav {
+            height: 100%;
+            margin-left: auto;
+        }
+
+        header .headerInner nav * {
+            height: 100%;
+        }
+
+        header .headerInner nav ul {
+            display: flex;
+        }
+
+        header .headerInner nav a {
+            height: 100%;
+            box-sizing: border-box;
+            margin: 0 20px;
+            min-width: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 3px solid #fff;
+        }
+
+        header .headerInner nav a:hover {
+            border-bottom: 3px solid #2f59ff;
+            color: #2f59ff;
+        }
+
+        header .headerInner nav a.account {
+            box-sizing: border-box;
+            min-width: unset;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 45px;
+            width: 45px;
+            margin: 0;
+            margin-left: 20px;
+            border-radius: 9999px;
+            border: 2px solid #ccc;
+        }
+
+        header .headerInner nav a.account:hover {
+            color: unset;
+            border: 0;
+        }
+
+        header .headerInner nav a.account:hover {
+            border: 2px solid #2f59ff;
+        }
+    </style>
+</div>
 <div class="reviewList outer">
     <div class="reviewList inner">
         <div class="filter">
@@ -109,6 +227,10 @@
                         <p class="meta overview">{{review.textField}}</p>
     
                         <div class="buttons">
+                            <script defer>
+                                var isLiked = '{{review.userLiked}}'
+                                var isDisliked = '{{review.userDisLiked}}'
+                            </script>
                             <form onsubmit='handleLike(event, "{{review.id}}", "{{review.userLiked}}", "{{request.user.is_authenticated}}", "{{review.userDisLiked}}")'>
                                 {% if not review.userLiked %}
                                 <button type="submit" class='displayOn'>
@@ -150,10 +272,8 @@
         
     </div>
 </div>
+{% endblock %}
 <script defer>
-</script>
-<script defer>
-    
     
     const redirectToReview = (e, redirectLink) => {
         clickedElement = e.target
@@ -168,7 +288,8 @@
             window.location.href = "/login"
             return
         }
-        originalUserDisLiked = userDisLiked
+        var originalUserDisLiked = userDisLiked
+        
         if (e.target.classList.contains("alternateDisLike")) {
             userDisLiked = userDisLiked === "True" ? "False" : "True"
         }
@@ -216,7 +337,7 @@
             return
         }
         // checking whether the alternate or normal
-        originalUserLiked = userLiked
+        var originalUserLiked = userLiked
         if(e.target.classList.contains('alternate')){
             userLiked = userLiked === 'True' ? 'False' : 'True'
         }
@@ -255,7 +376,62 @@
     }
 </script>
 <style>
-   
+    
+        @import "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap";
+
+        * {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            text-decoration: none;
+            list-style: none;
+            font-size: 16px;
+            font-weight: normal;
+            color: inherit;
+            font-family: "Open Sans", sans-serif;
+            letter-spacing: inherit;
+        }
+
+        html {
+            background-color: #fff;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: -moz-fit-content;
+            height: fit-content;
+        }
+
+        .center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f8f8f8;
+            min-height: 100vh;
+        }
+
+        body .headerContainer,
+        body .contentContainer {
+            width: 100%;
+            height: -moz-fit-content;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body .contentContainer {
+            margin-top: 80px;
+            width: 90%;
+            max-width: 2000px;
+        }
+    
     div.reviewList.inner .review.outer .review.inner .buttons form .upvote.alternateDisLike{
         display:none
     }
@@ -297,7 +473,7 @@
         height:-moz-fit-content;
         height:fit-content;
         margin-bottom:30px;
-        min-height:100%
+        
     }
     div.reviewList.inner .review.outer:hover{
         background-color:#efefef
