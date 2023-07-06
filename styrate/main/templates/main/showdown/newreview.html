@@ -15,7 +15,7 @@
                         <li><a href="/submitted" class='off'>Submitted</a></li>
                         <li class="center">
                             <a href="/account/{{user.id}}" class="account" style="
-                  background-image: url('');
+                  background-image: url('{{user.image.url}}');
                 " aria-label="Account Page"></a>
                         </li>
                     </ul>
@@ -119,8 +119,8 @@
                 id="newForm" data-form-type="other">
                 {% csrf_token %}
                 <h1>Create A Review</h1>
-                <a href="#" class="reviewLink">Video link</a>
-                <input type="text" required="" name="reviewTitle" data-form-type="title,job">
+                
+                
                 <div class="reviewTitle inputContainer">
                     <label for="reviewTitle">Give your review a title</label>
                     <input type="text" required="" name="reviewTitle" data-form-type="title,job"
@@ -128,47 +128,21 @@
                     <span class="off error" id="titleError">Review title should be less than 100 charachters.</span>
                 </div>
                 
-                <div class="inputContainer reviewRating">
-                    <label for="reviewRating">Give the product a rating out of 10</label>
-                    <input type="number" name="reviewRating" placeholder="" required="" data-form-type="other" />
-                    <span class="off error" id="ratingError">Rating should be a whole number between 1 and 10.</span>
-                </div>
-                <div class="inputContainer reviewCategory">
-                    <label for="reviewCategory">What category does the item fall under</label>
-                    <select name="reviewCategory" id="" data-form-type="other">
-                        <option value="misc" default="">Miscellaneous</option>
-                        <option value="beauty">Beauty</option>
-                        <option value="fashion">Fashion</option>
-                        <option value="tech">Tech</option>
-                    </select>
-                </div>
-                <div class="reviewBody inputContainer">
-                    <label for="reviewBody">Write your review</label>
-                    <textarea type="text" required="" name="reviewBody" data-form-type="other"></textarea>
-                    <span class="off error" id="bodyError">Review should be less than 1000 charachters.</span>
-                </div>
+                
+                
                 <div class="reviewOverview inputContainer">
                     <label for="reviewOverview">Give a short summary of your review</label>
                     <textarea type="text" required="" name="reviewOverview" data-form-type="other"></textarea>
                     <span class="off error" id="overviewError">Review summary should be less than 100
                         charachters.</span>
                 </div>
-                <div class="inputContainer reviewProductLink">
-                    <label for="reviewProductLink">Provide a link to the product page</label>
-                    <input type="text" name="reviewProductLink" required="" data-form-type="other" />
-                </div>
+                
                 <div class="inputContainer reviewVideoID">
                     <label for="reviewVideoID">Provide the video link</label>
-                    <div class="checkbox">
-                        <label for="isYT">Youtube Video</label>
-                        <input type="checkbox" name="isYT" id="" placeholder="Youtube Video" data-form-type="other" />
-                    </div>
+                    
                     <input type="text" name="reviewVideoID" required="" data-form-type="other" />
                 </div>
-                <div class="inputContainer reviewImage">
-                    <label for="reviewImage">Upload an image of the product</label>
-                    <input type="file" name="reviewImage" placeholder="" required="" data-form-type="other" />
-                </div>
+                
                 <button type="submit" data-form-type="action">
                     Submit Review
                 </button>

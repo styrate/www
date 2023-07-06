@@ -107,6 +107,8 @@ def isVideoDisLiked(request, review):
         return True
     return False
 def renderSubmitted(request):
+    if not request.user.is_authenticated:
+        return redirect("/login")
     reviews = Review.objects.all().order_by("likeCountVideo" ,"disLikeCount")[::-1]
     for review in reviews:
         if isVideoDisLiked(request=request, review=review):
@@ -143,6 +145,8 @@ def renderNewReview(request):
     return render(request, 'main/New/new.html', payload)
 
 def renderAccountPage(request, id):
+    if not request.user.is_authenticated:
+        return redirect("/login")
     if User.objects.filter(id=id).exists():
         userObject = User.objects.get(id=id)
         ALTERED_userObject = GeneralController.AccountInformation(request=request, userObject=userObject)
