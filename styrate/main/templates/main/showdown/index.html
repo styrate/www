@@ -1,172 +1,164 @@
 {% extends '../layout.html' %}
-{%load static%}
+{% load static %}
 {% block head %}
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
-    <script defer>
-        function embedVideo(videoUrl) {
-            if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
-            const videoId = extractYouTubeVideoId(videoUrl);
-            return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            } else if (videoUrl.includes('vimeo.com')) {
-            const videoId = extractVimeoVideoId(videoUrl);
-            return `<iframe src="https://player.vimeo.com/video/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
-            } else if (videoUrl.includes('facebook.com') || videoUrl.includes('fb.watch')) {
-            const videoId = extractFacebookVideoId(videoUrl);
-            return `<iframe src="https://www.facebook.com/plugins/video.php?href=${videoUrl}&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>`;
-            } else if (videoUrl.includes('tiktok.com')) {
-            const videoId = extractTikTokVideoId(videoUrl);
-            return `<iframe src="https://www.tiktok.com/embed/v2/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
-            } else {
-            // Handle other platforms or display an error message
-            return 'Video platform not supported';
-            }
-        }
-
-        function extractYouTubeVideoId(url) {
-            const youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-            const match = url.match(youtubeRegex);
-            return match ? match[1] : null;
-        }
-        
-        function extractVimeoVideoId(url) {
-            const vimeoRegex = /^(?:https?:\/\/)?(?:www\.)?(?:vimeo\.com\/|player\.vimeo\.com\/video\/)([0-9]+)/;
-            const match = url.match(vimeoRegex);
-            return match ? match[1] : null;
-        }
-        
-        function extractFacebookVideoId(url) {
-            const facebookRegex = /^(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:video\.php\?v=|watch\?v=)([0-9]+)/;
-            const match = url.match(facebookRegex);
-            return match ? match[1] : null;
-        }
-        
-        function extractInstagramVideoId(url) {
-            const instagramRegex = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p\/|tv\/)([\w-]+)/;
-            const match = url.match(instagramRegex);
-            return match ? match[1] : null;
-        }
-        
-        function extractTikTokVideoId(url) {
-            const tiktokRegex = /^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/(?:@[\w-]+\/video\/|v\/)([\w-]+)/;
-            const match = url.match(tiktokRegex);
-            return match ? match[1] : null;
-        }
-    </script>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <script src="{% static 'script.js' %}" defer></script>
     <style>
-        .rules h4{
-            padding: 0 0 20px 0;
-
-            font-size: 30px;
-        }
-        .rules p, .rules h3 {
-            padding: 0 !important;
-        }
-        .rules h3 {
-            font-weight: 500;
-            padding-bottom: 15px;
-        }
-        .rules p {
-            font-size: 12px;
-            padding-bottom: 10px !important;
-        }
-        .timebox {
-            padding: 10px;
-        }
+        /* CSS styles */
     </style>
 {% endblock %}
-{%block body%}
-
-<div class="main-content">
-    <div class="sidebar">
-        <div class="top-video">
-            <p>
-                First video
-            </p>
-            <div id="videoEmbedInner1">  
+{% block body %}
+<script>
+    // Calculate remaining time in seconds
+    var remainingTime = Math.floor((new Date("2023-07-06T00:00:00Z") - new Date()) / 1000);
+    
+    // Update the countdown timer every second
+    setInterval(updateCountdown, 1000);
+    
+    function updateCountdown() {
+        var daysElem = document.getElementById("days");
+        var hoursElem = document.getElementById("hours");
+        var minutesElem = document.getElementById("minutes");
+        var secondsElem = document.getElementById("seconds");
+    
+        // Calculate remaining days, hours, minutes, and seconds
+        var days = Math.floor(remainingTime / (60 * 60 * 24));
+        var hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60));
+        var minutes = Math.floor((remainingTime % (60 * 60)) / 60);
+        var seconds = remainingTime % 60;
+    
+        // Update the countdown timer elements
+        daysElem.innerText = days;
+        hoursElem.innerText = hours;
+        minutesElem.innerText = minutes;
+        secondsElem.innerText = seconds;
+    
+        // Decrease the remaining time by 1 second
+        remainingTime--;
+    }
+</script>
+<div class="headerContainer">
+    <header id="header" class="center">
+        <div class="headerInner">
+            <div class="logo center">
+                <h3 class="center">
+                    <a href="/" class="center">STYRATE</a>
+                </h3>
             </div>
-            <script defer>
-                document.getElementById('videoEmbedInner1').innerHTML = embedVideo('{{ review.0.videoID }}');;
-            </script>                                        
-            <img src="" alt="" class="vid" />
+            <nav>
+                <ul>
+                    <li><a href="/" class="off">Home</a></li>
+                    <li><a href="/top" class="off">Leaderboard</a></li>
+                    <li><a href="/new" class="off">Create</a></li>
+                    <li><a href="/submitted" class='off'>Submitted</a></li>
+                    <li class="center">
+                        <a href="/account/{{user.id}}" class="account" style="background-image: url('{{user.image.url}}');" aria-label="Account Page"></a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <div class="second-video">
-            <p>
-                Second Video
-            </p>
-            <div id="videoEmbedInner2">  
+    </header>
+    <style>
+        /* Header styles */
+    </style>
+</div>
+<div class="contentContainer">
+    <section id="new" class="center">
+        <form onsubmit="checkReviewDetails(event)" action="/newReview" method="POST" enctype="multipart/form-data" id="newForm" data-form-type="other">
+            {% csrf_token %}
+            <h1>Create A Review</h1>
+            <div class="reviewTitle inputContainer">
+                <label for="reviewTitle">Give your review a title</label>
+                <input type="text" required="" name="reviewTitle" data-form-type="title,job" data-kwimpalastatus="alive" data-kwimpalaid="1684947120595-0" />
+                <span class="off error" id="titleError">Review title should be less than 100 characters.</span>
             </div>
-            <script defer>
-                document.getElementById('videoEmbedInner2').innerHTML = embedVideo('{{ review.1.videoID }}');;
-                
-            </script>
-            <img src="" alt="" class="vid" />
-        </div>
-        <div class="third-video">
-            <p>Third video</p>
-            <div id="videoEmbedInner3">  
+            <div class="reviewOverview inputContainer">
+                <label for="reviewOverview">Give a short summary of your review</label>
+                <textarea type="text" required="" name="reviewOverview" data-form-type="other"></textarea>
+                <span class="off error" id="overviewError">Review summary should be less than 100 characters.</span>
             </div>
-            <script defer>
-                document.getElementById('videoEmbedInner3').innerHTML = embedVideo('{{ review.2.videoID }}');;
-            </script>
-            <img src="" alt="" class="vid" />
+            <div class="inputContainer reviewVideoID">
+                <label for="reviewVideoID">Provide the video link</label>
+                <input type="text" name="reviewVideoID" required="" data-form-type="other" />
+            </div>
+            <button type="submit" data-form-type="action">Submit Review</button>
+            <span class="error off" id="mainErr">Please check the form for errors.</span>
+        </form>
+    </section>
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="top-video">
+                <p>First video</p>
+                <div id="videoEmbedInner1"></div>
+                <script defer>
+                    document.getElementById('videoEmbedInner1').innerHTML = embedVideo('{{ review.0.videoID }}');
+                </script>
+                <img src="" alt="" class="vid" />
+            </div>
+            <div class="second-video">
+                <p>Second Video</p>
+                <div id="videoEmbedInner2"></div>
+                <script defer>
+                    document.getElementById('videoEmbedInner2').innerHTML = embedVideo('{{ review.1.videoID }}');
+                </script>
+                <img src="" alt="" class="vid" />
+            </div>
+            <div class="third-video">
+                <p>Third video</p>
+                <div id="videoEmbedInner3"></div>
+                <script defer>
+                    document.getElementById('videoEmbedInner3').innerHTML = embedVideo('{{ review.2.videoID }}');
+                </script>
+                <img src="" alt="" class="vid" />
+            </div>
         </div>
-    </div>
-    <div class="mid-content">
-        <div class="ctd">
-            <div class="daybox timebox"></div>
-            <div class="hourbox timebox"></div>
-            <div class="minutebox timebox"></div>
-            <div class="secondbox timebox"></div>
-        </div>
-        <div class="flex-product flexed">
-            <div class="product-info">
-                <div class="container-info ">
-                    <a href="https://shareasale.com/r.cfm?b=2096745&u=3757210&m=99503&urllink=https%3A%2F%2Fwww.eksa.net%2Fproducts%2Feksa-e400-3d-stereo-sound-gaming-headset%3Fsscid%3D71k7_k7je&afftrack">
-                        <img 
-                    src=" https://cdn.shopify.com/s/files/1/0287/1138/7195/products/EKSA-E400-product-black_73faf5cc-5449-4cdf-866e-aff89aadabbc.jpg?v=1681452100&width=1000 " 
-                    alt="" 
-                    class="bgimg-product" 
-                    />
-                    </a>
-                    <h2 class="container-new">Description</h2>
-                    <p class="price container-new">Original price: 19.98$</p>
-                    <p class="discounted-price container-new">
-                        Discounted price: <span class="strikethrough container-new"><s class="container-new"><del style="background-color: transparent;">16.99$</del></s></span>
-                    </p>
+        <div class="mid-content">
+            <div class="ctd">
+                <div class="timebox">
+                    <div class="countdown-item">
+                        <span id="days"></span> Days
+                    </div>
+                    <div class="countdown-item">
+                        <span id="hours"></span> Hours
+                    </div>
+                    <div class="countdown-item">
+                        <span id="minutes"></span> Minutes
+                    </div>
+                    <div class="countdown-item">
+                        <span id="seconds"></span> Seconds
+                    </div>
                 </div>
             </div>
-
-            <div class="rules">
-                <h4>Rules</h4>
-                <h3>Respect for Community</h3>
-                <p>
-                    All users should treat each other with respect and courtesy.
-                     Any offensive, harmful, or inappropriate behavior will not be tolerated
-                </p>
-                <h3>Authenticity of Content</h3>
-                <p>
-                    Users are expected to post authentic and genuine content.
-                     Plagiarism, fraudulent activity, and misinformation will lead to immediate account suspension.
-                </p>
-                <h3>Product</h3>
-                <p>
-                    When participating in the Showdown feature, ensure that the featured product is clearly shown in the video
-                </p>
-                <h3>Responsible Sharing</h3>
-                <p>
-                    You should not post or share content that violates copyright laws, contains explicit material, or invades someone's privacy.
-                     Be mindful and respectful of the content you share.
-                </p>
-                <h3>Engagement</h3>
-                <p>
-                    Encourage constructive interactions. Be responsive, open-minded, and ready to participate in discussions.
-                     Positive contributions will enhance the community experience for everyone.
-                </p>
+            <div class="flex-product flexed">
+                <div class="product-info">
+                    <div class="container-info">
+                        <a href="https://shareasale.com/r.cfm?b=2096745&u=3757210&m=99503&urllink=https%3A%2F%2Fwww.eksa.net%2Fproducts%2Feksa-e400-3d-stereo-sound-gaming-headset%3Fsscid%3D71k7_k7je&afftrack">
+                            <img src="https://cdn.shopify.com/s/files/1/0287/1138/7195/products/EKSA-E400-product-black_73faf5cc-5449-4cdf-866e-aff89aadabbc.jpg?v=1681452100&width=1000" alt="" class="bgimg-product" />
+                        </a>
+                        <h2 class="container-new">Description</h2>
+                        <p class="price container-new">Original price: 19.98$</p>
+                        <p class="discounted-price container-new">
+                            Discounted price: <span class="strikethrough container-new"><s class="container-new"><del style="background-color: transparent;">16.99$</del></s></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="rules">
+                    <h4>Rules</h4>
+                    <h3>Respect for Community</h3>
+                    <p>All users should treat each other with respect and courtesy. Any offensive, harmful, or inappropriate behavior will not be tolerated.</p>
+                    <h3>Authenticity of Content</h3>
+                    <p>Users are expected to post authentic and genuine content. Plagiarism, fraudulent activity, and misinformation will lead to immediate account suspension.</p>
+                    <h3>Product</h3>
+                    <p>When participating in the Showdown feature, ensure that the featured product is clearly shown in the video.</p>
+                    <h3>Responsible Sharing</h3>
+                    <p>You should not post or share content that violates copyright laws, contains explicit material, or invades someone's privacy. Be mindful and respectful of the content you share.</p>
+                    <h3>Engagement</h3>
+                    <p>Encourage constructive interactions. Be responsive, open-minded, and ready to participate in discussions. Positive contributions will enhance the community experience for everyone.</p>
+                </div>
             </div>
-        </div>
-        <div class="aps">
-            <p>Prize <span class="bold">50$</span></p>
+            <div class="aps">
+                <p>Prize <span class="bold">50$</span></p>
+            </div>
         </div>
     </div>
 </div>
