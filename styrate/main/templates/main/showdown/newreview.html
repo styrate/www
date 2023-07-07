@@ -113,12 +113,50 @@
         </div>
     </div>
     <div class="mid-content">
-        <div class="ctd">
-            <div class="daybox timebox"></div>
-            <div class="hourbox timebox"></div>
-            <div class="minutebox timebox"></div>
-            <div class="secondbox timebox"></div>
-        </div>
+  <div class="ctd">
+    <div class="daybox timebox"></div>
+    <div class="hourbox timebox"></div>
+    <div class="minutebox timebox"></div>
+    <div class="secondbox timebox"></div>
+  </div>
+</div>
+
+<script>
+  function updateTime() {
+    var currentDate = new Date();
+
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1;
+    var year = currentDate.getFullYear();
+
+    var hour = currentDate.getHours();
+    var minute = currentDate.getMinutes();
+    var second = currentDate.getSeconds();
+
+    // Pad single digit numbers with leading zero
+    day = day < 10 ? '0' + day : day;
+    month = month < 10 ? '0' + month : month;
+    hour = hour < 10 ? '0' + hour : hour;
+    minute = minute < 10 ? '0' + minute : minute;
+    second = second < 10 ? '0' + second : second;
+
+    var daybox = document.querySelector('.daybox');
+    var hourbox = document.querySelector('.hourbox');
+    var minutebox = document.querySelector('.minutebox');
+    var secondbox = document.querySelector('.secondbox');
+
+    daybox.textContent = day + '/' + month + '/' + year;
+    hourbox.textContent = hour + ':';
+    minutebox.textContent = minute + ':';
+    secondbox.textContent = second;
+
+    // Update the time every second
+    setTimeout(updateTime, 1000);
+  }
+
+  // Start updating the time
+  updateTime();
+</script>
         <div class="flex-product flexed">
             <div class="product-info">
                 <div class="container-info ">
