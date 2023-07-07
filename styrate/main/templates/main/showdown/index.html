@@ -1,46 +1,82 @@
 {% extends '../layout.html' %}
-{% load static %}
+{%load static%}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <script src="{% static 'script.js' %}" defer></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
     <script defer>
         function embedVideo(videoUrl) {
-            // Video embedding logic
+            if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+            const videoId = extractYouTubeVideoId(videoUrl);
+            return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else if (videoUrl.includes('vimeo.com')) {
+            const videoId = extractVimeoVideoId(videoUrl);
+            return `<iframe src="https://player.vimeo.com/video/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            } else if (videoUrl.includes('facebook.com') || videoUrl.includes('fb.watch')) {
+            const videoId = extractFacebookVideoId(videoUrl);
+            return `<iframe src="https://www.facebook.com/plugins/video.php?href=${videoUrl}&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>`;
+            } else if (videoUrl.includes('tiktok.com')) {
+            const videoId = extractTikTokVideoId(videoUrl);
+            return `<iframe src="https://www.tiktok.com/embed/v2/${videoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+            // Handle other platforms or display an error message
+            return 'Video platform not supported';
+            }
         }
 
-        // Calculate remaining time in seconds
-        var remainingTime = Math.floor((new Date("2023-07-06T00:00:00Z") - new Date()) / 1000);
-
-        // Update the countdown timer every second
-        setInterval(updateCountdown, 1000);
-
-        function updateCountdown() {
-            var dayBox = document.querySelector('.daybox');
-            var hourBox = document.querySelector('.hourbox');
-            var minuteBox = document.querySelector('.minutebox');
-            var secondBox = document.querySelector('.secondbox');
-
-            // Calculate remaining days, hours, minutes, and seconds
-            var days = Math.floor(remainingTime / (60 * 60 * 24));
-            var hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60));
-            var minutes = Math.floor((remainingTime % (60 * 60)) / 60);
-            var seconds = remainingTime % 60;
-
-            // Update the countdown timer elements
-            dayBox.innerHTML = days + ' Days';
-            hourBox.innerHTML = hours + ' Hours';
-            minuteBox.innerHTML = minutes + ' Minutes';
-            secondBox.innerHTML = seconds + ' Seconds';
-
-            // Decrease the remaining time by 1 second
-            remainingTime--;
+        function extractYouTubeVideoId(url) {
+            const youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const match = url.match(youtubeRegex);
+            return match ? match[1] : null;
+        }
+        
+        function extractVimeoVideoId(url) {
+            const vimeoRegex = /^(?:https?:\/\/)?(?:www\.)?(?:vimeo\.com\/|player\.vimeo\.com\/video\/)([0-9]+)/;
+            const match = url.match(vimeoRegex);
+            return match ? match[1] : null;
+        }
+        
+        function extractFacebookVideoId(url) {
+            const facebookRegex = /^(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:video\.php\?v=|watch\?v=)([0-9]+)/;
+            const match = url.match(facebookRegex);
+            return match ? match[1] : null;
+        }
+        
+        function extractInstagramVideoId(url) {
+            const instagramRegex = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p\/|tv\/)([\w-]+)/;
+            const match = url.match(instagramRegex);
+            return match ? match[1] : null;
+        }
+        
+        function extractTikTokVideoId(url) {
+            const tiktokRegex = /^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/(?:@[\w-]+\/video\/|v\/)([\w-]+)/;
+            const match = url.match(tiktokRegex);
+            return match ? match[1] : null;
         }
     </script>
     <style>
-        /* CSS styles */
+        .rules h4{
+            padding: 0 0 20px 0;
+
+            font-size: 30px;
+        }
+        .rules p, .rules h3 {
+            padding: 0 !important;
+        }
+        .rules h3 {
+            font-weight: 500;
+            padding-bottom: 15px;
+        }
+        .rules p {
+            font-size: 12px;
+            padding-bottom: 10px !important;
+        }
+        .timebox {
+            padding: 10px;
+        }
     </style>
 {% endblock %}
-{% block body %}
+{%block body%}
+
 <div class="main-content">
     <div class="sidebar">
         <div class="top-video">
@@ -50,7 +86,7 @@
             <div id="videoEmbedInner1">  
             </div>
             <script defer>
-                document.getElementById('videoEmbedInner1').innerHTML = embedVideo('{{ review.0.videoID }}');
+                document.getElementById('videoEmbedInner1').innerHTML = embedVideo('{{ review.0.videoID }}');;
             </script>                                        
             <img src="" alt="" class="vid" />
         </div>
@@ -61,7 +97,8 @@
             <div id="videoEmbedInner2">  
             </div>
             <script defer>
-                document.getElementById('videoEmbedInner2').innerHTML = embedVideo('{{ review.1.videoID }}');
+                document.getElementById('videoEmbedInner2').innerHTML = embedVideo('{{ review.1.videoID }}');;
+                
             </script>
             <img src="" alt="" class="vid" />
         </div>
@@ -70,7 +107,7 @@
             <div id="videoEmbedInner3">  
             </div>
             <script defer>
-                document.getElementById('videoEmbedInner3').innerHTML = embedVideo('{{ review.2.videoID }}');
+                document.getElementById('videoEmbedInner3').innerHTML = embedVideo('{{ review.2.videoID }}');;
             </script>
             <img src="" alt="" class="vid" />
         </div>
